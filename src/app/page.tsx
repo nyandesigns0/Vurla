@@ -224,6 +224,9 @@ export default function Home() {
 							<Button asChild size="lg" variant="outline">
 								<Link href="/contact">Start Your Project</Link>
 							</Button>
+							<Button size="lg">
+								Test Default Button
+							</Button>
 						</motion.div>
 					</div>
 				</div>

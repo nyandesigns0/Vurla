@@ -78,6 +78,45 @@ button {
   border-radius: var(--radius-md);
 }
 
+/* Custom button styling with CSS variables */
+.btn-primary {
+  background-color: var(--primary) !important;
+  color: var(--foreground) !important;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.btn-primary:hover {
+  background-color: hsl(28, 60%, 50%) !important;
+  transform: translateY(-1px);
+}
+
+.btn-premium {
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  color: var(--foreground);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-premium:hover {
+  background: linear-gradient(to right, hsl(28, 60%, 50%), hsl(28, 70%, 60%));
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-1px) scale(1.05);
+}
+
 /* Input styling */
 input, textarea, select {
   border-radius: var(--radius-md);
