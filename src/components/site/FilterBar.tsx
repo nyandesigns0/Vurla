@@ -82,7 +82,7 @@ export function FilterBar({
                     className={`
                       inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all duration-300 border whitespace-nowrap
                       ${activeCategory === category.value
-                        ? "bg-primary text-white border-primary shadow-sm"
+                        ? "bg-primary text-foreground border-primary shadow-sm"
                         : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-muted/50"
                       }
                     `}

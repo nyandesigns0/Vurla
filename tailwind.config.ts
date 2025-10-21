@@ -8,11 +8,27 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: "var(--primary)",
-        secondary: "var(--secondary)",
-        accent: "var(--accent)",
+        primary: {
+          DEFAULT: "var(--primary)",
+          foreground: "var(--foreground)",
+        },
+        secondary: {
+          DEFAULT: "var(--secondary)",
+          foreground: "var(--foreground)",
+        },
+        accent: {
+          DEFAULT: "var(--accent)",
+          foreground: "var(--foreground)",
+        },
         border: "var(--border)",
-        muted: "var(--muted)",
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--foreground)",
+        },
+        destructive: {
+          DEFAULT: "var(--error)",
+          foreground: "var(--foreground)",
+        },
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],

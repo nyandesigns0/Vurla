@@ -53,7 +53,7 @@ export function TeamCard({ member, index }: TeamCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
         {/* Experience Badge */}
-        <div className="absolute top-4 right-4 bg-primary/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-caption-semibold">
+        <div className="absolute top-4 right-4 bg-primary/90 backdrop-blur-sm text-foreground px-3 py-1 rounded-full text-caption-semibold">
           {member.yearsExperience}+ Years
         </div>
       </div>
@@ -98,7 +98,7 @@ export function TeamCard({ member, index }: TeamCardProps) {
             asChild
             variant="outline"
             size="sm"
-            className="flex-1 group-hover:bg-primary group-hover:text-white transition-all duration-300"
+            className="flex-1 group-hover:bg-primary group-hover:text-foreground transition-all duration-300"
           >
             <Link href={`mailto:${member.email}`}>
               <Mail className="w-4 h-4 mr-2" />

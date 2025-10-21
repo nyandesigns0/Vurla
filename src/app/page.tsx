@@ -7,7 +7,6 @@ import { Building2, ArrowRight, Sparkles, ChevronDown, Home as HomeIcon, Palette
 import { projects } from "@/lib/data/projects";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ParticleButton } from "@/components/ui/particle-button";
 import { RippleCanvas } from "@/components/ui/ripple-canvas";
 
 const stats = [
@@ -215,12 +214,12 @@ export default function Home() {
 							transition={{ duration: 0.8, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
 							className="flex flex-col sm:flex-row gap-4 justify-center"
 						>
-							<ParticleButton asChild size="lg" variant="premium" className="group">
+							<Button asChild size="lg" variant="premium" className="group">
 								<Link href="/projects">
 									Explore Our Work.
 									<ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
 								</Link>
-							</ParticleButton>
+							</Button>
 							<Button asChild size="lg" variant="outline">
 								<Link href="/contact">Start Your Project</Link>
 							</Button>
@@ -320,7 +319,7 @@ export default function Home() {
 									<p className="text-body-sm text-muted-foreground mb-4 line-clamp-2">
 										{categoryData.project.description}
 									</p>
-									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-foreground transition-colors duration-300">
 										<Link href={`/projects?category=${categoryData.category}`}>
 											See More
 											<ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -403,7 +402,7 @@ export default function Home() {
 									</div>
 
 									{/* CTA Button */}
-									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-white transition-all duration-300 py-2 font-semibold">
+									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-foreground transition-all duration-300 py-2 font-semibold">
 										<Link href={`/projects?category=${service.title.toLowerCase()}`}>
 											Learn More
 											<ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
