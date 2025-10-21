@@ -320,7 +320,7 @@ export default function Home() {
 									<p className="text-body-sm text-muted-foreground mb-4 line-clamp-2">
 										{categoryData.project.description}
 									</p>
-									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-foreground transition-colors duration-300">
 										<Link href={`/projects?category=${categoryData.category}`}>
 											See More
 											<ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -403,7 +403,7 @@ export default function Home() {
 									</div>
 
 									{/* CTA Button */}
-									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-white transition-all duration-300 py-2 font-semibold">
+									<Button asChild variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-foreground transition-all duration-300 py-2 font-semibold">
 										<Link href={`/projects?category=${service.title.toLowerCase()}`}>
 											Learn More
 											<ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />

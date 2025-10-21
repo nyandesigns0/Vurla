@@ -140,7 +140,7 @@ export function FAQSection() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center px-6 py-3 rounded-full bg-primary text-white hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center px-6 py-3 rounded-full bg-primary text-foreground hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Contact Us Today
           </motion.button>

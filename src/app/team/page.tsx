@@ -89,7 +89,7 @@ export default function TeamPage() {
                 className={`
                   px-4 py-2 rounded-full text-button transition-all duration-300 border
                   ${activeFilter === filter.value
-                    ? "bg-primary text-white border-primary shadow-md"
+                    ? "bg-primary text-foreground border-primary shadow-md"
                     : "bg-background text-foreground border-border hover:border-primary/50 hover:bg-muted/50"
                   }
                 `}
