@@ -4,42 +4,38 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { projects } from "@/lib/data/projects";
 
-interface Params {
-  params: { slug: string };
-}
-
 function getProject(slug: string) {
   return projects.find((project) => project.slug === slug) ?? null;
 }
 
-export default function ProjectDetailPage({ params }: Params) {
-  try {
-    const project = getProject(params.slug);
+interface ProjectDetailPageProps {
+  params: Promise<{ slug: string }>;
+}
 
-    if (!project) {
-      notFound();
-    }
+export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+  const { slug } = await params;
+  const project = getProject(slug);
 
-    return (
-      <div>
-        <div className="relative w-full h-[40vh] md:h-[50vh]">
-          <Image src={project.image} alt={project.title} fill className="object-cover" />
-          <div className="absolute inset-0 bg-black/20" />
-          <div className="absolute bottom-6 left-6 text-white">
-            <h1 className="heading-section-sm">{project.title}</h1>
-          </div>
-        </div>
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <Link href="/projects" className="link-underline mb-4 inline-block">
-            Back to projects
-          </Link>
-          <p className="opacity-80 mb-6">{project.description}</p>
-          <div className="aspect-video w-full border rounded" style={{ borderColor: "var(--border)" }} />
+  if (!project) {
+    notFound();
+  }
+
+  return (
+    <div>
+      <div className="relative w-full h-[40vh] md:h-[50vh]">
+        <Image src={project.image} alt={project.title} fill className="object-cover" />
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute bottom-6 left-6 text-white">
+          <h1 className="heading-section-sm">{project.title}</h1>
         </div>
       </div>
-    );
-  } catch (error) {
-    console.error("[projects:detail]", error);
-    return <div className="max-w-4xl mx-auto px-4 py-8">Error loading project.</div>;
-  }
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <Link href="/projects" className="link-underline mb-4 inline-block">
+          Back to projects
+        </Link>
+        <p className="opacity-80 mb-6">{project.description}</p>
+        <div className="aspect-video w-full border rounded" style={{ borderColor: "var(--border)" }} />
+      </div>
+    </div>
+  );
 }
