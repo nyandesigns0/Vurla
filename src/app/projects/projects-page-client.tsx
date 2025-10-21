@@ -74,30 +74,20 @@ export function ProjectsPageClient({ projects: initialProjects }: ProjectsPageCl
       <section className="relative pt-24 pb-12 bg-background overflow-hidden">
         <div className="absolute inset-0 mesh-gradient opacity-30" />
         <div className="section-container relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-8"
-          >
+          <div className="text-center mb-8">
             <h1 className="heading-section mb-6">
               Our <span className="text-gradient">Projects</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Explore our portfolio of award-winning architecture projects spanning residential, commercial, and public realm design.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-6 bg-background border-b border-border">
         <div className="section-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto"
-          >
+          <div className="max-w-6xl mx-auto">
             <div className="flex flex-col gap-4">
               <div className="w-full">
                 <SearchBar
@@ -117,7 +107,7 @@ export function ProjectsPageClient({ projects: initialProjects }: ProjectsPageCl
                 />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -139,8 +129,9 @@ export function ProjectsPageClient({ projects: initialProjects }: ProjectsPageCl
                   <motion.div
                     key={project.slug}
                     layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={false}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
                     transition={{
                       duration: 0.5,
                       delay: idx * 0.1,
@@ -154,12 +145,7 @@ export function ProjectsPageClient({ projects: initialProjects }: ProjectsPageCl
               )}
             </motion.div>
           ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="text-center py-20"
-            >
+            <div className="text-center py-20">
               <div className="max-w-md mx-auto">
                 <h3 className="heading-card mb-4 text-muted-foreground">No projects found</h3>
                 <p className="text-body text-muted-foreground mb-6">
@@ -169,19 +155,14 @@ export function ProjectsPageClient({ projects: initialProjects }: ProjectsPageCl
                   Clear All Filters
                 </Button>
               </div>
-            </motion.div>
+            </div>
           )}
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mt-16 text-center"
-          >
+          <div className="mt-16 text-center">
             <p className="text-body-sm text-muted-foreground">
               Showing <span className="text-foreground font-semibold">{filteredProjects.length}</span> of <span className="text-foreground font-semibold">{projects.length}</span> projects
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -192,12 +173,7 @@ export function ProjectsPageClient({ projects: initialProjects }: ProjectsPageCl
         </div>
 
         <div className="section-container text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
-          >
+          <div className="max-w-4xl mx-auto">
             <h2 className="heading-section mb-8 text-white">
               Let&apos;s Create Something Amazing
             </h2>
@@ -207,7 +183,7 @@ export function ProjectsPageClient({ projects: initialProjects }: ProjectsPageCl
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-105 transition-all duration-300 shadow-xl">
               <Link href="/contact">Get in Touch</Link>
             </Button>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>

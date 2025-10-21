@@ -48,15 +48,10 @@ export function SearchBar({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`relative ${className}`}
-    >
+    <div className={`relative ${className}`}>
       <div className="relative group">
         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-300" />
-        
+
         <input
           type="text"
           value={localValue}
@@ -77,6 +72,6 @@ export function SearchBar({
           </motion.button>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
