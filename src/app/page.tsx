@@ -188,23 +188,23 @@ export default function Home() {
 							<span className="text-body-sm-semibold text-gradient">Award-Winning Design</span>
 						</motion.div>
 
-						<motion.h1
-							initial={{ opacity: 0, y: 30 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-							className="heading-hero text-foreground mb-8"
-						>
-							Architecture that
-							<br />
-							<span className="text-gradient">elevates space.</span>
-						</motion.h1>
+                                                <motion.h1
+                                                        initial={{ opacity: 0, y: 30 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                                                        className="heading-hero text-foreground mb-8 hero-title"
+                                                >
+                                                        Architecture that
+                                                        <br />
+                                                        <span className="text-gradient hero-title-highlight">elevates space.</span>
+                                                </motion.h1>
 
-						<motion.p
-							initial={{ opacity: 0, y: 30 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-							className="text-body-lg text-muted-foreground mb-10 max-w-3xl mx-auto"
-						>
+                                                <motion.p
+                                                        initial={{ opacity: 0, y: 30 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                                                        className="text-body-lg text-muted-foreground mb-10 max-w-3xl mx-auto hero-subtitle"
+                                                >
 							Crafting thoughtful, resilient environments that inspire and endure. From concept to completion, we bring your vision to life with unparalleled precision.
 						</motion.p>
 
