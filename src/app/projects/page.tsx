@@ -1,14 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import useSWR from "swr";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { SearchBar } from "@/components/site/SearchBar";
 import { FilterBar, CategoryFilter, ServiceTagFilter } from "@/components/site/FilterBar";
 import { SkeletonCard } from "@/components/ui/Skeleton";
-import { Project } from "@/lib/data/projects";
-import { DynamicLink } from "@/components/site/DynamicLink";
+import { projects as projectData } from "@/lib/data/projects";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -17,12 +15,7 @@ export default function ProjectsPage() {
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>("all");
   const [activeServiceTags, setActiveServiceTags] = useState<ServiceTagFilter[]>([]);
   const [isFilterLoading, setIsFilterLoading] = useState(false);
-
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
-  const { data, isLoading } = useSWR<{ projects: Project[] }>("/api/projects", fetcher, {
-    revalidateOnFocus: false,
-  });
-  const projects = data?.projects ?? [];
+  const projects = projectData;
 
   // Filter logic: search + category + services
   const filteredProjects = useMemo(() => {
@@ -134,14 +127,8 @@ export default function ProjectsPage() {
       {/* Projects Grid */}
       <section className="py-16 md:py-20 bg-background">
         <div className="section-container">
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
-            </div>
-          ) : filteredProjects.length > 0 ? (
-            <motion.div 
+          {filteredProjects.length > 0 ? (
+            <motion.div
               layout
               className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500 ${isFilterLoading ? 'opacity-50' : 'opacity-100'}`}
             >

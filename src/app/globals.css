@@ -102,7 +102,7 @@ button {
 
 .btn-premium {
   background: linear-gradient(to right, var(--primary), var(--accent));
-  color: var(--foreground);
+  color: #fff;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-md);
@@ -115,6 +115,7 @@ button {
   background: linear-gradient(to right, hsl(28, 60%, 50%), hsl(28, 70%, 60%));
   box-shadow: var(--shadow-xl);
   transform: translateY(-1px) scale(1.05);
+  color: #fff;
 }
 
 /* Input styling */
