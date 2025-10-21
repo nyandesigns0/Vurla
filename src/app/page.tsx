@@ -7,7 +7,6 @@ import { Building2, ArrowRight, Sparkles, ChevronDown, Home as HomeIcon, Palette
 import { projects } from "@/lib/data/projects";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ParticleButton } from "@/components/ui/particle-button";
 import { RippleCanvas } from "@/components/ui/ripple-canvas";
 
 const stats = [
@@ -215,17 +214,14 @@ export default function Home() {
 							transition={{ duration: 0.8, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
 							className="flex flex-col sm:flex-row gap-4 justify-center"
 						>
-							<ParticleButton asChild size="lg" variant="premium" className="group">
+							<Button asChild size="lg" variant="premium" className="group">
 								<Link href="/projects">
 									Explore Our Work.
 									<ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
 								</Link>
-							</ParticleButton>
+							</Button>
 							<Button asChild size="lg" variant="outline">
 								<Link href="/contact">Start Your Project</Link>
-							</Button>
-							<Button size="lg">
-								Test Default Button
 							</Button>
 						</motion.div>
 					</div>

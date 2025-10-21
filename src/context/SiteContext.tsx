@@ -20,7 +20,7 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
 	const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 	const [isDebugOpen, setIsDebugOpen] = useState(false);
 	const [lastError, setLastError] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const setMobileNavOpen = useCallback((open: boolean) => setIsMobileNavOpen(open), []);
 	const setDebugOpen = useCallback((open: boolean) => setIsDebugOpen(open), []);

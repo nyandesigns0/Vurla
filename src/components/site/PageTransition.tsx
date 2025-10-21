@@ -11,9 +11,16 @@ export function PageTransition({ children }: PropsWithChildren) {
 
   // Clear loading state when page transition completes
   useEffect(() => {
+    // Set loading to false immediately for non-hero pages
+    if (pathname !== '/') {
+      setIsLoading(false);
+      return;
+    }
+    
+    // For home page, delay to allow hero animations to complete
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1200); // Delay to allow hero animations to complete (1.2s matches hero animation duration)
+    }, 1200);
 
     return () => clearTimeout(timer);
   }, [pathname, setIsLoading]);
