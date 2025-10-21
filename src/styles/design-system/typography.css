@@ -24,6 +24,24 @@
   font-size: clamp(2.5rem, 8vw, 6rem); /* 40px to 96px */
 }
 
+.hero-title {
+  -webkit-text-stroke: 3px var(--background);
+  text-stroke: 3px var(--background);
+  paint-order: stroke fill;
+}
+
+.hero-title-highlight {
+  -webkit-text-stroke: 3px var(--background);
+  text-stroke: 3px var(--background);
+  paint-order: stroke fill;
+}
+
+.hero-subtitle {
+  -webkit-text-stroke: 1.5px var(--background);
+  text-stroke: 1.5px var(--background);
+  paint-order: stroke fill;
+}
+
 .heading-hero-sm {
   font-family: var(--font-serif);
   font-weight: 700;
