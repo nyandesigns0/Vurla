@@ -25,20 +25,20 @@
 }
 
 .hero-title {
-  -webkit-text-stroke: 3px var(--background);
-  text-stroke: 3px var(--background);
+  -webkit-text-stroke: 6px var(--background);
+  text-stroke: 6px var(--background);
   paint-order: stroke fill;
 }
 
 .hero-title-highlight {
-  -webkit-text-stroke: 3px var(--background);
-  text-stroke: 3px var(--background);
+  -webkit-text-stroke: 6px var(--background);
+  text-stroke: 6px var(--background);
   paint-order: stroke fill;
 }
 
 .hero-subtitle {
-  -webkit-text-stroke: 1.5px var(--background);
-  text-stroke: 1.5px var(--background);
+  -webkit-text-stroke: 3px var(--background);
+  text-stroke: 3px var(--background);
   paint-order: stroke fill;
 }
 
