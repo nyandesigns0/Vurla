@@ -35,6 +35,7 @@ export function ProjectCard({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+  const displayClass = isClient ? (isVisible ? "animate-slide-in-up" : "opacity-0") : "opacity-100";
 
   useEffect(() => {
     setIsClient(true);
@@ -119,9 +120,7 @@ export function ProjectCard({
     <Link href={`/projects/${slug}`}>
       <div 
         ref={ref}
-        className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:shadow-lg h-full flex flex-col cursor-pointer ${
-          isClient && isVisible ? 'animate-slide-in-up' : 'opacity-0'
-        }`} 
+        className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:shadow-lg h-full flex flex-col cursor-pointer ${displayClass}`}
         style={{ borderColor: "var(--border)" }}
       >
         {/* Image or placeholder */}
