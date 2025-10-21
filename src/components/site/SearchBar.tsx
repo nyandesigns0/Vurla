@@ -18,7 +18,7 @@ export function SearchBar({
   className = "" 
 }: SearchBarProps) {
   const [localValue, setLocalValue] = useState(value);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Debounce search input
   useEffect(() => {
