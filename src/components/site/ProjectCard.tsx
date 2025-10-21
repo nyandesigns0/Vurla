@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowUpRight, MapPin, User, Building2, Palette, TreePine, Wrench, Home as HomeIcon, Monitor, FileText, Layout, Settings, CheckCircle, Paintbrush, Lightbulb, Calendar, HardHat, Hammer, Box, Layers, Eye, Code } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { SkeletonCard } from "@/components/ui/Skeleton";
 import Image from "next/image";
@@ -33,13 +33,8 @@ export function ProjectCard({
   isLoading = false 
 }: ProjectCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isClient, setIsClient] = useState(false);
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
-  const displayClass = isClient ? (isVisible ? "animate-slide-in-up" : "opacity-0") : "opacity-100";
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const displayClass = isVisible ? "animate-slide-in-up" : "opacity-100";
 
   const categoryColors: Record<string, string> = {
     residential: "hsl(28, 60%, 55%)",
