@@ -241,6 +241,11 @@ export function RippleCanvas({
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+      const gridHeight = gridRef.current.length * spacing
+      const gridWidth = (gridRef.current[0]?.length || 0) * spacing
+      const xOffset = gridWidth > canvas.width ? (gridWidth - canvas.width) / 2 : 0
+      const yOffset = gridHeight > canvas.height ? gridHeight - canvas.height : 0
+
       // Update ripple distances using individual speeds
       for (let i = 0; i < ripplesRef.current.length; i++) {
         ripplesRef.current[i].distance += ripplesRef.current[i].speed
@@ -249,10 +254,21 @@ export function RippleCanvas({
       // Draw grid
       for (let y = 0; y < gridRef.current.length; y++) {
         for (let x = 0; x < gridRef.current[y].length; x++) {
-          ctx.fillStyle = gridRef.current[y][x].color
+          const cell = gridRef.current[y][x]
+          const pos = { x: x * spacing - xOffset, y: y * spacing - yOffset }
 
-          const pos = { x: x * spacing, y: y * spacing }
-          let radius = gridRef.current[y][x].radius
+          if (
+            pos.x < -cell.maxRippleRadius ||
+            pos.x > canvas.width + cell.maxRippleRadius ||
+            pos.y < -cell.maxRippleRadius ||
+            pos.y > canvas.height + cell.maxRippleRadius
+          ) {
+            continue
+          }
+
+          ctx.fillStyle = cell.color
+
+          let radius = cell.radius
 
           // Check ripple collision
           for (let j = 0; j < ripplesRef.current.length; j++) {
@@ -262,7 +278,7 @@ export function RippleCanvas({
               distanceFromRippleCenter < ripplesRef.current[j].distance + rippleWidth
             ) {
               radius *= 2
-              if (radius > gridRef.current[y][x].maxRippleRadius) radius = gridRef.current[y][x].maxRippleRadius
+              if (radius > cell.maxRippleRadius) radius = cell.maxRippleRadius
             }
           }
 
