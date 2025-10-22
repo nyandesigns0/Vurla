@@ -73,23 +73,23 @@ export function RippleCanvas({
           return
         }
 
-        // Calculate cover dimensions relative to a target area that matches the ripple grid extents
-        // This reduces the apparent zoom while preserving a bg-cover-style fit
-        const targetWidth = Math.min(canvas.width, gridSize * spacing)
-        const targetHeight = Math.min(canvas.height, gridSize * spacing)
-        const canvasAspect = targetWidth / targetHeight
+        // Calculate cover dimensions for larger image with bottom alignment
+        const canvasAspect = canvas.width / canvas.height
         const imageAspect = img.width / img.height
 
         let drawWidth, drawHeight, offsetX = 0, offsetY = 0
 
+        // Make image larger by scaling up by 1.2x
+        const scaleFactor = 1.2
+        
         if (imageAspect > canvasAspect) {
-          // Image is wider - fit target height, crop width
-          drawHeight = targetHeight
-          drawWidth = img.width * (targetHeight / img.height)
+          // Image is wider - fit canvas height with scale factor, crop width
+          drawHeight = canvas.height * scaleFactor
+          drawWidth = img.width * (drawHeight / img.height)
         } else {
-          // Image is taller - fit target width, crop height
-          drawWidth = targetWidth
-          drawHeight = img.height * (targetWidth / img.width)
+          // Image is taller - fit canvas width with scale factor, crop height
+          drawWidth = canvas.width * scaleFactor
+          drawHeight = img.height * (drawWidth / img.width)
         }
 
         // Center horizontally and align to bottom
@@ -106,13 +106,16 @@ export function RippleCanvas({
         const imageData = sampleCtx.getImageData(0, 0, canvas.width, canvas.height)
         const data = imageData.data
         
-        // Initialize grid with sampled colors
+        // Initialize grid with sampled colors - dynamic sizing
+        const dynamicGridSizeX = Math.ceil(canvas.width / spacing) + 1
+        const dynamicGridSizeY = Math.ceil(canvas.height / spacing) + 1
+        
         gridRef.current = []
-        for (let y = 0; y < gridSize; y++) {
+        for (let y = 0; y < dynamicGridSizeY; y++) {
           gridRef.current[y] = []
-          for (let x = 0; x < gridSize; x++) {
-            const gridX = Math.floor((x * spacing) * (canvas.width / (gridSize * spacing)))
-            const gridY = Math.floor((y * spacing) * (canvas.height / (gridSize * spacing)))
+          for (let x = 0; x < dynamicGridSizeX; x++) {
+            const gridX = Math.min(Math.floor(x * spacing), canvas.width - 1)
+            const gridY = Math.min(Math.floor(y * spacing), canvas.height - 1)
             
             const pixelIndex = (gridY * canvas.width + gridX) * 4
             const r = data[pixelIndex]
@@ -174,10 +177,17 @@ export function RippleCanvas({
     }
 
     const initializeRandomGrid = () => {
+      const canvas = canvasRef.current
+      if (!canvas) return
+      
+      // Calculate dynamic grid size to cover full canvas
+      const dynamicGridSizeX = Math.ceil(canvas.width / spacing) + 1
+      const dynamicGridSizeY = Math.ceil(canvas.height / spacing) + 1
+      
       gridRef.current = []
-      for (let y = 0; y < gridSize; y++) {
+      for (let y = 0; y < dynamicGridSizeY; y++) {
         gridRef.current[y] = []
-        for (let x = 0; x < gridSize; x++) {
+        for (let x = 0; x < dynamicGridSizeX; x++) {
           gridRef.current[y][x] = {
             radius: 2,
             maxRippleRadius: 20,

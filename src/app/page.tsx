@@ -164,14 +164,13 @@ export default function Home() {
 		<div className="min-h-screen">
 			{/* Hero Section */}
 			<section className="relative h-screen flex items-center justify-center overflow-hidden">
-				{/* RippleCanvas Background */}
-				<div className="absolute inset-0 z-0">
-					<RippleCanvas 
-						autoRippleInterval={2500}
-						rippleSpeed={3}
-						imageUrl="https://plus.unsplash.com/premium_photo-1679559272162-5f7173f155f5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=892"
-					/>
-				</div>
+				{/* RippleCanvas Background - Full Coverage */}
+				<RippleCanvas 
+					autoRippleInterval={2500}
+					rippleSpeed={3}
+					imageUrl="https://plus.unsplash.com/premium_photo-1679559272162-5f7173f155f5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=892"
+					className="absolute inset-0 z-0"
+				/>
 				
 				{/* Subtle overlay for text readability */}
 				<div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/10 to-background/30 z-[1]" />

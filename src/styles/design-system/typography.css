@@ -25,21 +25,15 @@
 }
 
 .hero-title {
-  -webkit-text-stroke: 6px var(--background);
-  text-stroke: 6px var(--background);
-  paint-order: stroke fill;
+  /* Removed text stroke for better readability */
 }
 
 .hero-title-highlight {
-  -webkit-text-stroke: 6px var(--background);
-  text-stroke: 6px var(--background);
-  paint-order: stroke fill;
+  /* Removed text stroke for better readability */
 }
 
 .hero-subtitle {
-  -webkit-text-stroke: 3px var(--background);
-  text-stroke: 3px var(--background);
-  paint-order: stroke fill;
+  /* Removed text stroke for better readability */
 }
 
 .heading-hero-sm {
