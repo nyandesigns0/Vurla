@@ -176,7 +176,7 @@ export default function Home() {
 				<div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/10 to-background/30 z-[1]" />
 
 				<div className="relative z-10 section-container text-center">
-					<div className="max-w-5xl mx-auto">
+					<div className="flex flex-col items-center justify-center gap-3 max-w-5xl mx-auto">
 						<motion.div
 							initial={{ opacity: 0, y: 30 }}
 							animate={{ opacity: 1, y: 0 }}
@@ -186,32 +186,45 @@ export default function Home() {
 							<Sparkles className="w-5 h-5 text-primary animate-pulse" />
 							<span className="text-body-sm-semibold text-gradient">Award-Winning Design</span>
 						</motion.div>
-
-                                                <motion.h1
-                                                        initial={{ opacity: 0, y: 30 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                                                        className="heading-hero text-foreground mb-8 hero-title"
-                                                >
-                                                        Architecture that
-                                                        <br />
-                                                        <span className="text-gradient hero-title-highlight">elevates space.</span>
-                                                </motion.h1>
-
-                                                <motion.p
-                                                        initial={{ opacity: 0, y: 30 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                                                        className="text-body-lg text-muted-foreground mb-10 max-w-3xl mx-auto hero-subtitle"
-                                                >
-							Crafting thoughtful, resilient environments that inspire and endure. From concept to completion, we bring your vision to life with unparalleled precision.
-						</motion.p>
-
+						<motion.h1
+								initial={{ opacity: 0, y: 30 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+								className="heading-hero text-foreground mb-8 hero-title"
+								style={{ 
+									textShadow: `
+										-1px -1px 0 white,
+										1px -1px 0 white,
+										-1px 1px 0 white,
+										1px 1px 0 white,
+										-1px 0 0 white,
+										1px 0 0 white,
+										0 -1px 0 white,
+										0 1px 0 white
+									`
+								}}
+						>
+								Architecture that
+								<br />
+								<span className="hero-title-highlight" style={{ 
+									textShadow: `
+										-1px -1px 0 white,
+										1px -1px 0 white,
+										-1px 1px 0 white,
+										1px 1px 0 white,
+										-1px 0 0 white,
+										1px 0 0 white,
+										0 -1px 0 white,
+										0 1px 0 white
+									`,
+									color: '#FF9D1B'
+								}}>elevates space.</span>
+						</motion.h1>
 						<motion.div
 							initial={{ opacity: 0, y: 30 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-							className="flex flex-col sm:flex-row gap-4 justify-center"
+							className="flex flex-col sm:flex-row gap-4 justify-center mt-16"
 						>
 							<Button asChild size="lg" variant="premium" className="group">
 								<Link href="/projects">
