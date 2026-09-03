@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, MapPin, User, Building2, Palette, TreePine, Wrench, Home as HomeIcon, Monitor, FileText, Layout, Settings, CheckCircle, Paintbrush, Lightbulb, Calendar, HardHat, Hammer, Box, Layers, Eye, Code } from "lucide-react";
+import { ArrowUpRight, MapPin, User, Building2, Palette, TreePine, Wrench, Home as HomeIcon, Monitor, FileText, Layout, Settings, CheckCircle, Paintbrush, Lightbulb, Calendar, HardHat, Hammer, Box, Layers, Eye, Code, type LucideIcon } from "lucide-react";
 import { useState } from "react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { SkeletonCard } from "@/components/ui/Skeleton";
 import Image from "next/image";
 
@@ -33,16 +32,15 @@ export function ProjectCard({
   isLoading = false 
 }: ProjectCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
-  const displayClass = isVisible ? "animate-slide-in-up" : "opacity-100";
+  const displayClass = "opacity-100";
 
   const categoryColors: Record<string, string> = {
-    residential: "hsl(28, 60%, 55%)",
-    commercial: "hsl(140, 70%, 45%)",
-    public: "hsl(200, 80%, 45%)",
-    interior: "hsl(300, 60%, 50%)",
-    fabrication: "hsl(25, 70%, 50%)",
-    digital: "hsl(220, 70%, 50%)",
+    residential: "#080808",
+    commercial: "#414141",
+    public: "#707070",
+    interior: "#585858",
+    fabrication: "#282828",
+    digital: "#858585",
   };
 
   const categoryLabels: Record<string, string> = {
@@ -54,7 +52,7 @@ export function ProjectCard({
     digital: "Digital",
   };
 
-  const serviceIcons: Record<string, any> = {
+  const serviceIcons: Record<string, LucideIcon> = {
     // Architecture subItems
     "Conceptual Design": FileText,
     "Space Programming": Layout,
@@ -114,7 +112,6 @@ export function ProjectCard({
   return (
     <Link href={`/projects/${slug}`}>
       <div 
-        ref={ref}
         className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:shadow-lg h-full flex flex-col cursor-pointer ${displayClass}`}
         style={{ borderColor: "var(--border)" }}
       >

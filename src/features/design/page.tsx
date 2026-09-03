@@ -1,0 +1,3 @@
+import { loadDesignSpec } from "@/lib/design-system";
+import { Button } from "@/components/ui/button";
+export default function DesignGuidePage() { const spec = loadDesignSpec(); return <article className="mx-auto max-w-4xl px-6 pb-20 pt-32"><p className="text-sm uppercase tracking-widest">Vurla</p><h1 className="mt-4 text-5xl">Design guide</h1><p className="mt-6 text-lg">{spec.markdown.split("\n").filter((line) => line && !line.startsWith("#")).join(" ")}</p><section className="mt-12"><h2 className="text-2xl">Primitives</h2><div className="mt-4 flex gap-3"><Button>Primary action</Button><Button variant="outline">Secondary action</Button></div></section></article>; }

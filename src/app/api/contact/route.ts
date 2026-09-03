@@ -1,18 +1,11 @@
 /* Short title: Contact API route with validation and errors */
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-
-const schema = z.object({
-	name: z.string().min(1),
-	email: z.string().email(),
-	phone: z.string().optional(),
-	message: z.string().min(1),
-});
+import { contactRequestSchema } from "@/features/contact/contract";
 
 export async function POST(req: NextRequest) {
 	try {
 		const body = await req.json();
-		const parsed = schema.safeParse(body);
+		const parsed = contactRequestSchema.safeParse(body);
 		if (!parsed.success) {
 			return NextResponse.json({ success: false, message: "Invalid input", issues: parsed.error.issues }, { status: 400 });
 		}

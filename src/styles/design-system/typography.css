@@ -256,10 +256,9 @@
 
 /* Gradient Text */
 .text-gradient {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: none;
+  -webkit-text-fill-color: var(--foreground);
+  color: var(--foreground);
 }
 
 /* ===== RESPONSIVE BREAKPOINTS ===== */

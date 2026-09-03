@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
-import { SiteProvider } from "@/context/SiteContext";
-import { Navbar } from "@/components/ui/navbar/Navbar";
+import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
-import { DebugPanel } from "@/components/site/DebugPanel";
-import { PageTransition } from "@/components/site/PageTransition";
-import { ProgressBar } from "@/components/site/ProgressBar";
-import { LoadingOverlay } from "@/components/site/LoadingOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,8 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Vurla - Architecture that Elevates Space",
-	description: "Award-winning architecture firm specializing in residential, commercial, and public realm design. Creating thoughtful, resilient environments for living, working, and gathering.",
+	title: "Vurla — Built with intention",
+	description: "Vurla is a design practice for spaces, objects, and environments that hold their ground.",
+	icons: {
+		icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+		shortcut: "/icon.svg",
+	},
 };
 
 export default function RootLayout({
@@ -31,23 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Short title: App providers and site chrome */}
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <SiteProvider>
-            <Navbar />
-            <main className="min-h-screen" aria-busy={false}>
-              <PageTransition>
-                {children}
-              </PageTransition>
-            </main>
-            <Footer />
-            <DebugPanel />
-            <ProgressBar />
-            <LoadingOverlay />
-          </SiteProvider>
-        </ThemeProvider>
+        <Navbar />
+        <main className="min-h-screen overflow-x-hidden">{children}</main>
+        <Footer />
       </body>
     </html>
   );

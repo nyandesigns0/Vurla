@@ -20,6 +20,15 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    files: ["src/app/**/*.{ts,tsx}", "src/features/**/*.{ts,tsx}", "src/components/**/*.{ts,tsx}"],
+    ignores: ["src/app/api/**/*"],
+    rules: {
+      "no-restricted-imports": ["error", { patterns: [
+        { group: ["@/content/internal/*", "@/lib/data/*"], message: "Use @/content/server in server modules or @/content/contracts types in client modules." },
+      ] }],
+    },
+  },
 ];
 
 export default eslintConfig;

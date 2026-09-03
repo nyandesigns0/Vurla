@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
+@import "./design-system.css";
 @import "../styles/design-system/variables.css";
 @import "../styles/design-system/typography.css";
 @import "../styles/base/reset.css";
@@ -13,7 +13,7 @@
   --font-mono: var(--font-mono);
 }
 
-/* Base body styling with elegant typography */
+/* Base body styling */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -25,10 +25,9 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Headings with serif typography */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  font-weight: 600;
+	font-family: var(--font-serif);
+	font-weight: 650;
   line-height: 1.2;
   margin: 0;
 }
@@ -80,8 +79,8 @@ button {
 
 /* Custom button styling with CSS variables */
 .btn-primary {
-  background-color: var(--primary) !important;
-  color: var(--foreground) !important;
+	background-color: var(--primary) !important;
+	color: var(--background) !important;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-md);
@@ -96,13 +95,13 @@ button {
 }
 
 .btn-primary:hover {
-  background-color: hsl(28, 60%, 50%) !important;
+	background-color: var(--secondary) !important;
   transform: translateY(-1px);
 }
 
 .btn-premium {
-  background: linear-gradient(to right, var(--primary), var(--accent));
-  color: #fff;
+	background: var(--primary);
+	color: var(--background);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-md);
@@ -112,7 +111,7 @@ button {
 }
 
 .btn-premium:hover {
-  background: linear-gradient(to right, hsl(28, 60%, 50%), hsl(28, 70%, 60%));
+	background: var(--secondary);
   box-shadow: var(--shadow-xl);
   transform: translateY(-1px) scale(1.05);
   color: #fff;
@@ -396,12 +395,31 @@ input:focus, textarea:focus, select:focus {
 
 /* Section container matching navbar width */
 .section-container {
-  max-width: 72rem; /* 6xl = 72rem */
+	max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.brand-wordmark {
+	font-family: var(--font-geist-sans), Arial, sans-serif;
+	font-size: 1.05rem;
+	font-weight: 700;
+	letter-spacing: -0.06em;
+	text-transform: uppercase;
+}
+
+.brand-grid {
+	background-image: linear-gradient(rgba(0, 0, 0, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.055) 1px, transparent 1px);
+	background-size: 3rem 3rem;
+}
+
+.brand-line {
+	background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+	height: 1px;
+}
+
 
 /* Stagger children animations */
 .stagger-children > * {

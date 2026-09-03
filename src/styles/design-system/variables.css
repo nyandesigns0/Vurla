@@ -1,19 +1,19 @@
 :root {
-	/* Elegant color palette - Warm neutrals and refined accents */
-	--background: hsl(45, 10%, 98%);
-	--background-rgb: 250, 248, 245;
-	--foreground: hsl(30, 5%, 18%);
-	--primary: hsl(28, 60%, 55%);
-	--secondary: hsl(28, 30%, 40%);
-	--accent: hsl(28, 70%, 65%);
-	--muted: hsl(30, 8%, 82%);
-	--border: hsl(30, 10%, 88%);
+	/* Vurla: graphite, mineral gray, and paper */
+	--background: hsl(60, 5%, 97%);
+	--background-rgb: 248, 248, 246;
+	--foreground: hsl(0, 0%, 3%);
+	--primary: hsl(0, 0%, 5%);
+	--secondary: hsl(0, 0%, 38%);
+	--accent: hsl(0, 0%, 58%);
+	--muted: hsl(60, 3%, 87%);
+	--border: hsl(0, 0%, 83%);
 	--success: hsl(140, 70%, 45%);
 	--error: hsl(0, 70%, 50%);
 
 	/* Premium typography */
-	--font-serif: "Playfair Display", serif;
-	--font-sans: system-ui, -apple-system, sans-serif;
+	--font-serif: var(--font-geist-sans), Arial, sans-serif;
+	--font-sans: var(--font-geist-sans), Arial, sans-serif;
 	--font-mono: "Courier New", monospace;
 
 	/* Typography scale */
@@ -49,30 +49,10 @@
 	--transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
 	/* Border radius */
-	--radius-sm: 0.375rem;
-	--radius-md: 0.5rem;
-	--radius-lg: 0.75rem;
-	--radius-xl: 1rem;
-}
-
-.dark {
-	/* Dark theme - elegant dark palette */
-	--background: hsl(30, 8%, 12%);
-	--background-rgb: 31, 28, 25;
-	--foreground: hsl(40, 12%, 94%);
-	--primary: hsl(28, 60%, 60%);
-	--secondary: hsl(28, 35%, 55%);
-	--accent: hsl(28, 70%, 70%);
-	--muted: hsl(30, 10%, 32%);
-	--border: hsl(30, 8%, 26%);
-	--success: hsl(140, 70%, 50%);
-	--error: hsl(0, 70%, 55%);
-
-	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
-	--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
-	--shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.7);
+	--radius-sm: 0;
+	--radius-md: 0;
+	--radius-lg: 0;
+	--radius-xl: 0;
 }
 
 /* Animation Keyframes */
@@ -175,5 +155,3 @@
 		transform: translateY(-10px);
 	}
 }
-
-

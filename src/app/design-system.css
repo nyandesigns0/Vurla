@@ -1,0 +1,8 @@
+:root {
+  --ds-color-canvas: #080808; --ds-color-paper: #f8f8f6; --ds-color-mineral: #858585; --ds-color-ink: #171717; --ds-color-muted: #686868; --ds-color-border: #b6b6b1; --ds-color-focus: #8a6d45;
+  --ds-font-sans: var(--font-geist-sans), Arial, sans-serif; --ds-font-mono: var(--font-geist-mono), monospace;
+  --ds-space-xs: 4px; --ds-space-sm: 12px; --ds-space-md: 24px; --ds-space-lg: 40px; --ds-space-xl: 64px;
+  --ds-radius-none: 0px; --ds-radius-md: 0px; --ds-radius-xl: 0px; --ds-radius-full: 9999px; --ds-motion-fast: 160ms; --ds-motion-base: 240ms;
+}
+:focus-visible { outline: 2px solid var(--ds-color-focus); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; scroll-behavior: auto !important; } }

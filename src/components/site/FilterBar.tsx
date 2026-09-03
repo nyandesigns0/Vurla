@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, X, Building2, Palette, TreePine, Wrench, Home as HomeIcon, Monitor, Filter } from "lucide-react";
+import { ChevronDown, X, Building2, Palette, TreePine, Wrench, Home as HomeIcon, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { services, getAllServiceTags } from "@/lib/data/services";
+import type { Service } from "@/content/contracts";
 
 export type CategoryFilter = "all" | "residential" | "commercial" | "public" | "interior" | "fabrication" | "digital";
 
@@ -17,6 +17,7 @@ interface FilterBarProps {
   onServiceTagsChange: (tags: ServiceTagFilter[]) => void;
   onClearAll: () => void;
   className?: string;
+  services: Service[];
 }
 
 const categories = [
@@ -36,6 +37,7 @@ export function FilterBar({
   onServiceTagsChange,
   onClearAll,
   className = "",
+  services,
 }: FilterBarProps) {
   const [expandedServices, setExpandedServices] = useState<string[]>([]);
 
@@ -100,7 +102,6 @@ export function FilterBar({
             <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">Service Tags:</span>
             <div className="flex flex-wrap gap-2">
               {services.map((service) => {
-                const Icon = service.icon;
                 const tagCount = getServiceTagCount(service.title);
                 const isExpanded = expandedServices.includes(service.title);
                 
@@ -116,7 +117,6 @@ export function FilterBar({
                         }
                       `}
                     >
-                      <Icon className="w-3.5 h-3.5" />
                       {service.title}
                       {tagCount > 0 && (
                         <span className="ml-1 px-1.5 py-0.5 bg-white/20 rounded-full text-xs">
@@ -146,7 +146,6 @@ export function FilterBar({
                             </div>
                             <div className="space-y-1">
                               {service.subItems.map((subItem) => {
-                                const SubIcon = subItem.icon;
                                 const isActive = activeServiceTags.includes(subItem.name);
                                 
                                 return (
@@ -162,7 +161,6 @@ export function FilterBar({
                                       }
                                     `}
                                   >
-                                    <SubIcon className="w-3.5 h-3.5" />
                                     {subItem.name}
                                     {isActive && (
                                       <motion.div
