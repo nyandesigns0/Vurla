@@ -1,6 +1,6 @@
 # Vurla website architecture charter
 
-This charter is extracted from the active [website architecture refactor plan](../plans/active/website-architecture-refactor-implementation-plan.md) §3 and records the shipped ownership boundaries.
+This charter is extracted from the completed [website architecture refactor plan](../plans/complete/website-architecture-refactor/website-architecture-refactor-implementation-plan.md) §3 and records the shipped ownership boundaries.
 
 - **Source of truth:** typed authored records live in `src/content/internal/`, and are reached only through the server-only `@/content/server` facade.
 - **Web Product:** owns thin App Router routes, feature composition, components, browser interactions, CSS, and `POST /api/contact`.

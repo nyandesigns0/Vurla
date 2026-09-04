@@ -1,5 +1,11 @@
 export type ProjectCategory = "residential" | "commercial" | "public" | "interior" | "fabrication" | "digital";
 
+export interface ProjectImage {
+  src: string;
+  alt: string;
+  presentation?: "photograph" | "document";
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -10,6 +16,7 @@ export interface Project {
   year: number;
   description: string;
   image: string;
+  gallery?: ProjectImage[];
   blurDataURL?: string;
 }
 
@@ -22,11 +29,13 @@ export type ServiceIconName =
 export interface ServiceSubItem { name: string; icon: ServiceIconName; }
 export interface Service { title: string; icon: ServiceIconName; subItems: ServiceSubItem[]; }
 export interface NavigationLink { href: string; label: string; }
+export interface SocialLink { label: string; href: string; }
 export interface SiteConfig {
   navigation: NavigationLink[];
   email: string;
   phone: string;
   address: string[];
   hours: string[];
+  socialLinks: SocialLink[];
 }
 export interface FaqItem { question: string; answer: string; }

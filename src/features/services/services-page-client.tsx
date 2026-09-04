@@ -37,11 +37,12 @@ export function ServicesPageClient({ services }: { services: Service[] }) {
 							return (
 								<motion.article
 									key={service.title}
+									id={service.title.toLowerCase().replace(/\s+/g, "-")}
 									initial={{ opacity: 0, y: 24 }}
 									whileInView={{ opacity: 1, y: 0 }}
 									viewport={{ once: true }}
 									transition={{ duration: 0.5, delay: index * 0.08 }}
-									className="rounded-2xl border-2 border-border bg-background p-7 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-xl"
+									className="scroll-mt-28 rounded-2xl border-2 border-border bg-background p-7 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-xl"
 								>
 									<div className="mb-6 flex items-center gap-4">
 										<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-[var(--background)]">

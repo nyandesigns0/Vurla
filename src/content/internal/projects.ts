@@ -2,127 +2,185 @@ import type { Project } from "@/content/contracts";
 
 export const projects: Project[] = [
   {
-    slug: "atrium-hall",
-    title: "Atrium Hall",
-    category: "commercial",
-    services: ["Conceptual Design", "Schematic Design", "BIM Services", "3D Visualization"],
-    location: "New York",
-    client: "Tech Corp",
+    slug: "baker-house",
+    title: "Baker House",
+    category: "residential",
+    services: ["Conceptual Design", "Schematic Design", "Design Development", "Construction Documents"],
+    location: "San Diego, CA, USA",
+    client: "Private residence",
     year: 2024,
     description:
-      "A contemporary office complex featuring soaring atrium spaces, natural light integration, and sustainable design principles.",
-    image:
-      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=1600&auto=format&fit=crop",
+      "A quiet recalibration of a 1952 residence, carefully reworking the social core to create more generous interior order while respecting the neighborhood and existing structure.",
+    image: "/media/projects/baker-house/editorial-exterior.png",
+    gallery: [
+      {
+        src: "/media/projects/baker-house/editorial-exterior.png",
+        alt: "Baker House modernized residence exterior in San Diego",
+      },
+      {
+        src: "/media/projects/baker-house/proposed-plan-set.png",
+        alt: "Baker House proposed site and floor plan set",
+        presentation: "document",
+      },
+    ],
     blurDataURL:
       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMzAwJyBoZWlnaHQ9JzIwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cmVjdCBmaWxsPSIjZTVlNWU1IiB3aWR0aD0nMzAwJyBoZWlnaHQ9JzIwMCcvPjwvc3ZnPg==",
   },
   {
-    slug: "cliff-house",
-    title: "Cliff House",
-    category: "residential",
-    services: ["Conceptual Design", "Space Planning", "Material Selection", "Site Planning", "Planting Design"],
-    location: "California Coast",
-    client: "Private",
-    year: 2023,
+    slug: "la-puente-residence-renewal",
+    title: "La Puente Residence Renewal",
+    category: "interior",
+    services: ["Space Planning", "Material Selection", "Interior Styling", "Lighting Design"],
+    location: "La Puente, CA",
+    client: "Private residence",
+    year: 2025,
     description:
-      "Luxury residence perched on dramatic coastal terrain, featuring panoramic ocean views and seamless indoor-outdoor living.",
-    image:
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1600&auto=format&fit=crop",
+      "A custom interior renovation combining smart shelving, a handcrafted table, a bespoke vanity, and considered lighting for a more functional, personal space.",
+    image: "/media/projects/la-puente-residence-renewal/editorial-entry.png",
+    gallery: [
+      { src: "/media/projects/la-puente-residence-renewal/editorial-entry.png", alt: "Refined La Puente residence entry, shelving, and work nook" },
+      { src: "/media/projects/la-puente-residence-renewal/editorial-bedroom-v4.png", alt: "Refined La Puente residence bedroom with custom storage" },
+    ],
     blurDataURL:
       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMzAwJyBoZWlnaHQ9JzIwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cmVjdCBmaWxsPSIjZGRkZGRkIiB3aWR0aD0nMzAwJyBoZWlnaHQ9JzIwMCcvPjwvc3ZnPg==",
   },
   {
-    slug: "urban-plaza",
-    title: "Urban Plaza",
-    category: "public",
-    services: ["Site Planning", "Hardscape Design", "Planting Design", "Project Management"],
-    location: "Downtown",
-    client: "City Council",
-    year: 2022,
+    slug: "terraced-garden-retreat",
+    title: "Terraced Garden Retreat",
+    category: "residential",
+    services: ["Site Planning", "Hardscape Design", "Planting Design", "Sustainable Landscapes"],
+    location: "La Puente, CA",
+    client: "Private residence",
+    year: 2025,
     description:
-      "Vibrant public space that activates the heart of the city with innovative landscape design and community gathering areas.",
-    image:
-      "https://images.unsplash.com/photo-1453873531674-2151bcd01707?q=80&w=1600&auto=format&fit=crop",
+      "An elevated residential garden shaped through terraced stonework, planted levels, soft turf paths, and a privacy fence framing a relaxed view.",
+    image: "/media/projects/terraced-garden-retreat/editorial-overview.png",
+    gallery: [
+      {
+        src: "/media/projects/terraced-garden-retreat/editorial-overview.png",
+        alt: "Terraced garden retreat with stone terraces, planting, and turf paths",
+      },
+      {
+        src: "/media/projects/terraced-garden-retreat/editorial-detail.png",
+        alt: "Terraced garden retreat masonry, planting, and gravel detail",
+      },
+    ],
     blurDataURL:
       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMzAwJyBoZWlnaHQ9JzIwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cmVjdCBmaWxsPSIjZWVlZWVlIiB3aWR0aD0nMzAwJyBoZWlnaHQ9JzIwMCcvPjwvc3ZnPg==",
   },
   {
-    slug: "market-square",
-    title: "Market Square",
+    slug: "stitching-west-baltimore",
+    title: "Stitching West Baltimore",
     category: "public",
     services: ["Schematic Design", "Hardscape Design", "Project Management", "Quality Control"],
-    location: "Historic District",
-    client: "Heritage Foundation",
+    location: "Baltimore, MD, USA",
+    client: "CPP Architecture",
     year: 2023,
     description:
-      "Historic market reimagined for modern community gathering with adaptive reuse and contemporary amenities.",
-    image:
-      "https://images.unsplash.com/photo-1544198365-3c37b1d4f7c3?q=80&w=1600&auto=format&fit=crop",
+      "A mixed-use renewal proposal that connects housing, retail, public space, and pedestrian pathways while preserving local heritage and supporting a more equitable West Baltimore.",
+    image: "/media/projects/stitching-west-baltimore/editorial-model.png",
+    gallery: [
+      {
+        src: "/media/projects/stitching-west-baltimore/editorial-model.png",
+        alt: "Stitching West Baltimore physical architecture model",
+      },
+      {
+        src: "/media/projects/stitching-west-baltimore/context-diagram.png",
+        alt: "Stitching West Baltimore context diagram",
+        presentation: "document",
+      },
+    ],
   },
   {
-    slug: "residential-tower",
-    title: "Residential Tower",
-    category: "residential",
+    slug: "circular-energy-exchange",
+    title: "Circular Energy Exchange",
+    category: "commercial",
     services: ["Design Development", "Construction Documents", "Project Management", "Site Supervision"],
-    location: "Metropolitan Area",
-    client: "Urban Development Corp",
+    location: "Downtown Los Angeles, CA",
+    client: "Concept proposal",
     year: 2024,
     description:
-      "Luxury mixed-use tower with panoramic city views, sustainable features, and premium amenities.",
-    image:
-      "https://images.unsplash.com/photo-1502005229762-cf1b2da7c52f?q=80&w=1600&auto=format&fit=crop",
+      "An EV battery recycling and materials-recovery center envisioned for Downtown Los Angeles, pairing transparent processing with adaptable workspaces and public-facing circular-economy education.",
+    image: "/media/projects/circular-energy-exchange/editorial-dtla-cover.png",
+    gallery: [
+      {
+        src: "/media/projects/circular-energy-exchange/editorial-dtla-cover.png",
+        alt: "Circular Energy Exchange EV battery recycling center in Downtown Los Angeles",
+      },
+      {
+        src: "/media/projects/circular-energy-exchange/section-01.png",
+        alt: "Circular Energy Exchange technical building section drawing",
+        presentation: "document",
+      },
+    ],
   },
   {
-    slug: "office-campus",
-    title: "Office Campus",
+    slug: "storyworks-campus",
+    title: "Storyworks Campus",
     category: "commercial",
     services: ["Space Programming", "Site Planning", "BIM Services", "3D Visualization"],
-    location: "Business District",
-    client: "Global Tech Inc",
-    year: 2023,
+    location: "Los Angeles, CA, USA",
+    client: "Creative studio concept",
+    year: 2025,
     description:
-      "Expansive corporate campus promoting innovation and collaboration through thoughtful design and flexible spaces.",
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop",
+      "A vertical, collaborative production campus that brings research, making, pre-production, soundstage, and post-production spaces into one adaptable civic-facing environment.",
+    image: "/media/projects/storyworks-campus/editorial-pavilion.png",
+    gallery: [
+      {
+        src: "/media/projects/storyworks-campus/editorial-pavilion.png",
+        alt: "Storyworks Campus production-campus pavilion in Downtown Los Angeles",
+      },
+      {
+        src: "/media/projects/storyworks-campus/site-plan.png",
+        alt: "Storyworks Campus site plan",
+        presentation: "document",
+      },
+    ],
   },
   {
-    slug: "luxury-penthouse",
-    title: "Luxury Penthouse",
-    category: "interior",
-    services: ["Space Planning", "Material Selection", "Custom Furniture", "Millwork"],
-    location: "Penthouse Level",
-    client: "Private Residence",
-    year: 2024,
+    slug: "flock-house",
+    title: "Flock House",
+    category: "fabrication",
+    services: ["Custom Furniture", "Joinery", "Finishing & Installation"],
+    location: "La Puente, CA",
+    client: "Private residence",
+    year: 2025,
     description:
-      "Sophisticated interior design featuring custom millwork, premium materials, and seamless integration of technology.",
-    image:
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1600&auto=format&fit=crop",
+      "Two custom-built coops with ventilation, secure fencing, and practical feeding and cleaning access, designed for durable everyday use.",
+    image: "/media/projects/flock-house/cover.jpg",
   },
 	{
-		slug: "custom-furniture-collection",
-		title: "Custom Furniture Collection",
+		slug: "boba-friend-pop-up",
+		title: "Boba Friend Pop-Up",
 		category: "fabrication",
 		services: ["Custom Furniture", "Millwork", "Joinery", "Finishing & Installation"],
-		location: "Workshop",
-		client: "Design Studio",
-		year: 2023,
+		location: "La Puente, CA",
+		client: "Boba Friend",
+		year: 2025,
 		description:
-			"Handcrafted furniture pieces showcasing innovative joinery techniques and sustainable materials.",
-		image:
-			"https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1600&auto=format&fit=crop",
+			"A custom-built event pop-up combining display, service, and playful branded details for an inviting, durable customer experience.",
+		image: "/media/projects/boba-friend-pop-up/cover.jpg",
 	},
 	{
-		slug: "virtual-reality-showroom",
-		title: "Virtual Reality Showroom",
+		slug: "lunar-habitat-immersion",
+		title: "Lunar Habitat Immersion",
 		category: "digital",
 		services: ["3D Visualization", "VR Walkthroughs", "Custom Scripting"],
-		location: "Innovation Center",
-		client: "VR Technologies",
+		location: "Cal Poly Pomona, CA",
+		client: "NASA MUREP partnership proposal",
 		year: 2024,
 		description:
-			"Immersive VR experience showcasing architectural designs with interactive walkthroughs and real-time customization.",
-		image:
-			"https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=1600&auto=format&fit=crop",
+			"An immersive lunar-habitat proposal combining AI, virtual and augmented reality tools to support adaptable research, scientific activity, and future exploration workflows.",
+		image: "/media/projects/lunar-habitat-immersion/editorial-interior.png",
+		gallery: [
+			{
+				src: "/media/projects/lunar-habitat-immersion/editorial-interior.png",
+				alt: "Lunar habitat interior with a participant using a VR headset",
+			},
+			{
+				src: "/media/projects/lunar-habitat-immersion/editorial-exterior.png",
+				alt: "Lunar habitat immersion module exterior concept elevation",
+			},
+		],
 	},
 ];
-

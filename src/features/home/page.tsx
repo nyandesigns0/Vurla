@@ -1,3 +1,3 @@
-import { listProjects } from "@/content/server";
+import { listProjects, listServices } from "@/content/server";
 import { HomePageClient } from "./home-page-client";
-export default function HomePage() { return <HomePageClient featured={listProjects().slice(0, 5)} />; }
+export default function HomePage() { return <HomePageClient projects={listProjects()} services={listServices()} />; }

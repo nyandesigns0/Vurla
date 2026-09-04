@@ -3,14 +3,15 @@ import type { FaqItem, SiteConfig } from "@/content/contracts";
 export const siteConfig: SiteConfig = {
   navigation: [
     { href: "/", label: "Home" },
-    { href: "/projects", label: "Work" },
+    { href: "/projects", label: "Projects" },
     { href: "/services", label: "Services" },
     { href: "/contact", label: "Contact" },
   ],
-  email: "hello@vurla.com",
-  phone: "+1 (234) 567-890",
-  address: ["123 Architecture Street", "Design City, DC 12345"],
-  hours: ["Monday - Friday: 9:00 AM - 6:00 PM", "Saturday: 10:00 AM - 4:00 PM", "Sunday: Closed"],
+  email: "vurla.living@gmail.com",
+  phone: "(626) 466-5346",
+  address: ["La Puente, CA"],
+  hours: [],
+  socialLinks: [{ label: "Instagram", href: "https://www.instagram.com/vurlaliving1111/" }],
 };
 
 export const faqItems: FaqItem[] = [

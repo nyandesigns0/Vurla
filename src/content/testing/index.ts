@@ -1,1 +1,1 @@
-export { getProjectBySlug, listProjects, listServices, listServiceTags, validateContent } from "@/content/server";
+export { getProjectBySlug, getSiteConfig, listProjects, listServices, listServiceTags, validateContent } from "@/content/server";

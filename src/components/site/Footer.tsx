@@ -1,17 +1,20 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { SiLinkedin, SiX } from "react-icons/si";
+import { SiInstagram } from "react-icons/si";
 import { BrandMark } from "@/components/site/BrandMark";
+import { getSiteConfig } from "@/content/server";
 
 export function Footer() {
+  const site = getSiteConfig();
+
   return (
     <footer className="mt-20 bg-[#080808] text-[#f8f8f6]">
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-16">
           <div>
             <BrandMark className="mb-7 h-10" inverse showWordmark />
-            <p className="mb-5 max-w-sm text-sm leading-relaxed text-white/60">A spatial practice for purposeful architecture, objects, and environments.</p>
-            <a href="mailto:hello@vurla.com" className="text-sm text-white/80 transition hover:text-white">hello@vurla.com</a>
+            <p className="mb-5 max-w-sm text-sm leading-relaxed text-white/60">Custom furniture, interiors, and outdoor spaces made around real life.</p>
+            <a href={`mailto:${site.email}`} className="text-sm text-white/80 transition hover:text-white">{site.email}</a>
           </div>
           <div>
             <h2 className="mb-5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/45">Practice</h2>
@@ -32,8 +35,7 @@ export function Footer() {
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-8 md:flex-row">
           <p className="text-xs text-white/45">© {new Date().getFullYear()} Vurla. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <a href="https://linkedin.com" aria-label="LinkedIn" target="_blank" rel="noreferrer" className="text-white/55 transition hover:text-white"><SiLinkedin size={18} /></a>
-            <a href="https://x.com" aria-label="X" target="_blank" rel="noreferrer" className="text-white/55 transition hover:text-white"><SiX size={18} /></a>
+            {site.socialLinks.map((socialLink) => <a key={socialLink.label} href={socialLink.href} aria-label={socialLink.label} target="_blank" rel="noreferrer" className="text-white/55 transition hover:text-white"><SiInstagram size={18} /></a>)}
             <Link href="/contact" className="text-xs text-white/55 transition hover:text-white">Work with us</Link>
           </div>
         </div>

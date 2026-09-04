@@ -61,14 +61,10 @@ a, button, input, textarea, select {
   transition: all var(--transition-base);
 }
 
-/* Link styling */
+/* Links inherit their surrounding text color so contextual Tailwind utilities
+   (for example, white text on a graphite hero) remain visible. */
 a {
-  color: var(--primary);
   text-decoration: none;
-}
-
-a:hover {
-  color: var(--secondary);
 }
 
 /* Button base styling */

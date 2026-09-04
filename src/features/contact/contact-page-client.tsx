@@ -10,7 +10,6 @@ import { contactRequestSchema, type ContactResponse } from "./contract";
 import type { FaqItem, SiteConfig } from "@/content/contracts";
 
 export function ContactPageClient({ site, faqs }: { site: SiteConfig; faqs: FaqItem[] }) {
-	void site;
 	const [status, setStatus] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -95,8 +94,7 @@ export function ContactPageClient({ site, faqs }: { site: SiteConfig; faqs: FaqI
 										<div>
 											<h3 className="heading-card-sm mb-2">Address</h3>
 											<p className="text-body text-muted-foreground leading-relaxed">
-												123 Architecture Street<br />
-												Design City, DC 12345
+											{site.address.map((line) => <span key={line}>{line}<br /></span>)}
 											</p>
 										</div>
 									</div>
@@ -113,8 +111,8 @@ export function ContactPageClient({ site, faqs }: { site: SiteConfig; faqs: FaqI
 										</div>
 										<div>
 											<h3 className="heading-card-sm mb-2">Phone</h3>
-											<a href="tel:+1234567890" className="text-body text-muted-foreground hover:text-primary transition-colors duration-300">
-												+1 (234) 567-890
+											<a href={`tel:${site.phone.replace(/[^+\d]/g, "")}`} className="text-body text-muted-foreground hover:text-primary transition-colors duration-300">
+												{site.phone}
 											</a>
 										</div>
 									</div>
@@ -131,15 +129,15 @@ export function ContactPageClient({ site, faqs }: { site: SiteConfig; faqs: FaqI
 										</div>
 										<div>
 											<h3 className="heading-card-sm mb-2">Email</h3>
-											<a href="mailto:hello@vurla.com" className="text-body text-muted-foreground hover:text-primary transition-colors duration-300">
-												hello@vurla.com
+											<a href={`mailto:${site.email}`} className="text-body text-muted-foreground hover:text-primary transition-colors duration-300">
+												{site.email}
 											</a>
 										</div>
 									</div>
 								</motion.div>
 
-								{/* Hours */}
-								<motion.div
+								{/* Hours are displayed only when verified business hours are available. */}
+								{site.hours.length > 0 && <motion.div
 									whileHover={{ scale: 1.02 }}
 									className="group bg-background border-2 border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
 								>
@@ -150,13 +148,11 @@ export function ContactPageClient({ site, faqs }: { site: SiteConfig; faqs: FaqI
 										<div>
 											<h3 className="heading-card-sm mb-2">Office Hours</h3>
 											<div className="space-y-1 text-body text-muted-foreground">
-												<p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-												<p>Saturday: 10:00 AM - 4:00 PM</p>
-												<p>Sunday: Closed</p>
+												{site.hours.map((hours) => <p key={hours}>{hours}</p>)}
 											</div>
 										</div>
 									</div>
-								</motion.div>
+								</motion.div>}
 							</div>
 						</motion.div>
 
