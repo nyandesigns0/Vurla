@@ -1,196 +1,178 @@
 "use client";
-
-import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { SearchBar } from "@/components/site/SearchBar";
-import { FilterBar, CategoryFilter, ServiceTagFilter } from "@/components/site/FilterBar";
-import { SkeletonCard } from "@/components/ui/Skeleton";
+import {
+  FilterBar,
+  categoryValues,
+  type ProjectCategory,
+} from "@/components/site/FilterBar";
+import { ClosingChapter } from "@/components/site/ClosingChapter";
+import { ChapterScrollBar } from "@/components/site/ChapterScrollBar";
+import { PagePlate } from "@/components/site/PagePlate";
+import { PageSideBorders } from "@/components/site/PageSideBorders";
+import { GrainTexture } from "@/components/site/GrainTexture";
+import { DotTexture } from "@/components/site/DotTexture";
+import { StatePanel } from "@/components/ui/StatePanel";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import type { Project, Service } from "@/content/contracts";
-
-interface ProjectsPageClientProps {
-  projects: Project[];
-  services: Service[];
+import { ActionLink } from "@/components/ui/ActionLink";
+import type { Project } from "@/content/contracts";
+import { composeCatalog } from "./catalog-layout";
+import { useCatalogHover } from "./use-catalog-hover";
+export function categoriesFromSearch(search: string): ProjectCategory[] {
+  const values = new URLSearchParams(search).getAll("category");
+  if (values.includes("all")) return [...categoryValues];
+  const selected = categoryValues.filter((category) => values.includes(category));
+  if (selected.length) return selected;
+  return values.includes("none") ? [] : [...categoryValues];
 }
-
-export function ProjectsPageClient({ projects: initialProjects, services }: ProjectsPageClientProps) {
+export function ProjectsPageClient({
+  projects,
+}: {
+  projects: Project[];
+}) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState<CategoryFilter>("all");
-  const [activeServiceTags, setActiveServiceTags] = useState<ServiceTagFilter[]>([]);
-  const [isFilterLoading, setIsFilterLoading] = useState(false);
-
-  const projects = useMemo(() => initialProjects, [initialProjects]);
-
-  const filteredProjects = useMemo(() => {
-    let filtered = projects;
-
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter((project) =>
-        project.title.toLowerCase().includes(query) ||
-        project.description.toLowerCase().includes(query) ||
-        project.services.some((service) => service.toLowerCase().includes(query)) ||
-        (project.location && project.location.toLowerCase().includes(query)) ||
-        (project.client && project.client.toLowerCase().includes(query))
-      );
+  const [activeCategories, setActiveCategories] = useState<ProjectCategory[]>([...categoryValues]);
+  const outgoingRef = useRef<HTMLDivElement>(null);
+  const consoleRef = useRef<HTMLElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const revealResultsRef = useRef(false);
+  const catalogHoverRef = useCatalogHover();
+  useEffect(() => {
+    const sync = () => {
+      revealResultsRef.current = true;
+      setActiveCategories(categoriesFromSearch(window.location.search));
+    };
+    setActiveCategories(categoriesFromSearch(window.location.search));
+    addEventListener("popstate", sync);
+    return () => removeEventListener("popstate", sync);
+  }, []);
+  const changeCategories = (categories: ProjectCategory[]) => {
+    const selected = categoryValues.filter((category) => categories.includes(category));
+    revealResultsRef.current = true;
+    setActiveCategories(selected);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("category");
+    if (!selected.length) url.searchParams.append("category", "none");
+    else if (selected.length !== categoryValues.length) {
+      selected.forEach((category) => url.searchParams.append("category", category));
     }
-
-    if (activeCategory !== "all") {
-      filtered = filtered.filter((project) => project.category === activeCategory);
+    const next = url.pathname + url.search + url.hash;
+    if (next !== window.location.pathname + window.location.search + window.location.hash) {
+      window.history.pushState(null, "", next);
     }
-
-    if (activeServiceTags.length > 0) {
-      filtered = filtered.filter((project) =>
-        activeServiceTags.some((tag) => project.services.includes(tag))
-      );
-    }
-
-    return filtered;
-  }, [projects, searchQuery, activeCategory, activeServiceTags]);
-
-  const handleCategoryChange = (category: CategoryFilter) => {
-    setIsFilterLoading(true);
-    setActiveCategory(category);
-    setTimeout(() => setIsFilterLoading(false), 300);
   };
-
-  const handleServiceTagsChange = (tags: ServiceTagFilter[]) => {
-    setIsFilterLoading(true);
-    setActiveServiceTags(tags);
-    setTimeout(() => setIsFilterLoading(false), 300);
-  };
-
-  const handleClearAll = () => {
-    setIsFilterLoading(true);
+  const clear = () => {
+    revealResultsRef.current = true;
     setSearchQuery("");
-    setActiveCategory("all");
-    setActiveServiceTags([]);
-    setTimeout(() => setIsFilterLoading(false), 300);
+    changeCategories([...categoryValues]);
   };
+  const changeSearch = (query: string) => {
+    revealResultsRef.current = true;
+    setSearchQuery(query);
+  };
+  const filtered = useMemo(
+    () =>
+      projects.filter((p) => {
+        const q = searchQuery.trim().toLowerCase();
+        return (
+          (!q ||
+            [p.title, p.description, ...p.services, p.location, p.client].some(
+              (v) => v?.toLowerCase().includes(q),
+            )) &&
+          activeCategories.includes(p.category)
+        );
+      }),
+    [projects, searchQuery, activeCategories],
+  );
+  const catalog = composeCatalog(filtered);
+  useLayoutEffect(() => {
+    if (!revealResultsRef.current) return;
+    revealResultsRef.current = false;
+    const status = statusRef.current;
+    const console = consoleRef.current;
+    if (!status || !console) return;
 
+    // A shorter result set can leave the old scroll position in the closing
+    // chapter. Keep the count and first tile below the sticky controls.
+    const stickyTop = Number.parseFloat(getComputedStyle(console).top) || 0;
+    const stickyBottom = stickyTop + console.getBoundingClientRect().height;
+    const target = Math.max(0, window.scrollY + status.getBoundingClientRect().top - stickyBottom - 12);
+    if (window.scrollY > target + 4) window.scrollTo({ top: target, behavior: "instant" });
+  }, [activeCategories, searchQuery]);
   return (
-    <div className="min-h-screen">
-      <section className="relative pt-24 pb-12 bg-background overflow-hidden">
-        <div className="absolute inset-0 mesh-gradient opacity-30" />
-        <div className="section-container relative z-10">
-          <div className="text-center mb-8">
-            <h1 className="heading-section mb-6">
-              Our <span className="text-gradient">Projects</span>
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Explore our portfolio of award-winning architecture projects spanning residential, commercial, and public realm design.
+    <div className="page page-family projects-page">
+      <div ref={outgoingRef} className="closing-chapter-source">
+        <GrainTexture className="projects-background-grain" />
+        <PageSideBorders className="projects-source-sides" />
+        <div className="projects-opening-frame">
+          <PagePlate
+            index="03"
+            kicker="Our Work"
+            title="Work across six disciplines"
+            lead="Explore our work in architecture, interiors, and beyond."
+            crosshair
+            className="page-plate--roomy"
+          />
+        </div>
+        <section ref={consoleRef} className="shell catalog-console" aria-label="Project filters">
+          <FilterBar
+            search={<SearchBar value={searchQuery} onChange={changeSearch} placeholder="Search projects…" />}
+            activeCategories={activeCategories}
+            onCategoriesChange={changeCategories}
+            onClearAll={clear}
+          />
+        </section>
+        <section ref={catalogHoverRef} className="shell catalog-results">
+          <div ref={statusRef} className="catalog-status">
+            <p className="result-count" aria-live="polite">
+              Showing {filtered.length} of {projects.length} projects
             </p>
           </div>
-        </div>
-      </section>
-
-      <section className="py-6 bg-background border-b border-border">
-        <div className="section-container">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col gap-4">
-              <div className="w-full">
-                <SearchBar
-                  value={searchQuery}
-                  onChange={setSearchQuery}
-                  placeholder="Search projects by title, description, services, location, or client..."
+          {filtered.length ? (
+            <div className="catalog-grid" data-layout={catalog.editorial ? "editorial" : "regular"}>
+              <DotTexture />
+              {catalog.cards.map(({ project, shape }, index) => (
+                <ProjectCard
+                  key={project.slug}
+                  {...project}
+                  catalogShape={shape}
+                  imageSizes={!catalog.editorial && filtered.length % 3 === 1 && index === filtered.length - 1
+                    ? "(min-width: 1280px) 1280px, 100vw"
+                    : !catalog.editorial && filtered.length % 3 === 2 && index >= filtered.length - 2
+                      ? "(min-width: 1280px) 640px, (min-width: 1024px) 50vw, 90vw"
+                      : undefined}
                 />
-              </div>
-
-              <div className="w-full">
-                <FilterBar
-                  activeCategory={activeCategory}
-                  onCategoryChange={handleCategoryChange}
-                  activeServiceTags={activeServiceTags}
-                  onServiceTagsChange={handleServiceTagsChange}
-                  onClearAll={handleClearAll}
-                  services={services}
-                />
-              </div>
+              ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-20 bg-background">
-        <div className="section-container">
-          {filteredProjects.length > 0 ? (
-            <motion.div
-              layout
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500 ${isFilterLoading ? "opacity-50" : "opacity-100"}`}
-            >
-              {isFilterLoading ? (
-                <>
-                  <SkeletonCard />
-                  <SkeletonCard />
-                  <SkeletonCard />
-                </>
-              ) : (
-                filteredProjects.map((project, idx) => (
-                  <motion.div
-                    key={project.slug}
-                    layout
-                    initial={false}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: idx * 0.1,
-                      ease: [0.6, -0.05, 0.01, 0.99],
-                    }}
-                    whileHover={{ y: -8 }}
-                  >
-                    <ProjectCard {...project} />
-                  </motion.div>
-                ))
-              )}
-            </motion.div>
           ) : (
-            <div className="text-center py-20">
-              <div className="max-w-md mx-auto">
-                <h3 className="heading-card mb-4 text-muted-foreground">No projects found</h3>
-                <p className="text-body text-muted-foreground mb-6">
-                  Try adjusting your search criteria or clear all filters to see all projects.
-                </p>
-                <Button onClick={handleClearAll} variant="outline">
+            <div className="empty-state">
+              <DotTexture />
+              <StatePanel
+                title="No projects found"
+                description="Try adjusting your search criteria or clear all filters to see all projects."
+              >
+                <Button onClick={clear} variant="outline">
                   Clear All Filters
                 </Button>
-              </div>
+              </StatePanel>
             </div>
           )}
-
-          <div className="mt-16 text-center">
-            <p className="text-body-sm text-muted-foreground">
-              Showing <span className="text-foreground font-semibold">{filteredProjects.length}</span> of <span className="text-foreground font-semibold">{projects.length}</span> projects
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        className="py-32 relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #171717 0%, #3d3d3d 55%, #141414 100%)" }}
-      >
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
-        </div>
-
-        <div className="section-container text-center relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="heading-section mb-8 text-white">
-              Let&apos;s Create Something Amazing
-            </h2>
-            <p className="text-xl mb-10 text-white/90 leading-relaxed max-w-2xl mx-auto">
-              Have a project in mind? Contact us to discuss how Vurla can bring your vision to life with innovative, sustainable design solutions.
-            </p>
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-105 transition-all duration-300 shadow-xl">
-              <Link href="/contact">Get in Touch</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+        <ChapterScrollBar />
+      </div>
+      <ClosingChapter
+        outgoingRef={outgoingRef}
+        headingId="projects-closing-heading"
+        title={<>Let&apos;s Create <span>Something Amazing</span></>}
+        body="Have a project in mind? Contact us to discuss how Vurla can bring your vision to life with innovative, sustainable design solutions."
+        actions={
+          <ActionLink href="/contact">
+            Get in Touch <ArrowRight size={16} />
+          </ActionLink>
+        }
+      />
     </div>
   );
 }

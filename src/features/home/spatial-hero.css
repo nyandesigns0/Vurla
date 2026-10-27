@@ -1,0 +1,124 @@
+/* Three.js owns the room only; the semantic foreground and controls remain DOM. */
+.hero-chapter .hero-copy .actions { justify-content: center; gap: 16px; }
+.spatial-hero .hero-three-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--night);
+}
+.spatial-hero .hero-three-canvas,
+.spatial-hero .hero-three-links { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.spatial-hero .hero-three-canvas { pointer-events: none; }
+.spatial-hero[data-renderer="unavailable"] .hero-three-canvas { visibility: hidden; }
+.spatial-hero .hero-three-links { overflow: hidden; }
+.hero-three-links a { outline: none; }
+/* Project edges are drawn in WebGL; SVG paths provide the interactive hit areas. */
+.hero-three-links path { fill: transparent; stroke: transparent; stroke-width: 2; pointer-events: fill; vector-effect: non-scaling-stroke; }
+.hero-three-links a:focus-visible path { stroke: var(--paper); stroke-width: 3; }
+/* Hover titles wrap into short centered rows (e.g. "Lunar / Habitat / Immersion") while short names stay on one line. */
+.hero-chapter .hero-copy-panel[data-project-preview="active"] h1 {
+  max-width: 11ch;
+  text-wrap: balance;
+  font-size: clamp(2rem, 3vw, 3.25rem);
+}
+@media (max-width: 1100px) {
+  .spatial-hero .hero-three-stage { inset: 0 0 auto; height: 34rem; }
+  .spatial-hero { min-height: 51rem; }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .hero-chapter .hero-copy h1 { max-width: 22ch; }
+}
+@media (max-width: 767px) {
+  .spatial-hero { min-height: 58rem; }
+  .spatial-hero .hero-three-stage { height: 30rem; }
+  .hero-copy-panel[data-project-preview="active"] h1 { font-size: 1.8rem; }
+}
+/* Hero heading glitch: decode scramble + red/blue band split + scan sweep, run once per text change. */
+.hero-glitch { position: relative; display: block; }
+/* Clip vertically to the real heading box so no glitch frame can spill over the actions; horizontal slack keeps the band offsets. */
+.hero-glitch-layers { position: absolute; inset: 0; pointer-events: none; clip-path: inset(-12px -32px); }
+.hero-glitch-layer { position: absolute; inset: 0; display: block; text-shadow: none; }
+/* Transparent (not hidden) so the real text keeps drawing the dark halo under the glitch. */
+.hero-glitch[data-glitch="active"] .hero-glitch-text { color: transparent; }
+.hero-glitch-decode { animation: hero-glitch-jitter 400ms steps(1, end) both; }
+.hero-glitch-red,
+.hero-glitch-blue { clip-path: inset(0 0 100% 0); }
+.hero-glitch-red { color: var(--red); animation: hero-glitch-red 400ms steps(1, end) both; }
+.hero-glitch-blue { color: var(--blue); animation: hero-glitch-blue 400ms steps(1, end) both; }
+.hero-glitch[data-glitch="active"]::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset-inline: -8%;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red) 20%, var(--paper) 50%, var(--blue) 80%, transparent);
+  pointer-events: none;
+  animation: hero-glitch-scan 400ms steps(8, end) both;
+}
+@keyframes hero-glitch-jitter {
+  0% { transform: translateX(-3px); }
+  12% { transform: translateX(2px); }
+  30% { transform: translateX(-1px); }
+  48% { transform: translateX(3px); }
+  66% { transform: translateX(-2px); }
+  84%, 100% { transform: none; }
+}
+@keyframes hero-glitch-red {
+  0% { clip-path: inset(0 0 68% 0); transform: translateX(-7px); }
+  14% { clip-path: inset(38% 0 36% 0); transform: translateX(9px); }
+  28% { clip-path: inset(72% 0 6% 0); transform: translateX(-5px); }
+  42% { clip-path: inset(12% 0 62% 0); transform: translateX(6px); }
+  56% { clip-path: inset(54% 0 22% 0); transform: translateX(-9px); }
+  70% { clip-path: inset(24% 0 52% 0); transform: translateX(4px); }
+  84% { clip-path: inset(86% 0 0 0); transform: translateX(-2px); }
+  100% { clip-path: inset(0 0 100% 0); transform: none; }
+}
+@keyframes hero-glitch-blue {
+  0% { clip-path: inset(60% 0 12% 0); transform: translateX(8px); }
+  14% { clip-path: inset(6% 0 70% 0); transform: translateX(-6px); }
+  28% { clip-path: inset(34% 0 40% 0); transform: translateX(10px); }
+  42% { clip-path: inset(78% 0 2% 0); transform: translateX(-7px); }
+  56% { clip-path: inset(18% 0 58% 0); transform: translateX(5px); }
+  70% { clip-path: inset(64% 0 16% 0); transform: translateX(-4px); }
+  84% { clip-path: inset(40% 0 44% 0); transform: translateX(2px); }
+  100% { clip-path: inset(0 0 100% 0); transform: none; }
+}
+@keyframes hero-glitch-scan {
+  from { top: 0; opacity: 1; }
+  90% { opacity: 1; }
+  to { top: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .hero-glitch-layers, .hero-glitch[data-glitch="active"]::after { display: none; }
+  .hero-glitch[data-glitch="active"] .hero-glitch-text { color: inherit; }
+}
+/* New Work reuses the hero room without exhibits; only the kicker, heading, and CTA sit in front of it. */
+.new-work-room { position: relative; display: grid; place-items: center; min-height: clamp(38rem, 88svh, 58rem); overflow: clip; background: var(--night); }
+.new-work-room-stage { position: absolute; inset: 0; overflow: hidden; background: var(--night); }
+.new-work-room-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.new-work-room[data-renderer="unavailable"] .new-work-room-canvas { visibility: hidden; }
+.new-work-copy {
+  --new-work-heading-shadow: color-mix(in srgb, var(--night) 50%, transparent);
+  position: relative; z-index: 1; isolation: isolate;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(1.7rem, 3.4vw, 2.7rem);
+  max-width: min(90vw, 72rem); padding: clamp(1.5rem, 3vw, 3rem); text-align: center;
+  text-shadow: 0 0 4px color-mix(in srgb, var(--night) 60%, transparent), 0 2px 12px color-mix(in srgb, var(--night) 32%, transparent);
+  pointer-events: none;
+  transition: opacity var(--ds-motion-base) var(--ds-motion-ease);
+}
+.new-work-room[data-room-intro="playing"] .new-work-copy { opacity: 0; visibility: hidden; pointer-events: none; }
+.new-work-room[data-room-intro="playing"] .new-work-copy .ui-button { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .new-work-copy { transition: none; } }
+.new-work-copy::before { content: ""; position: absolute; z-index: -1; inset: -3rem; pointer-events: none; background: radial-gradient(ellipse 62% 70% at 50% 45%, color-mix(in srgb, var(--night) 24%, transparent) 0%, color-mix(in srgb, var(--night) 10%, transparent) 48%, transparent 80%), radial-gradient(ellipse 83% 95% at center, color-mix(in srgb, var(--night) 10%, transparent) 0%, transparent 88%); filter: blur(14px); }
+.new-work-copy .kicker { margin: 0; padding: .45em .9em .4em calc(.9em + .14em); background: var(--blue); color: var(--paper); font-size: clamp(.8rem, .95vw, 1rem); letter-spacing: .14em; text-shadow: none; }
+.new-work-copy h2 {
+  margin: 0 auto; max-width: 16ch;
+  font: 400 clamp(2.4rem, 4.6vw, 5rem)/1.12 var(--font-share-tech-mono); letter-spacing: -.05em;
+  text-shadow: 0 0 2px var(--new-work-heading-shadow), 0 0 2px var(--new-work-heading-shadow), 0 0 2px var(--new-work-heading-shadow), 0 0 6px var(--new-work-heading-shadow), 0 0 6px var(--new-work-heading-shadow), 0 0 6px var(--new-work-heading-shadow), 0 0 12px var(--new-work-heading-shadow), 0 0 12px var(--new-work-heading-shadow), 0 0 12px var(--new-work-heading-shadow), 0 0 22px var(--new-work-heading-shadow), 0 0 22px var(--new-work-heading-shadow), 0 0 22px var(--new-work-heading-shadow), 0 0 36px var(--new-work-heading-shadow), 0 0 36px var(--new-work-heading-shadow), 0 4px 56px var(--new-work-heading-shadow), 0 4px 56px var(--new-work-heading-shadow);
+}
+.new-work-copy .ui-button { margin: clamp(.7rem, 2vw, 1.35rem) auto 0; pointer-events: auto; }
+@media (max-width: 767px) {
+  .new-work-room { min-height: 38rem; }
+  .new-work-copy h2 { font-size: clamp(2rem, 9vw, 2.6rem); }
+}

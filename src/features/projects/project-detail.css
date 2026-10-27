@@ -1,0 +1,444 @@
+/* Project detail
+   ----------------------------------------------------------------------------
+   A return strip docks onto the page plate; the cover sits on a dotted drawing
+   field with registration crosses beside a paper specification register, the
+   gallery runs as one joined sheet of plates, and related work leads into the shared closing chapter. */
+
+.project-detail {
+  position: relative;
+  isolation: isolate;
+  background: var(--night);
+}
+
+.project-detail-body {
+  position: relative;
+  isolation: isolate;
+  padding-bottom: clamp(6.5625rem, 13.125vw, 10.5rem);
+  background: var(--night);
+}
+
+.project-detail-body > .project-detail-grain {
+  top: calc(-1 * (var(--ds-layout-header) + var(--ds-layout-gutter) * 2));
+  height: calc(100% + var(--ds-layout-header) + var(--ds-layout-gutter) * 2);
+  z-index: -1;
+}
+
+/* The detail body starts below the fixed-header clearance; its texture and
+   rails still need to reach the page's top edge like the Projects opening. */
+.project-detail-sides.shell {
+  top: calc(-1 * (var(--ds-layout-header) + var(--ds-layout-gutter) * 2));
+}
+
+.project-detail-scroll-texture {
+  position: relative;
+  isolation: isolate;
+  background: var(--night);
+}
+
+.project-detail-scroll-texture > .project-detail-scroll-grain { z-index: 0; }
+.project-detail-scroll-texture > .chapter-scroll-bar { z-index: 1; }
+
+/* ----------------------------------------------------------- return strip */
+
+.detail-return {
+  position: sticky;
+  top: calc(var(--ds-layout-gutter) + 58px);
+  z-index: 40;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: var(--pf-subnav-height);
+  border: var(--pf-rule) solid var(--mineral);
+  background: var(--night);
+}
+
+.project-detail .detail-return + .page-plate { border-top: 0; }
+
+.detail-return-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 0 1.25rem;
+  border-right: var(--pf-hair) solid var(--mineral);
+  font: 400 14px / 20px var(--ds-font-mono);
+  transition: background-color var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.detail-return-link svg {
+  flex: none;
+  transition: transform var(--ds-motion-fast) var(--ds-motion-ease);
+}
+
+.detail-return-link:hover {
+  background: var(--blue);
+}
+
+.detail-return-link:hover svg {
+  transform: translateX(-3px);
+}
+
+.detail-return-link:active {
+  background: var(--red);
+}
+
+.detail-return-link:focus-visible {
+  outline-offset: -5px;
+}
+
+.detail-return-count {
+  display: flex;
+  align-items: center;
+  min-width: 106px;
+  padding: 0 1.25rem;
+  border-left: var(--pf-hair) solid var(--mineral);
+  color: var(--mineral);
+  font: 400 13px / 16px var(--ds-font-mono);
+  letter-spacing: 0.14em;
+}
+
+.project-detail .detail-plate-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem clamp(1.5rem, 3.5vw, 3rem);
+}
+
+.project-detail .detail-plate-fact {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.project-detail .detail-plate-label {
+  font: 400 12px / 16px var(--ds-font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.project-detail .detail-plate-label::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.6rem;
+  background: var(--red);
+  vertical-align: 2px;
+}
+
+/* --------------------------------------------------- cover + specification */
+
+.project-detail .detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  gap: 0;
+  margin-top: clamp(6rem, 12vw, 10.5rem);
+  border: var(--pf-rule) solid var(--mineral);
+}
+
+.project-detail .detail-cover {
+  position: relative;
+  min-height: clamp(22rem, 36vw, 32rem);
+  overflow: hidden;
+  border-right: var(--pf-rule) solid var(--mineral);
+  background-color: var(--night);
+}
+
+/* registration crosses, after the footer frame marks */
+.detail-cover-cross {
+  position: absolute;
+  z-index: 1;
+  width: 15px;
+  height: 15px;
+  background:
+    linear-gradient(var(--mineral), var(--mineral)) center / 100% 1px no-repeat,
+    linear-gradient(var(--mineral), var(--mineral)) center / 1px 100% no-repeat;
+  pointer-events: none;
+}
+
+.detail-cover-cross--tl { top: 0.75rem; left: 0.75rem; }
+.detail-cover-cross--br { right: 0.75rem; bottom: 0.75rem; }
+
+.project-detail .detail-metadata {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  background: var(--paper);
+  color: var(--night);
+}
+
+.project-detail .detail-metadata > div {
+  padding: 1.35rem 1.5rem;
+  border-top: var(--pf-hair) solid color-mix(in srgb, var(--night) 22%, transparent);
+}
+
+.project-detail .detail-metadata > div:first-child {
+  padding-top: 2rem;
+  border-top: 0;
+}
+
+.project-detail .detail-metadata > div:last-child {
+  flex: 1;
+}
+
+.project-detail .detail-metadata dt {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.6rem;
+  font: 400 12px / 16px var(--ds-font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.project-detail .detail-metadata dt::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+}
+
+.project-detail .detail-metadata dd {
+  margin: 0;
+  font: 400 18px / 26px var(--ds-font-sans);
+}
+
+.project-detail .detail-metadata ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  line-height: inherit;
+}
+
+.project-detail .detail-metadata li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font: 400 15px / 24px var(--ds-font-mono);
+}
+
+.project-detail .detail-metadata li::before {
+  content: "";
+  flex: none;
+  width: 5px;
+  height: 5px;
+  background: var(--blue);
+}
+
+/* ---------------------------------------------------------------- gallery */
+
+.project-detail .detail-gallery {
+  display: grid;
+  gap: 0;
+  margin-top: 0;
+  border: var(--pf-rule) solid var(--mineral);
+  border-bottom: 0;
+}
+
+.project-detail .detail-gallery figure {
+  margin: 0;
+  border-bottom: var(--pf-rule) solid var(--mineral);
+}
+
+.project-detail .gallery-image {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 0;
+  background-color: var(--night);
+}
+
+.project-detail .gallery-document .gallery-image {
+  aspect-ratio: 4 / 3;
+  background: var(--paper);
+}
+
+/* ------------------------------------------------------------------ pager */
+
+.detail-related {
+  margin-top: clamp(7.5rem, 13.75vw, 12.5rem);
+}
+
+.detail-related-heading {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  min-height: clamp(5rem, 8vw, 7rem);
+  margin: 0;
+  padding: 1rem clamp(1.25rem, 3vw, 2.5rem);
+  border: var(--pf-rule) solid var(--mineral);
+  color: var(--paper);
+  background: var(--night);
+  font-family: var(--ds-typography-title-lg-family);
+  font-size: var(--ds-typography-title-lg-size);
+  font-weight: var(--ds-typography-title-lg-weight);
+  line-height: var(--ds-typography-title-lg-leading);
+  letter-spacing: var(--ds-typography-title-lg-tracking);
+}
+
+.detail-related-heading::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+}
+
+.detail-related-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  margin-left: auto;
+  animation: detail-related-arrow-drift 1.8s ease-in-out infinite;
+}
+
+@keyframes detail-related-arrow-drift {
+  0%, 100% { transform: translateY(-3px); }
+  50% { transform: translateY(3px); }
+}
+
+.detail-gallery > .detail-related-heading {
+  border: 0;
+  border-bottom: var(--pf-rule) solid var(--mineral);
+}
+
+.detail-layout + .detail-related-heading.shell {
+  margin-inline: auto;
+  border-top: 0;
+}
+
+.detail-pager {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: var(--pf-rule) solid var(--mineral);
+}
+
+.detail-pager-link {
+  position: relative;
+  display: block;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--graphite);
+}
+
+.detail-pager-link + .detail-pager-link {
+  border-left: var(--pf-hair) solid var(--mineral);
+}
+
+.detail-pager-link img {
+  transition:
+    filter 350ms ease,
+    transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .detail-pager-link img {
+    filter: grayscale(1) contrast(1.05);
+  }
+}
+
+.detail-pager-overlay {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  color: var(--paper);
+  background: color-mix(in srgb, var(--night) 90%, transparent);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.detail-pager-title {
+  font: 400 clamp(0.9rem, 1.3vw, 1.1rem) / 1.25 var(--ds-font-mono);
+  overflow-wrap: break-word;
+}
+
+.detail-pager-link:is(:hover, :focus-visible) .detail-pager-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.detail-pager-link:is(:hover, :focus-visible) img {
+  filter: grayscale(0) contrast(1.02);
+  transform: scale(1.04);
+}
+
+.detail-pager-link:focus-visible {
+  outline-offset: -5px;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .detail-pager-overlay {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 1023px) {
+  .project-detail .detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-detail .detail-cover {
+    min-height: clamp(20rem, 60vw, 30rem);
+    border-right: 0;
+    border-bottom: var(--pf-rule) solid var(--mineral);
+  }
+
+}
+
+@media (max-width: 767px) {
+  .detail-return-link {
+    padding-inline: 1rem;
+  }
+
+  .detail-return-count {
+    padding-inline: 1rem;
+  }
+
+  .project-detail .detail-cover {
+    min-height: 17rem;
+  }
+
+  .detail-pager {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .detail-pager-link:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .detail-pager-link:nth-child(n + 3) {
+    border-top: var(--pf-hair) solid var(--mineral);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail-related-arrow {
+    animation: none;
+  }
+
+  .detail-return-link:hover svg,
+  .detail-pager-link:is(:hover, :focus-visible) img,
+  .detail-pager-link:is(:hover, :focus-visible) .detail-pager-overlay {
+    transform: none;
+  }
+
+  .detail-return-link,
+  .detail-return-link svg,
+  .detail-pager-link img,
+  .detail-pager-overlay {
+    transition: none;
+  }
+}

@@ -1,0 +1,17 @@
+/* Shared Services reference: dot radius, contrast, repeat and phase never vary by route. */
+.dot-texture {
+  --dot-repeat: clamp(9.75px, 1.17vw, 17.55px);
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--paper) 32%, transparent) 0.75px, transparent 1px);
+  background-size: var(--dot-repeat) var(--dot-repeat);
+  background-position: calc(var(--dot-repeat) * 0.9) 0;
+}
+
+/* These surfaces already isolate their decorative layers from page content. */
+.page-plate-field > .dot-texture,
+.catalog-grid > .dot-texture,
+.empty-state > .dot-texture,
+.contact-information > .dot-texture { z-index: -1; }

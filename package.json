@@ -3,26 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "postinstall": "node scripts/patch-next-image-optimizer.mjs",
+    "dev": "node scripts/dev-server.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run && node --test scripts/image-optimizer-regression.mjs",
     "test:watch": "vitest",
-    "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "verify": "node scripts/verify.mjs",
+    "check:grain": "node scripts/generate-grain-tile.mjs --check",
+    "test:browser": "node scripts/browser-smoke.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
-    "framer-motion": "^12.23.24",
+    "gsap": "^3.15.0",
     "lucide-react": "^0.546.0",
-    "next": "15.5.25",
+    "next": "15.5.28",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
     "server-only": "^0.0.1",
-    "swr": "^2.3.6",
+    "three": "^0.186.0",
     "zod": "^4.1.12"
   },
   "overrides": {
@@ -35,14 +38,20 @@
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.186.0",
+    "axe-core": "^4.13.0",
     "eslint": "^9",
-    "eslint-config-next": "15.5.25",
+    "eslint-config-next": "15.5.28",
     "jsdom": "^26.1.0",
+    "playwright": "1.62.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^3.2.4"
+    "vitest": "5.0.5"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

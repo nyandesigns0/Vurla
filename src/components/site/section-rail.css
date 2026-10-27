@@ -1,0 +1,42 @@
+:root {
+  /* Match the homepage's approximately 20px desktop rail labels on every route. */
+  --section-rail-font-size: clamp(12px, 1.55vw, 24px);
+  --section-rail-linebox: calc(var(--section-rail-font-size) * 1.45);
+  --section-rail-gap: 20px;
+  --section-rail-marker-size: 8px;
+}
+
+.section-rail {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--section-rail-gap);
+  min-width: 0;
+  padding: 24px 0 var(--section-rail-bottom-inset, 32px);
+  color: var(--paper);
+}
+
+.section-rail > :not(.grain-texture, .dot-texture) {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.section-rail-index,
+.section-rail-label {
+  margin: 0;
+  font: 400 var(--section-rail-font-size) / 1.45 var(--ds-font-mono);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.section-rail-label { writing-mode: vertical-rl; white-space: nowrap; }
+
+.section-rail-marker {
+  width: var(--section-rail-marker-size);
+  height: var(--section-rail-marker-size);
+  background: var(--red);
+}

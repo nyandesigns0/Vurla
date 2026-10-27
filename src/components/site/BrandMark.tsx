@@ -6,19 +6,23 @@ type BrandMarkProps = {
   showWordmark?: boolean;
 };
 
-export function BrandMark({ className = "", inverse = false, showWordmark = false }: BrandMarkProps) {
+export function BrandMark({
+  className = "",
+  inverse = false,
+  showWordmark = false,
+}: BrandMarkProps) {
   return (
     <span className={`inline-flex items-center gap-3 ${className}`}>
       <Image
-        src={inverse ? "/brand/vurla-mark-inverse.svg" : "/brand/vurla-mark.svg"}
-        alt="Vurla"
+        src={
+          inverse ? "/brand/vurla-mark-inverse.svg" : "/brand/vurla-mark.svg"
+        }
+        alt={showWordmark ? "" : "Vurla"}
         width={48}
         height={48}
         className="h-full w-auto object-contain"
       />
-      {showWordmark && (
-        <span className="brand-wordmark">Vurla</span>
-      )}
+      {showWordmark && <span className="brand-wordmark">Vurla</span>}
     </span>
   );
 }

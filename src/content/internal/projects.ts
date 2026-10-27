@@ -6,7 +6,7 @@ export const projects: Project[] = [
     title: "Baker House",
     category: "residential",
     services: ["Conceptual Design", "Schematic Design", "Design Development", "Construction Documents"],
-    location: "San Diego, CA, USA",
+    location: "San Diego, CA",
     client: "Private residence",
     year: 2024,
     description:
@@ -73,7 +73,7 @@ export const projects: Project[] = [
     title: "Stitching West Baltimore",
     category: "public",
     services: ["Schematic Design", "Hardscape Design", "Project Management", "Quality Control"],
-    location: "Baltimore, MD, USA",
+    location: "Baltimore, MD",
     client: "CPP Architecture",
     year: 2023,
     description:
@@ -119,7 +119,7 @@ export const projects: Project[] = [
     title: "Storyworks Campus",
     category: "commercial",
     services: ["Space Programming", "Site Planning", "BIM Services", "3D Visualization"],
-    location: "Los Angeles, CA, USA",
+    location: "Los Angeles, CA",
     client: "Creative studio concept",
     year: 2025,
     description:

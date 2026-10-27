@@ -3,15 +3,18 @@ import type { FaqItem, SiteConfig } from "@/content/contracts";
 export const siteConfig: SiteConfig = {
   navigation: [
     { href: "/", label: "Home" },
-    { href: "/projects", label: "Projects" },
     { href: "/services", label: "Services" },
+    { href: "/projects", label: "Projects" },
     { href: "/contact", label: "Contact" },
   ],
   email: "vurla.living@gmail.com",
   phone: "(626) 466-5346",
   address: ["La Puente, CA"],
   hours: [],
-  socialLinks: [{ label: "Instagram", href: "https://www.instagram.com/vurlaliving1111/" }],
+  socialLinks: [
+    { label: "Instagram", href: "https://www.instagram.com/vurlaliving1111/" },
+    { label: "Facebook", href: "https://www.facebook.com/vurlaliving1111/" },
+  ],
 };
 
 export const faqItems: FaqItem[] = [

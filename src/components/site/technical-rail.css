@@ -1,0 +1,164 @@
+/* Technical rail
+   ----------------------------------------------------------------------------
+   One source of truth for the horizontal rail that opens the footer, every
+   service dossier row and the inner-page rails (`PageRail`): a heavy full-bleed
+   bar and a row of optional marks hanging under it. The footer uses both
+   terminals; service rows and page rails use ticks, notches, and a chip without
+   the end terminals.
+
+   Every size lives here and is shared by all consumers, so the two rails are
+   drawn at identical weights. A consumer changes only
+
+     colour       --rail-ink, --rail-mark-a, --rail-mark-b, --rail-chip,
+                  --rail-punch, --rail-hatch; consumers can separately set
+                  --rail-tick-a/b and --rail-notch-a/b
+     arrangement  --f-contact-start, --f-work-start, --f-chip-start,
+                  --f-tick-a-start, --f-tick-b-start, --f-rail, --f-gap
+
+   The footer keeps the legacy `.footer-rail*` / `.frm*` class names; new
+   consumers use the neutral `.tech-rail*` / `.trm*` names. Both resolve to the
+   rules below. */
+
+.page-rail,
+.refined-footer,
+.service-dossier {
+  --f-rail: clamp(2.5rem, 4.1vw, 3.8rem);
+  --f-gap: clamp(1.1rem, 2.1vw, 1.9rem);
+  --f-bar: clamp(6px, 0.85vw, 13px);
+  --f-mark: clamp(7px, 0.85vw, 12px);
+  --f-notch: clamp(9px, 1.3vw, 19px);
+  --f-line-clearance: clamp(5px, 0.42vw, 7px);
+}
+
+.refined-footer {
+  --f-contact-start: 37.12%;
+  --f-work-start: 68.71%;
+}
+
+.footer-rail,
+.tech-rail {
+  position: relative;
+  z-index: 2;
+  display: block;
+  height: var(--f-rail);
+  background: transparent;
+  border: 0;
+}
+
+/* the heavy beam */
+.footer-rail-bar,
+.tech-rail-bar {
+  position: absolute;
+  left: 50%;
+  bottom: var(--f-gap);
+  width: 100vw;
+  height: var(--f-bar);
+  transform: translateX(-50%);
+  background: var(--rail-ink, var(--night));
+}
+
+/* the mark row, hanging directly under the beam */
+.frm,
+.trm {
+  position: absolute;
+  bottom: calc(var(--f-gap) - var(--f-mark) - 0.22rem);
+  height: var(--f-mark);
+}
+
+.frm-red,
+.trm-red {
+  left: 0;
+  width: var(--f-mark);
+  background: var(--red);
+}
+
+.frm-blue,
+.trm-blue {
+  right: 0;
+  width: calc(var(--f-mark) * 3.6);
+  background:
+    linear-gradient(var(--rail-hatch, var(--night)), var(--rail-hatch, var(--night))) right / 26% 100% no-repeat,
+    repeating-linear-gradient(
+      108deg,
+      var(--rail-hatch, var(--night)) 0 22%,
+      transparent 22% 34%
+    ) left / 68% 100% no-repeat;
+}
+
+.frm-tick,
+.trm-tick {
+  background: repeating-linear-gradient(
+    108deg,
+    var(--rail-tick-a, var(--rail-mark-a, var(--rail-ink, var(--night)))) 0 26%,
+    transparent 26% 40%
+  );
+}
+
+.frm-tick-a,
+.trm-tick-a {
+  left: var(--f-tick-a-start, 31.6%);
+  width: 2.6%;
+}
+
+.frm-tick-b,
+.trm-tick-b {
+  left: var(--f-tick-b-start, 40.4%);
+  width: 2.9%;
+  background: repeating-linear-gradient(
+    108deg,
+    var(--rail-tick-b, var(--rail-mark-b, var(--blue))) 0 26%,
+    transparent 26% 40%
+  );
+}
+
+.frm-chip,
+.trm-chip {
+  left: var(--f-chip-start, 77.5%);
+  width: var(--f-mark);
+  background: var(--rail-chip, var(--rail-ink, var(--night)));
+}
+
+.frm-chip::before,
+.trm-chip::before {
+  content: "";
+  position: absolute;
+  left: -14%;
+  right: -14%;
+  top: -62%;
+  height: 14%;
+  background: var(--rail-chip, var(--rail-ink, var(--night)));
+}
+
+.frm-chip::after,
+.trm-chip::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  top: 26%;
+  width: 34%;
+  height: 34%;
+  background: var(--rail-punch, var(--paper));
+}
+
+/* downward notch, centred on the column boundary it marks */
+.frm-notch,
+.trm-notch {
+  bottom: calc(var(--f-gap) - var(--f-notch) + 1px);
+  height: var(--f-notch);
+  width: calc(var(--f-notch) * 1.9);
+  background: var(--rail-notch-a, var(--rail-mark-a, var(--rail-ink, var(--night))));
+  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
+}
+
+.frm-notch-a,
+.trm-notch-a {
+  left: var(--f-contact-start);
+  transform: translateX(-50%);
+}
+
+.frm-notch-b,
+.trm-notch-b {
+  left: var(--f-work-start);
+  transform: translateX(-50%);
+  background: var(--rail-notch-b, var(--rail-mark-b, var(--rail-ink, var(--night))));
+}

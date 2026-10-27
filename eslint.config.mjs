@@ -13,8 +13,13 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     ignores: [
-      "node_modules/**",
+      "**/node_modules/**",
+      "output/**",
+      "docs/plans/complete/website-design-refinement*/**",
+      "docs/plans/complete/website-oakame-redesign-evidence/**",
       ".next/**",
+      ".next-dev/**",
+      ".claude-code-local/**",
       "out/**",
       "build/**",
       "next-env.d.ts",

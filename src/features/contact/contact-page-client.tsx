@@ -1,302 +1,315 @@
 "use client";
-
-import { type FormEvent, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { type FormEvent, useRef, useState } from "react";
+import { ArrowRight, ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { FAQSection } from "@/components/site/FAQSection";
+import { ClosingChapter } from "@/components/site/ClosingChapter";
+import { PagePlate } from "@/components/site/PagePlate";
+import { PageSideBorders } from "@/components/site/PageSideBorders";
+import { DotTexture } from "@/components/site/DotTexture";
+import { GrainTexture } from "@/components/site/GrainTexture";
+import { ChapterScrollBar } from "@/components/site/ChapterScrollBar";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { contactRequestSchema, type ContactResponse } from "./contract";
+import { ActionLink } from "@/components/ui/ActionLink";
+import { Field } from "@/components/ui/Field";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import { Select } from "@/components/ui/controls";
+import { MessageAttachments } from "./message-attachments";
+import type { ContactResponse, ContactType } from "./contract";
 import type { FaqItem, SiteConfig } from "@/content/contracts";
+export function ContactPageClient({
+  site,
+  faqs,
+}: {
+  site: SiteConfig;
+  faqs: FaqItem[];
+}) {
+  const [status, setStatus] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [contactType, setContactType] = useState<ContactType>("email");
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [contactValues, setContactValues] = useState({ email: "", phone: "" });
+  const [images, setImages] = useState<File[]>([]);
+  const [attachmentReset, setAttachmentReset] = useState(0);
+  const contactKey = contactType === "email" ? "email" : "phone";
+  const outgoingRef = useRef<HTMLDivElement>(null);
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (loading) return;
+    const formElement = e.currentTarget;
+    const form = new FormData(formElement);
+    const payload = {
+      name: String(form.get("name") || ""),
+      contactType: String(form.get("contactType") || ""),
+      contact: String(form.get("contact") || ""),
+      message: String(form.get("message") || ""),
+    };
+    // Validation is needed only on submission; keep Zod out of the initial page bundle.
+    setLoading(true);
+    const validation = await import("./contract").catch(() => null);
+    if (!validation) {
+      setStatus("Unable to validate the message. Please try again.");
+      setLoading(false);
+      return;
+    }
+    const result = validation.contactRequestSchema.safeParse(payload);
+    if (!result.success) {
+      setLoading(false);
+      const next: Record<string, string> = {};
+      for (const issue of result.error.issues)
+        next[String(issue.path[0])] = issue.message;
+      setErrors(next);
+      setStatus(
+        "Please check the highlighted fields.",
+      );
+      formElement
+        .querySelector<HTMLInputElement>(
+          '[name="' + Object.keys(next)[0] + '"]',
+        )
+        ?.focus();
+      return;
+    }
+    setErrors({});
+    setStatus(null);
+    try {
+      const submission = new FormData();
+      for (const [key, value] of Object.entries(result.data)) submission.append(key, value);
+      for (const image of images) submission.append("images", image);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        body: submission,
+      });
+      const data = (await res.json()) as ContactResponse;
+      const succeeded = res.ok && data.success;
+      setStatus(
+        data.message ||
+          (succeeded
+            ? "Submitted for simulated processing."
+            : "Submission failed"),
+      );
+      if (succeeded) {
+        formElement.reset();
+        setName("");
+        setMessage("");
+        setContactType("email");
+        setContactValues({ email: "", phone: "" });
+        setImages([]);
+        setAttachmentReset((value) => value + 1);
+      }
+    } catch {
+      setStatus("Submission failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+  return (
+    <div className="page page-family contact-page">
+      <div ref={outgoingRef} className="closing-chapter-source">
+        <GrainTexture className="contact-background-grain" />
+        <PageSideBorders className="contact-source-sides" />
+        <div className="contact-opening-frame">
+          <PagePlate
+            index="04"
+            kicker="Get in touch"
+            title="Let’s shape what’s next"
+            crosshair
+            className="page-plate--roomy"
+            lead={
+              <>
+                Ready to discuss your next project? We&apos;d love to hear from you.
+                Reach out to our team and let&apos;s create something extraordinary
+                together.
+              </>
+            }
+          />
+        </div>
+        <section className="shell contact-columns" aria-label="Contact Vurla">
+          <div className="contact-information">
+            <DotTexture />
+            <GrainTexture className="contact-information-grain" />
+            <div className="contact-information-body">
+            <h2 className="contact-panel-title">Contact Information</h2>
+            <dl>
+              <div>
+                <dt>
+                  <MapPin className="contact-detail-icon" aria-hidden="true" />
+                  Address
+                </dt>
+                <dd>
+                  <a
+                    className="contact-map-link"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address.join(", "))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${site.address.join(", ")} on Google Maps (opens in a new tab)`}
+                  >
+                    <span>{site.address.join(", ")}</span>
+                    <ArrowUpRight size={20} aria-hidden="true" />
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>
+                  <Phone className="contact-detail-icon" aria-hidden="true" />
+                  Phone
+                </dt>
+                <dd>
+                  <a href={"tel:" + site.phone.replace(/[^+\d]/g, "")}>
+                    <span>{site.phone}</span><ArrowUpRight size={20} aria-hidden="true" />
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>
+                  <Mail className="contact-detail-icon" aria-hidden="true" />
+                  Email
+                </dt>
+                <dd>
+                  <a href={"mailto:" + site.email}><span>{site.email}</span><ArrowUpRight size={20} aria-hidden="true" /></a>
+                </dd>
+              </div>
+              {site.hours.length > 0 && (
+                <div>
+                  <dt>
+                    <Clock className="contact-detail-icon" aria-hidden="true" />
+                    Office Hours
+                  </dt>
+                  <dd>
+                    {site.hours.map((h) => (
+                      <p key={h}>{h}</p>
+                    ))}
+                  </dd>
+                </div>
+              )}
+            </dl>
+            </div>
+          </div>
+          <div id="contact-form" className="contact-form-panel" data-surface="paper" tabIndex={-1}>
+            <div className="contact-form-heading">
+              <span className="contact-form-heading-mark" aria-hidden="true"><ArrowDownRightMark /></span>
+              <div>
+            <h2 className="contact-panel-title">Send us a Message</h2>
+                <p>Tell us about the space you have in mind.</p>
+              </div>
+            </div>
+            <noscript>
+              <p>The form preview needs JavaScript. Please use the email or phone links to contact us.</p>
+              <style>{".contact-form-panel form { display: none; }"}</style>
+            </noscript>
+            <form onSubmit={submit} onChange={() => { if (status) setStatus(null); }} noValidate aria-busy={loading}>
+              <Field label="Name *" htmlFor="contact-name">
+                <Input
+                  id="contact-name"
+                  name="name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  autoComplete="name"
+                  required
+                  placeholder="Your full name"
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? "error-name" : undefined}
+                />
+                {errors.name && (
+                  <span className="field-error" id="error-name">
+                    {errors.name}
+                  </span>
+                )}
+              </Field>
+              <Field label="Best way to contact *" htmlFor="contact-type">
+                <Select
+                  id="contact-type"
+                  name="contactType"
+                  required
+                  value={contactType}
+                  onChange={(event) => {
+                    setContactType(event.target.value as ContactType);
+                    setErrors((current) => ({ ...current, contact: "" }));
+                  }}
+                >
+                  <option value="email">Email</option>
+                  <option value="phone">Phone call</option>
+                  <option value="sms">Text message</option>
+                </Select>
+              </Field>
+              <Field label={contactType === "email" ? "Email address *" : "Phone number *"} htmlFor="contact-value">
+                <Input
+                  id="contact-value"
+                  name="contact"
+                  type={contactType === "email" ? "email" : "tel"}
+                  autoComplete={contactType === "email" ? "email" : "tel"}
+                  required
+                  placeholder={contactType === "email" ? "your@email.com" : "+1 (555) 123-4567"}
+                  value={contactValues[contactKey]}
+                  onChange={(event) => setContactValues((current) => ({ ...current, [contactKey]: event.target.value }))}
+                  aria-invalid={!!errors.contact}
+                  aria-describedby={errors.contact ? "error-contact" : undefined}
+                />
+                {errors.contact && (
+                  <span className="field-error" id="error-contact">
+                    {errors.contact}
+                  </span>
+                )}
+              </Field>
+              <Field label="Message *" htmlFor="contact-message">
+                <Textarea
+                  id="contact-message"
+                  name="message"
+                  value={message}
+                  onChange={(event) => setMessage(event.target.value)}
+                  rows={5}
+                  required
+                  placeholder="What are you planning? Tell us about the space, location, and timing."
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "error-message" : undefined}
+                />
+                {errors.message && (
+                  <span className="field-error" id="error-message">
+                    {errors.message}
+                  </span>
+                )}
+              <MessageAttachments key={attachmentReset} files={images} onChange={setImages} disabled={loading} />
+              </Field>
+              <div className="contact-form-submit">
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Submitting..." : "Submit preview"} <ArrowUpRight size={24} aria-hidden="true" />
+                </Button>
+              </div>
+              <div role="status" aria-live="polite">
+                {status && <p className="form-status">{status}</p>}
+              </div>
+            </form>
+          </div>
+        </section>
+        <FAQSection items={faqs} />
+        <ChapterScrollBar />
+      </div>
+      <ClosingChapter
+        outgoingRef={outgoingRef}
+        headingId="contact-closing-heading"
+        title={<>Let&apos;s Build <span>Your Vision</span></>}
+        body={
+          <>
+            Whether you have a detailed project scope or just an idea, we&apos;re
+            here to help bring it to life. Contact us today to get started.
+          </>
+        }
+        actions={
+          <>
+            <ActionLink href="/services">
+              Explore Our Services <ArrowRight size={16} aria-hidden="true" />
+            </ActionLink>
+            <ActionLink href="/projects" variant="outline">
+              View Our Projects
+            </ActionLink>
+          </>
+        }
+      />
+    </div>
+  );
+}
 
-export function ContactPageClient({ site, faqs }: { site: SiteConfig; faqs: FaqItem[] }) {
-	const [status, setStatus] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
-
-	async function onSubmit(e: FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		setIsLoading(true);
-		const form = new FormData(e.currentTarget);
-		const payload = {
-			name: String(form.get("name") || ""),
-			email: String(form.get("email") || ""),
-			phone: String(form.get("phone") || ""),
-			message: String(form.get("message") || ""),
-		};
-		const clientCheck = contactRequestSchema.safeParse(payload);
-		if (!clientCheck.success) { setStatus("Please complete the required fields with a valid email address."); setIsLoading(false); return; }
-		try {
-			const res = await fetch("/api/contact", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload),
-			});
-			const data = await res.json() as ContactResponse;
-			setStatus(data.message || (data.success ? "Message sent successfully!" : "Submission failed"));
-			if (data.success) {
-				(e.target as HTMLFormElement).reset();
-			}
-		} catch (err) {
-			console.error("[contact:submit]", err);
-			setStatus("Submission failed. Please try again.");
-		} finally {
-			setIsLoading(false);
-		}
-	}
-
-	return (
-		<div className="min-h-screen">
-			{/* Hero Section */}
-			<section className="relative py-32 bg-background overflow-hidden">
-				<div className="absolute inset-0 mesh-gradient opacity-30" />
-				<div className="section-container relative z-10">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8 }}
-						className="text-center mb-16"
-					>
-						<h1 className="heading-section mb-6">
-							Get in <span className="text-gradient">Touch</span>
-						</h1>
-						<p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-							Ready to discuss your next project? We&apos;d love to hear from you. Reach out to our team and let&apos;s create something extraordinary together.
-						</p>
-					</motion.div>
-				</div>
-			</section>
-
-			{/* Contact Info and Form */}
-			<section className="py-16 md:py-20 bg-background">
-				<div className="section-container">
-					<div className="grid lg:grid-cols-2 gap-16">
-						{/* Contact Information */}
-						<motion.div
-							initial={{ opacity: 0, x: -30 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.6 }}
-						>
-							<h2 className="heading-section-sm mb-12">
-								Contact <span className="text-gradient">Information</span>
-							</h2>
-
-							<div className="space-y-8">
-								{/* Address */}
-								<motion.div
-									whileHover={{ scale: 1.02 }}
-									className="group bg-background border-2 border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-								>
-									<div className="flex items-start gap-4">
-										<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
-											<MapPin className="w-6 h-6 text-primary" />
-										</div>
-										<div>
-											<h3 className="heading-card-sm mb-2">Address</h3>
-											<p className="text-body text-muted-foreground leading-relaxed">
-											{site.address.map((line) => <span key={line}>{line}<br /></span>)}
-											</p>
-										</div>
-									</div>
-								</motion.div>
-
-								{/* Phone */}
-								<motion.div
-									whileHover={{ scale: 1.02 }}
-									className="group bg-background border-2 border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-								>
-									<div className="flex items-start gap-4">
-										<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
-											<Phone className="w-6 h-6 text-primary" />
-										</div>
-										<div>
-											<h3 className="heading-card-sm mb-2">Phone</h3>
-											<a href={`tel:${site.phone.replace(/[^+\d]/g, "")}`} className="text-body text-muted-foreground hover:text-primary transition-colors duration-300">
-												{site.phone}
-											</a>
-										</div>
-									</div>
-								</motion.div>
-
-								{/* Email */}
-								<motion.div
-									whileHover={{ scale: 1.02 }}
-									className="group bg-background border-2 border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-								>
-									<div className="flex items-start gap-4">
-										<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
-											<Mail className="w-6 h-6 text-primary" />
-										</div>
-										<div>
-											<h3 className="heading-card-sm mb-2">Email</h3>
-											<a href={`mailto:${site.email}`} className="text-body text-muted-foreground hover:text-primary transition-colors duration-300">
-												{site.email}
-											</a>
-										</div>
-									</div>
-								</motion.div>
-
-								{/* Hours are displayed only when verified business hours are available. */}
-								{site.hours.length > 0 && <motion.div
-									whileHover={{ scale: 1.02 }}
-									className="group bg-background border-2 border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-								>
-									<div className="flex items-start gap-4">
-										<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
-											<Clock className="w-6 h-6 text-primary" />
-										</div>
-										<div>
-											<h3 className="heading-card-sm mb-2">Office Hours</h3>
-											<div className="space-y-1 text-body text-muted-foreground">
-												{site.hours.map((hours) => <p key={hours}>{hours}</p>)}
-											</div>
-										</div>
-									</div>
-								</motion.div>}
-							</div>
-						</motion.div>
-
-						{/* Contact Form */}
-						<motion.div
-							initial={{ opacity: 0, x: 30 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.6 }}
-						>
-							<h2 className="heading-section-sm mb-12">
-								Send us a <span className="text-gradient">Message</span>
-							</h2>
-							<form onSubmit={onSubmit} className="space-y-6">
-								{/* Name */}
-								<div className="space-y-2">
-									<label className="text-body-semibold text-foreground">
-										Name *
-									</label>
-									<input
-										name="name"
-										className="w-full px-4 py-3 rounded-xl border-2 border-border bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-0 transition-all duration-300 hover:border-primary/50"
-										required
-										placeholder="Your full name"
-									/>
-								</div>
-
-								{/* Email */}
-								<div className="space-y-2">
-									<label className="text-body-semibold text-foreground">
-										Email *
-									</label>
-									<input
-										type="email"
-										name="email"
-										className="w-full px-4 py-3 rounded-xl border-2 border-border bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-0 transition-all duration-300 hover:border-primary/50"
-										required
-										placeholder="your@email.com"
-									/>
-								</div>
-
-								{/* Phone */}
-								<div className="space-y-2">
-									<label className="text-body-semibold text-foreground">
-										Phone
-									</label>
-									<input
-										name="phone"
-										className="w-full px-4 py-3 rounded-xl border-2 border-border bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-0 transition-all duration-300 hover:border-primary/50"
-										placeholder="+1 (555) 123-4567"
-									/>
-								</div>
-
-								{/* Message */}
-								<div className="space-y-2">
-									<label className="text-body-semibold text-foreground">
-										Message *
-									</label>
-									<textarea
-										name="message"
-										rows={5}
-										className="w-full px-4 py-3 rounded-xl border-2 border-border bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-0 transition-all duration-300 hover:border-primary/50 resize-none"
-										required
-										placeholder="Tell us about your project..."
-									/>
-								</div>
-
-								{/* Submit Button */}
-								<motion.div
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.98 }}
-								>
-									<Button
-										type="submit"
-										disabled={isLoading}
-										size="lg"
-										variant="premium"
-										className="w-full"
-									>
-										{isLoading ? "Sending..." : "Send Message"}
-									</Button>
-								</motion.div>
-
-								{/* Status Message */}
-								<AnimatePresence>
-									{status && (
-										<motion.div
-											initial={{ opacity: 0, y: 10 }}
-											animate={{ opacity: 1, y: 0 }}
-											exit={{ opacity: 0, y: -10 }}
-											aria-live="polite"
-											className={`rounded-xl p-4 text-body text-center transition-all duration-300 ${
-												status.includes("successfully") || status.includes("Submitted")
-													? "bg-success/10 text-success border border-success/20"
-													: "bg-error/10 text-error border border-error/20"
-											}`}
-										>
-											{status}
-										</motion.div>
-									)}
-								</AnimatePresence>
-							</form>
-						</motion.div>
-					</div>
-				</div>
-			</section>
-
-			{/* FAQ Section */}
-			<FAQSection items={faqs} />
-
-			{/* CTA Section */}
-			<section
-				className="py-32 relative overflow-hidden"
-				style={{ background: "linear-gradient(135deg, #171717 0%, #3d3d3d 55%, #141414 100%)" }}
-			>
-				<div className="absolute inset-0 opacity-10">
-					<div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent_50%)]" />
-					<div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
-				</div>
-
-				<div className="section-container text-center relative z-10">
-					<motion.div
-						initial={{ opacity: 0, scale: 0.9 }}
-						animate={{ opacity: 1, scale: 1 }}
-						transition={{ duration: 0.8 }}
-						className="max-w-4xl mx-auto"
-					>
-						<h2 className="heading-section mb-8 text-white">
-							Let&apos;s Build Your Vision
-						</h2>
-						<p className="text-xl mb-10 text-white/90 leading-relaxed max-w-2xl mx-auto">
-							Whether you have a detailed project scope or just an idea, we&apos;re here to help bring it to life. Contact us today to get started.
-						</p>
-						<div className="flex flex-col sm:flex-row gap-4 justify-center">
-							<Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-105 transition-all duration-300 shadow-xl">
-								<Link href="/projects">View Our Work</Link>
-							</Button>
-							<Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300">
-								<Link href="/services">Explore Our Services</Link>
-							</Button>
-						</div>
-					</motion.div>
-				</div>
-			</section>
-		</div>
-	);
+function ArrowDownRightMark() {
+  return <svg viewBox="0 0 48 48" fill="none" focusable="false"><path d="M9 9 39 39M12 39h27V12" stroke="currentColor" strokeWidth="2" /></svg>;
 }

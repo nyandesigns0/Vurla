@@ -1,0 +1,237 @@
+{
+  "released": "2026-10-26",
+  "status": "integrated",
+  "authorization": "User approved the remaining images and requested website completion, with wood laser cutting replacing wood CNC.",
+  "sourceManifest": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+  "laserCorrection": {
+    "created": "2026-10-26",
+    "mode": "built-in image_gen",
+    "prompt": "Use case: precise-object-edit. Edit the attached Digital Fabrication triptych for Vurla Services. Change ONLY the LEFT third from wood CNC ROUTING to WOOD LASER CUTTING, and update only its caption. Replace the bulky router spindle and fluted cutter with a credible slim CO2 laser cutting head/nozzle suspended just above a thin flat plywood sheet on a honeycomb laser bed. Show narrow dark laser-cut kerfs defining nested rectangular plywood panel profiles, subtle darkened edges and a tiny warm point of laser contact, no sawdust mound, no rotary cutter, no milled pockets, no dramatic sparks/flames or visible sci-fi beam. Preserve natural warm plywood color, realistic manufacturing photography, the three equal full-bleed columns, original canvas1536x1024 and original caption spine EXACTLY at mid-height. Left caption must now read 'WOOD LASER CUTTING', sized to fit comfortably within that column. Keep center 'METAL CNC' photo/caption and right '3D PRINTING' photo/caption as unchanged as possible: metal milling head, aluminum pocket, vise, polymer pavilion shell, printer, all framing and colors invariant. No humans, hands, new logos, borders, floating insets or other text. Same refined graphical thin red/blue accents. This is an illustrative manufacturing study, not fabrication instructions.",
+    "generatedSource": "C:\\Users\\NyanDesigns\\.codex\\generated_images\\01a0b1cd-5960-7201-b464-bee1a23693b3\\exec-90f943e7-b3fd-4a7d-8b25-838bbe5975c6.png",
+    "editTarget": "output/imagegen/service-capability-fabrication-digital-v2/masters/digital-digital-fabrication.png",
+    "interpretation": "User's 'wood layer cut' interpreted as wood laser cutting; correction requested with final website integration.",
+    "alt": "Wood laser cutting plywood over a honeycomb bed, metal CNC milling an aluminum connector, and 3D printing a curved pavilion model.",
+    "master": "output/imagegen/service-capability-fabrication-digital-final/masters/digital-digital-fabrication-v3.png",
+    "masterSha256": "8d2b62f15f0950326d54d0b2b2f45349874c76f9ac75c066aa466bb0251f6f5a",
+    "reviewAsset": "output/imagegen/service-capability-fabrication-digital-final/optimized/digital-digital-fabrication-v3.webp"
+  },
+  "scope": "Services page Fabrication and Digital Solutions previews only. Existing defaults and homepage unchanged.",
+  "records": [
+    {
+      "id": "fabrication-custom-furniture",
+      "category": "Fabrication",
+      "label": "Custom Furniture",
+      "revision": "v1",
+      "previewImage": {
+        "src": "/media/services/capabilities/fabrication-custom-furniture-v1.webp",
+        "alt": "Project-derived fitted pale desk and olive shelving beside an illustrative furniture elevation and component assembly study.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "5133b341e48871ac243f2eb1408d9ef5981584ec871abf378921c9a85acfb6bb",
+      "bytes": 131576,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/fabrication-custom-furniture-v1.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/fabrication-custom-furniture.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "fabrication-millwork",
+      "category": "Fabrication",
+      "label": "Millwork",
+      "revision": "v1",
+      "previewImage": {
+        "src": "/media/services/capabilities/fabrication-millwork-v1.webp",
+        "alt": "Honey-colored plywood counter carcass and loose fascia with exposed layered edges, paired with flat cutting-profile drawings.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "0f90044ed92c44969d8408ddb2d25acdbe4369b26d95e96aeef3430b22ec5d4a",
+      "bytes": 229422,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/fabrication-millwork-v1.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/fabrication-millwork.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "fabrication-metalwork",
+      "category": "Fabrication",
+      "label": "Metalwork",
+      "revision": "v1",
+      "previewImage": {
+        "src": "/media/services/capabilities/fabrication-metalwork-v1.webp",
+        "alt": "Project-inspired folded steel strap at a plywood upright beside a flat metal blank and formed bracket.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "b1ad055e18ced1170c79785e3dda4bcca5fdb1f3e1deff7fc7d1d775ae4f5786",
+      "bytes": 165346,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/fabrication-metalwork-v1.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/fabrication-metalwork.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "fabrication-joinery",
+      "category": "Fabrication",
+      "label": "Joinery",
+      "revision": "v4",
+      "previewImage": {
+        "src": "/media/services/capabilities/fabrication-joinery-v4.webp",
+        "alt": "Boba Friend plywood pop-up during illustrative assembly, alongside a full-height connection close-up.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "123ecc26ab91102c533557141a7ecb815728eddc5ca68e7b4329dff8616b663b",
+      "bytes": 281414,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/fabrication-joinery-v4.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/fabrication-joinery.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "fabrication-prototyping",
+      "category": "Fabrication",
+      "label": "Prototyping",
+      "revision": "v1",
+      "previewImage": {
+        "src": "/media/services/capabilities/fabrication-prototyping-v1.webp",
+        "alt": "Plywood counter-corner prototype with a hinged upright, an open-position sketch and connection-detail crops.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "e84ec1d3ab1a8369227cd0e76c0a39de6ac2fd149e8e6aa8d0ebed76aba0baa5",
+      "bytes": 228672,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/fabrication-prototyping-v1.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/fabrication-prototyping.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "fabrication-finishing-installation",
+      "category": "Fabrication",
+      "label": "Finishing & Installation",
+      "revision": "v1",
+      "previewImage": {
+        "src": "/media/services/capabilities/fabrication-finishing-installation-v1.webp",
+        "alt": "Matching La Puente built-in views showing inferred cabinet fit-up and completed olive finish, labeled across the image center.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "bd6c74a56fa62677d737095a1e3bf2df0cfa5d1c149e760a1ae8fdf4f9948fa8",
+      "bytes": 170522,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/fabrication-finishing-installation-v1.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/fabrication-finishing-installation.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "digital-bim-services",
+      "category": "Digital Solutions",
+      "label": "BIM Services",
+      "revision": "v1",
+      "previewImage": {
+        "src": "/media/services/capabilities/digital-bim-services-v1.webp",
+        "alt": "Storyworks-derived architectural model with curved shell, pale floors and a blue service layer beside the source-based plan.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "61c5f7c14f567ed1ef0624bada2e954e0c42483db8ef4564ea15b1c128579096",
+      "bytes": 410456,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/digital-bim-services-v1.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/digital-bim-services.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "digital-3d-visualization",
+      "category": "Digital Solutions",
+      "label": "3D Visualization",
+      "revision": "v3",
+      "previewImage": {
+        "src": "/media/services/capabilities/digital-3d-visualization-v3.webp",
+        "alt": "Dual-monitor Lunar Habitat visualization study combining shaded geometry, wireframe and rendered views.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "aef96cdd4d2ec5de22204c56a9b0e2cf4dc634ba416b68e90d3638abcfb80b94",
+      "bytes": 198582,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/digital-3d-visualization-v3.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/digital-3d-visualization.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "digital-vr-walkthroughs",
+      "category": "Digital Solutions",
+      "label": "VR Walkthroughs",
+      "revision": "v1",
+      "previewImage": {
+        "src": "/media/services/capabilities/digital-vr-walkthroughs-v1.webp",
+        "alt": "Unoccupied Lunar Habitat eye-level walkthrough view with a discreet destination marker, a headset and a small navigation trace.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "1934a052c33195c18f263aae9285bc04c7c1395631ab73185ced9d7f335f22d3",
+      "bytes": 253618,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/digital-vr-walkthroughs-v1.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/digital-vr-walkthroughs.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "digital-custom-scripting",
+      "category": "Digital Solutions",
+      "label": "Custom Scripting",
+      "revision": "v2",
+      "previewImage": {
+        "src": "/media/services/capabilities/digital-custom-scripting-v2.webp",
+        "alt": "Rhino-style curved pavilion model and Grasshopper-style connected nodes illustrating parametric scripting.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "1e62898927c7f86785ff672ab5baf9c245271c4e6d68a616ab4433a046a4992f",
+      "bytes": 257032,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/digital-custom-scripting-v2.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/digital-custom-scripting.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "digital-ai-integration",
+      "category": "Digital Solutions",
+      "label": "AI Integration",
+      "revision": "v2",
+      "previewImage": {
+        "src": "/media/services/capabilities/digital-ai-integration-v2.webp",
+        "alt": "Paired AI workflow studies for an architecture firm's drawing and review tasks and an individual client's request and action plan.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "4f4b2e778eb1d70a3e4f4ee24d0bd70ecbc798cee87b40ad0b967e07419c9f86",
+      "bytes": 157184,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-v2/optimized/digital-ai-integration-v2.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-v2/masters/digital-ai-integration.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": true
+    },
+    {
+      "id": "digital-digital-fabrication",
+      "category": "Digital Solutions",
+      "label": "Digital Fabrication",
+      "revision": "v3",
+      "previewImage": {
+        "src": "/media/services/capabilities/digital-digital-fabrication-v3.webp",
+        "alt": "Wood laser cutting plywood over a honeycomb bed, metal CNC milling an aluminum connector, and 3D printing a curved pavilion model.",
+        "width": 1536,
+        "height": 1024
+      },
+      "sha256": "d180a2a7a07dfed27cbbb09a0d08abaa3e762c899eca3bac181363b1654fe913",
+      "bytes": 227934,
+      "sourceAsset": "output/imagegen/service-capability-fabrication-digital-final/optimized/digital-digital-fabrication-v3.webp",
+      "master": "output/imagegen/service-capability-fabrication-digital-final/masters/digital-digital-fabrication-v3.png",
+      "provenance": "output/imagegen/service-capability-fabrication-digital-v2/manifest.json",
+      "retainedApprovedPixels": false
+    }
+  ]
+}

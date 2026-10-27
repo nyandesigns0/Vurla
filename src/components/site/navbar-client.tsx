@@ -2,52 +2,83 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { NavigationLink } from "@/content/contracts";
 import { BrandMark } from "./BrandMark";
+import { Button } from "@/components/ui/button";
 export function NavbarClient({ links }: { links: NavigationLink[] }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const currentLocation = (href: string) => {
-    if (pathname === href) return "page" as const;
-    if (href !== "/" && pathname.startsWith(`${href}/`)) return "location" as const;
-    return undefined;
-  };
-
+  const toggle = useRef<HTMLButtonElement>(null);
+  const mobileNav = useRef<HTMLElement>(null);
+  const current = (href: string) =>
+    pathname === href
+      ? ("page" as const)
+      : href !== "/" && pathname.startsWith(href + "/")
+        ? ("location" as const)
+        : undefined;
   useEffect(() => {
-    const close = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+    if (!open) return;
+    mobileNav.current?.querySelector<HTMLAnchorElement>("a")?.focus();
+    const close = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggle.current?.focus();
+      }
     };
     addEventListener("keydown", close);
     return () => removeEventListener("keydown", close);
-  }, []);
-
+  }, [open]);
   return (
-    <header className="fixed inset-x-4 top-4 z-50">
-      <div className="mx-auto max-w-7xl border border-black/20 bg-[#f8f8f6]/95 px-5 py-3 backdrop-blur">
-        <div className="flex items-center justify-between">
-          <Link href="/" aria-label="Vurla home"><BrandMark className="h-8" showWordmark /></Link>
-          <nav className="hidden gap-8 md:flex">
-            {links.map((link) => (
-              <Link key={link.href} href={link.href} aria-current={currentLocation(link.href)} className={currentLocation(link.href) ? "font-semibold" : ""}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <button type="button" className="min-h-11 min-w-11 md:hidden" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen(!open)}>
-            {open ? <X /> : <Menu />}
-          </button>
-        </div>
-        {open && (
-          <nav className="flex flex-col gap-2 border-t pt-3 md:hidden">
-            {links.map((link) => (
-              <Link key={link.href} href={link.href} aria-current={currentLocation(link.href)} className={currentLocation(link.href) ? "font-semibold" : ""} onClick={() => setOpen(false)}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-        )}
+    <header className="site-header" role="banner">
+      <div className="header-row">
+        <Link className="brand-cell" href="/" aria-label="Vurla home">
+          <BrandMark className="h-8" showWordmark inverse />
+        </Link>
+        <span className="header-note kicker">Built with intention</span>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-current={current(link.href)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <Button
+          ref={toggle}
+          type="button"
+          variant="ghost"
+          className="menu-toggle"
+          aria-label="Toggle menu"
+          aria-controls="mobile-navigation"
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <X aria-hidden /> : <Menu aria-hidden />}
+        </Button>
       </div>
+      {open && (
+        <nav
+          ref={mobileNav}
+          id="mobile-navigation"
+          className="mobile-nav"
+          aria-label="Mobile navigation"
+        >
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-current={current(link.href)}
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }

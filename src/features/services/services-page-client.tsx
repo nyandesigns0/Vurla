@@ -1,84 +1,123 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight, CheckCircle } from "lucide-react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { ActionLink } from "@/components/ui/ActionLink";
+import { ChapterScrollBar } from "@/components/site/ChapterScrollBar";
 import type { Service } from "@/content/contracts";
-import { ServiceIcon } from "@/components/site/ServiceIcon";
+import { ServiceSheet } from "./service-sheet";
+import { ClosingChapter } from "@/components/site/ClosingChapter";
+import { GrainTexture } from "@/components/site/GrainTexture";
+import { PagePlate } from "@/components/site/PagePlate";
+import { PageSideBorders } from "@/components/site/PageSideBorders";
+import { PageBandMark } from "@/components/site/PageBandMark";
 
 export function ServicesPageClient({ services }: { services: Service[] }) {
-	return (
-		<div className="min-h-screen bg-background">
-			<section className="relative overflow-hidden py-32">
-				<div className="absolute inset-0 mesh-gradient opacity-30" />
-				<div className="section-container relative z-10">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8 }}
-						className="mx-auto max-w-3xl text-center"
-					>
-						<p className="text-body-sm-semibold mb-5 uppercase tracking-[0.2em] text-primary">What we do</p>
-						<h1 className="heading-section mb-6">
-							Designing spaces with <span className="text-gradient">purpose</span>
-						</h1>
-						<p className="text-xl leading-relaxed text-muted-foreground">
-							From first ideas to final installation, Vurla brings every part of the design process together.
-						</p>
-					</motion.div>
-				</div>
-			</section>
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const indexRef = useRef<HTMLElement>(null);
+  const browserRef = useRef<HTMLDivElement>(null);
 
-			<section className="border-y border-border bg-muted/30 py-20">
-				<div className="section-container">
-					<div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-						{services.map((service, index) => {
-							return (
-								<motion.article
-									key={service.title}
-									id={service.title.toLowerCase().replace(/\s+/g, "-")}
-									initial={{ opacity: 0, y: 24 }}
-									whileInView={{ opacity: 1, y: 0 }}
-									viewport={{ once: true }}
-									transition={{ duration: 0.5, delay: index * 0.08 }}
-									className="scroll-mt-28 rounded-2xl border-2 border-border bg-background p-7 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-xl"
-								>
-									<div className="mb-6 flex items-center gap-4">
-										<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-[var(--background)]">
-											<ServiceIcon name={service.icon} className="h-6 w-6" />
-										</div>
-										<h2 className="heading-card-sm">{service.title}</h2>
-									</div>
-									<ul className="space-y-3">
-										{service.subItems.map((item) => (
-											<li key={item.name} className="flex items-center gap-3 text-body-sm text-muted-foreground">
-												<CheckCircle className="h-4 w-4 shrink-0 text-primary" />
-												{item.name}
-											</li>
-										))}
-									</ul>
-								</motion.article>
-							);
-						})}
-					</div>
-				</div>
-			</section>
+  useEffect(() => {
+    let frame = 0;
+    const updateActiveSection = () => {
+      frame = 0;
+      const focusY = window.innerHeight / 2;
+      let centeredIndex: number | null = null;
 
-			<section
-				className="relative overflow-hidden py-28 text-white"
-				style={{ background: "linear-gradient(135deg, #171717 0%, #3d3d3d 55%, #141414 100%)" }}
-			>
-				<div className="section-container relative z-10 text-center">
-					<h2 className="heading-section mb-6">Have a project in mind?</h2>
-					<p className="mx-auto mb-10 max-w-2xl text-xl leading-relaxed text-white/90">
-						Tell us about your vision and we&apos;ll help find the right way forward.
-					</p>
-					<Button asChild size="lg" className="bg-white text-primary shadow-xl transition-transform hover:scale-105 hover:bg-white/90">
-						<Link href="/contact">Start a conversation <ArrowRight className="ml-2 h-4 w-4" /></Link>
-					</Button>
-				</div>
-			</section>
-		</div>
-	);
+      services.some((service, index) => {
+        const bounds = document.getElementById(service.id)?.getBoundingClientRect();
+        if (bounds && bounds.top <= focusY && bounds.bottom >= focusY) {
+          centeredIndex = index;
+          return true;
+        }
+        return false;
+      });
+
+      setActiveIndex(previous => previous === centeredIndex ? previous : centeredIndex);
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveSection);
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.cancelAnimationFrame(frame);
+    };
+  }, [services]);
+
+  useEffect(() => {
+    const index = indexRef.current;
+    const activeLink = activeIndex === null ? null : index?.querySelectorAll("a")[activeIndex];
+    if (!index || !activeLink || typeof index.scrollTo !== "function") return;
+    index.scrollTo({
+      left: activeLink.offsetLeft + activeLink.offsetWidth / 2 - index.clientWidth / 2,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    });
+  }, [activeIndex]);
+
+
+  return (
+    <div className="page page-family services-page">
+      <GrainTexture className="services-page-grain" />
+      <div className="services-lined-content">
+        <div className="services-opening-frame">
+          <PagePlate
+            index="02"
+            kicker="What we do"
+            title="Designing spaces with purpose"
+            crosshair
+          />
+          <PageSideBorders className="services-side-dividers" />
+        </div>
+        <div ref={browserRef} className="service-browser closing-chapter-source">
+        <nav ref={indexRef} className="service-index shell" aria-label="Service index">
+          <ol style={{ "--service-active-index": activeIndex ?? -1 } as CSSProperties}>
+            {services.map((service, index) => (
+              <li key={service.id}>
+                <a
+                  href={`#${service.id}`}
+                  aria-current={activeIndex === index ? "location" : undefined}
+                  onClick={() => setActiveIndex(index)}
+                >
+                  <span className="service-index-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="service-index-title">{service.title}</span>
+                  <svg className="service-index-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M6 6 18 18M18 8v10H8" />
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <div className="service-catalog-intro shell">
+          <GrainTexture className="service-catalog-intro-grain" />
+          <p>From first ideas to final installation, Vurla brings every part of the design process together.</p>
+          <PageBandMark />
+        </div>
+        <section className="service-catalog" aria-label="Our six services">
+        {services.map((service, index) => (
+          <ServiceSheet key={service.id} service={service} index={index} active={activeIndex === index} />
+        ))}
+        </section>
+        <ChapterScrollBar />
+        <PageSideBorders className="services-side-dividers services-side-dividers--catalog" />
+        </div>
+      </div>
+      <ClosingChapter
+        outgoingRef={browserRef}
+        headingId="services-closing-heading"
+        title={<>Have a project <span>in mind?</span></>}
+        body={<>Tell us about your vision and we&apos;ll help find the right way forward.</>}
+        actions={
+          <ActionLink href="/contact">
+            Start a conversation <ArrowRight size={16} />
+          </ActionLink>
+        }
+      />
+    </div>
+  );
 }

@@ -1,6 +1,6 @@
 # Vurla
 
-Vurla is a light-only Next.js design-practice site built around graphite, paper, mineral surfaces, hard edges, and Geist typography.
+Vurla is a Next.js design-practice site with one fixed dark architectural theme, six color primitives, square geometry, and Chakra Petch / Share Tech Mono typography.
 
 ## Routes
 
@@ -20,6 +20,8 @@ The Vurla design authority is [docs/architecture/design.md](docs/architecture/de
 
 ## Commands
 
+Use Node.js 22.12 or newer and install the locked dependencies with `npm ci`.
+
 ```bash
 npm run dev
 npm run lint
@@ -27,4 +29,16 @@ npm run typecheck
 npm run test
 npm run build
 npm run verify
+npx playwright install chromium
+npm run test:browser
 ```
+
+Stop the development server before running the production build or verification.
+Development uses `.next-dev`; production uses `.next`. The verification runner
+resolves tools from this checkout, including when launched from another folder.
+Browser checks start and stop their own production server on port 4100; set
+`BROWSER_BASE_URL` to check an already-running production server instead.
+
+Screenshots, recordings, and historical design experiments remain in ignored
+local archives under `output/` and the completed redesign evidence folders.
+Committed preservation fixtures and asset provenance remain self-contained.

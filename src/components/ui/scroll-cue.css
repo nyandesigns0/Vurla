@@ -1,0 +1,26 @@
+.scroll-cue-copy {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--scroll-cue-ink, var(--night)) 0 35%,
+    var(--scroll-cue-accent-a, var(--blue)) 45%,
+    var(--scroll-cue-accent-b, var(--red)) 55%,
+    var(--scroll-cue-ink, var(--night)) 65% 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  background-clip: text;
+  color: transparent;
+  animation: scroll-cue-scan 3.6s steps(8, end) infinite;
+}
+
+@keyframes scroll-cue-scan {
+  0%, 62% { background-position: 100% 0; }
+  90%, 100% { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-copy {
+    animation: none;
+  }
+}
