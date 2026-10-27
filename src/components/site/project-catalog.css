@@ -1,0 +1,513 @@
+/* Project catalog: one sticky control strip, partitioned disclosures and a joined card register. */
+.catalog-console {
+  position: sticky;
+  /* Same 58px rendered navigation height used by the Services index. */
+  top: calc(var(--ds-layout-gutter) + 58px);
+  z-index: 20;
+  border: var(--pf-rule) solid var(--mineral);
+  border-top: 0;
+  background: var(--night);
+}
+.catalog-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px 96px;
+  height: var(--pf-subnav-height);
+}
+.catalog-console .search-field {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  align-items: center;
+  min-width: 0;
+}
+.search-field-icon { display: grid; place-items: center; color: var(--mineral); }
+.catalog-console .search-field > .ui-input {
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--paper);
+  font: 400 16px / 1.4 var(--ds-font-sans);
+  text-overflow: ellipsis;
+}
+.catalog-console .search-field > .ui-button--icon {
+  min-width: 40px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+}
+.catalog-console .filter-disclosure-button,
+.catalog-console .filter-reset,
+.catalog-console .filter-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px;
+  border: 0;
+  border-radius: 0;
+  background: var(--night);
+  color: var(--paper);
+  font: 400 13px / 1.3 var(--ds-font-mono);
+  white-space: normal;
+  transition: background-color var(--ds-motion-fast), color var(--ds-motion-fast);
+}
+.catalog-console .filter-disclosure-button,
+.catalog-console .filter-reset { border-left: var(--pf-hair) solid var(--mineral); }
+.catalog-console .filter-disclosure-button,
+.catalog-console .filter-reset { height: 100%; min-height: 0; }
+.filter-action-icon { flex: none; }
+.filter-label-mobile { display: none; }
+.catalog-console .filter-reset { color: var(--mineral); }
+.catalog-console .filter-segment:hover,
+.catalog-console .filter-reset:hover,
+.catalog-console .filter-disclosure-button:is(:hover, [aria-expanded="true"]) { background: var(--blue); color: var(--paper); }
+.catalog-console .filter-segment[aria-pressed="true"] { background: var(--red); color: var(--paper); }
+.catalog-console .filter-service[aria-pressed="true"] { background: var(--blue); }
+.catalog-console :is(button, input):focus-visible { outline: 2px solid var(--paper); outline-offset: -4px; }
+.filter-toggle-chevron { flex: none; transition: transform var(--ds-motion-fast) var(--ds-motion-ease); }
+[aria-expanded="true"] > .filter-toggle-chevron { transform: rotate(180deg); }
+.filter-selection-count { font-size: 11px; }
+.catalog-filter-disclosure {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms var(--ds-motion-ease);
+}
+.catalog-filter-disclosure[data-open="true"] { grid-template-rows: 1fr; }
+.catalog-filter-clip { min-height: 0; overflow: hidden; }
+.catalog-filter-scroll {
+  max-height: min(50dvh, calc(100dvh - 58px - var(--ds-layout-gutter) - 64px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.filter-panel-content { animation: catalog-filter-enter 180ms var(--ds-motion-ease); }
+.filter-grid {
+  display: grid;
+  border-top: var(--pf-hair) solid var(--mineral);
+}
+.filter-category-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.catalog-console .filter-grid > .filter-segment {
+  border-right: var(--pf-hair) solid var(--mineral);
+}
+.catalog-console .filter-category-grid > :last-child { border-right: 0; }
+@keyframes catalog-filter-enter {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ----------------------------------------------------------------- status */
+
+.projects-page.page-family {
+  --projects-scroll-panel-height: clamp(6rem, 10vw, 10rem);
+  padding-top: 0;
+}
+
+.projects-page::before { content: none; }
+
+.projects-page .closing-chapter-source {
+  position: relative;
+  isolation: isolate;
+  background: var(--night);
+}
+
+.projects-page .closing-chapter-source > .projects-background-grain {
+  z-index: -1;
+}
+
+.projects-page .closing-chapter-source[data-closing-transition="covered"] .catalog-console {
+  visibility: hidden;
+}
+
+.projects-opening-frame {
+  position: relative;
+  isolation: isolate;
+  padding-top: calc(var(--ds-layout-header) + var(--ds-layout-gutter) * 2);
+}
+
+/* The stationary source owns the rails above the scroll cue, including the
+   sticky toolbar's vacated flow slot. The cue itself has no side borders. */
+.projects-source-sides.shell {
+  bottom: var(--projects-scroll-panel-height);
+}
+
+.projects-page .chapter-scroll-panel {
+  min-height: var(--projects-scroll-panel-height);
+}
+
+.catalog-results {
+  --catalog-results-gap: calc(var(--pf-catalog-inset) * 0.96);
+  position: relative;
+  padding-top: var(--catalog-results-gap);
+}
+
+.catalog-results::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--catalog-results-gap);
+  border-inline: var(--pf-rule) solid var(--mineral);
+  pointer-events: none;
+}
+
+.catalog-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 3.25rem;
+  padding: 0 1.25rem;
+  border: var(--pf-rule) solid var(--mineral);
+  border-bottom: 0;
+  background: var(--paper);
+  color: var(--night);
+}
+
+.catalog-status .result-count {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: 400 13px / 16px var(--ds-font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.catalog-status .result-count::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+}
+
+/* ------------------------------------------------------------------- grid */
+
+/* Dense packing also lets filtered editions close up without reserved slots. */
+.catalog-grid {
+  /* 30% taller than the previous clamp(18rem, 25vw, 22rem). */
+  --catalog-row-height: clamp(23.4rem, 32.5vw, 28.6rem);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: row dense;
+  gap: 0;
+  border-top: var(--pf-rule) solid var(--mineral);
+  border-left: var(--pf-rule) solid var(--mineral);
+  box-shadow: inset calc(-1 * var(--pf-rule)) calc(-1 * var(--pf-rule)) 0 var(--mineral);
+}
+
+.catalog-grid[data-layout="editorial"] {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: var(--catalog-row-height);
+}
+
+.catalog-grid[data-layout="editorial"] > .project-card { grid-column: span 4; }
+.catalog-grid[data-layout="editorial"] > [data-catalog-shape="portrait"] {
+  grid-column: 9 / span 4;
+  grid-row: 2 / span 2;
+}
+.catalog-grid[data-layout="editorial"] > [data-catalog-shape="medium"] { grid-column: span 6; }
+.catalog-grid[data-layout="editorial"] > [data-catalog-shape="wide"] { grid-column: span 8; }
+
+.catalog-grid[data-layout="editorial"] .project-card-image {
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+.catalog-grid[data-layout="editorial"] .project-card-copy { flex: none; }
+
+/* Stretch the last short row; never leave an empty corner after filtering. */
+@media (min-width: 1024px) {
+  .catalog-grid[data-layout="editorial"] > .project-card:nth-last-of-type(-n + 2) { border-bottom: 0; }
+  .catalog-grid[data-layout="regular"] { grid-auto-rows: var(--catalog-row-height); }
+  .catalog-grid[data-layout="regular"] .project-card-image { flex: 1; min-height: 0; aspect-ratio: auto; }
+  .catalog-grid[data-layout="regular"] .project-card-copy { flex: none; }
+  .catalog-grid[data-layout="regular"] > .project-card:last-of-type:nth-of-type(3n + 1) { grid-column: 1 / -1; }
+  .catalog-grid[data-layout="regular"]:has(> .project-card:last-of-type:nth-of-type(3n + 2)) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .catalog-grid[data-layout="regular"]:has(> .project-card:last-of-type:nth-of-type(3n + 2)) > .project-card { grid-column: span 2; }
+  .catalog-grid[data-layout="regular"]:has(> .project-card:last-of-type:nth-of-type(3n + 2)) > .project-card:nth-last-of-type(-n + 2) { grid-column: span 3; }
+
+  /* The photo fills its fixed-height tile so hiding a sibling caption reveals
+     the photo, rather than leaving an empty black footer. */
+  .catalog-grid[data-layout] > .project-card--catalog .project-card-image {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    border-bottom: 0;
+  }
+  .catalog-grid[data-layout] > .project-card--catalog .project-card-copy {
+    position: absolute;
+    z-index: 2;
+    inset: auto 0 0;
+    flex: none;
+  }
+}
+
+.project-card--catalog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-right: var(--pf-rule) solid var(--mineral);
+  border-bottom: var(--pf-rule) solid var(--mineral);
+  background: var(--night);
+  color: var(--paper);
+}
+
+/* A per-card veil can ease from its current value as the pointer crosses the
+   register, leaving a short trail without changing the active card's reveal. */
+.catalog-grid > .project-card--catalog::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--ds-motion-ease);
+}
+
+.project-card--catalog:focus-visible {
+  z-index: 1;
+  outline-offset: -5px;
+}
+
+.project-card--catalog .project-card-image {
+  aspect-ratio: 8 / 5;
+  flex: none;
+  border-bottom: var(--pf-hair) solid var(--mineral);
+  background: var(--graphite);
+}
+
+.project-card--catalog .project-card-image img {
+  transform: scale(1);
+  transition:
+    filter 260ms ease,
+    transform 340ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card--catalog .project-card-image img {
+    filter: grayscale(1) contrast(1.05);
+  }
+}
+
+.project-card--catalog:is(:hover:not([data-pointer-hover="false"]), :focus-visible, [data-pointer-hover="true"]) .project-card-image img {
+  filter: grayscale(0) contrast(1.02);
+  transform: scale(1.06);
+}
+
+.project-card--catalog .project-card-meta {
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 44px;
+  padding: 10px 1.25rem;
+  background: var(--blue);
+  color: var(--paper);
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 150ms var(--ds-motion-ease), transform 200ms var(--ds-motion-ease);
+  pointer-events: none;
+}
+.project-card--catalog:is(:hover:not([data-pointer-hover="false"]), :focus-visible, [data-pointer-hover="true"]) .project-card-meta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card--catalog .project-card-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.9rem;
+  overflow: hidden;
+  padding: 1rem 1.25rem 1.25rem;
+  background: var(--night);
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    background-color 200ms var(--ds-motion-ease),
+    opacity 380ms cubic-bezier(0.22, 0.8, 0.2, 1),
+    transform 380ms cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+
+.project-card--catalog:focus-visible .project-card-copy {
+  background: var(--blue);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card--catalog:is(:hover:not([data-pointer-hover="false"]), [data-pointer-hover="true"]) .project-card-copy {
+    background: var(--blue);
+  }
+}
+
+.project-card--catalog .project-card-category {
+  color: var(--paper);
+  font: 400 13px / 18px var(--ds-font-mono);
+  letter-spacing: 0.04em;
+}
+
+.project-card--catalog .project-card-year {
+  font: 400 13px / 18px var(--ds-font-mono);
+  letter-spacing: 0.1em;
+}
+
+.project-card-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+/* Keyboard focus shares the desktop hover hierarchy. The links and headings
+   remain available to assistive technology while sibling captions fade. */
+@media (min-width: 1024px) {
+  .catalog-grid:has(> .project-card--catalog:focus-visible) > .project-card--catalog:not(:focus-visible)::after {
+    opacity: 0.12;
+    transition-duration: 180ms;
+  }
+  .catalog-grid:has(> .project-card--catalog:focus-visible) > .project-card--catalog:not(:focus-visible) .project-card-copy {
+    opacity: 0;
+    transform: translateY(calc(100% + 1px));
+  }
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .catalog-grid:has(> .project-card--catalog:is(:hover:not([data-pointer-hover="false"]), [data-pointer-hover="true"])) > .project-card--catalog:not(:is(:hover:not([data-pointer-hover="false"]), :focus-visible, [data-pointer-hover="true"]))::after {
+    opacity: 0.12;
+    transition-duration: 160ms;
+  }
+  .catalog-grid:has(> .project-card--catalog:is(:hover:not([data-pointer-hover="false"]), [data-pointer-hover="true"])) > .project-card--catalog:not(:is(:hover:not([data-pointer-hover="false"]), :focus-visible, [data-pointer-hover="true"])) .project-card-copy {
+    opacity: 0;
+    transform: translateY(calc(100% + 1px));
+  }
+}
+
+.project-card--catalog h2 {
+  min-width: 0;
+  margin: 0;
+  font: 400 clamp(1.25rem, 1.8vw, 1.5rem) / 1.2 var(--ds-font-mono);
+  letter-spacing: -0.01em;
+}
+
+.project-card-indicator {
+  flex: none;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity 160ms var(--ds-motion-ease), transform 200ms var(--ds-motion-ease);
+}
+
+.project-card--catalog:is(:hover:not([data-pointer-hover="false"]), :focus-visible, [data-pointer-hover="true"]) .project-card-indicator {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+
+/* ------------------------------------------------------------ empty state */
+
+.catalog-results .empty-state {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(3rem, 7vw, 5rem) 1.5rem;
+  border: var(--pf-rule) solid var(--mineral);
+  text-align: center;
+}
+
+.catalog-results .empty-state .section-title {
+  font-size: clamp(2rem, 3.6vw, 3rem);
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 1023px) {
+  .catalog-grid[data-layout] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+  }
+  .catalog-grid[data-layout] > .project-card { grid-column: auto; grid-row: auto; }
+  .catalog-grid[data-layout] > .project-card:last-of-type:nth-of-type(odd) { grid-column: 1 / -1; }
+  .catalog-grid[data-layout] .project-card-image { flex: none; aspect-ratio: 8 / 6.8; }
+  .catalog-grid[data-layout] .project-card-copy { flex: 1; padding-block: 1.25rem 1.5rem; }
+}
+
+@media (max-width: 767px) {
+  .catalog-toolbar { grid-template-columns: minmax(0, 1fr) 88px 72px; }
+  .filter-label-desktop { display: none; }
+  .filter-label-mobile { display: inline; }
+  .catalog-console .search-field { grid-template-columns: 28px minmax(0, 1fr); position: relative; }
+  .catalog-console .search-field > .ui-input { font-size: 16px; }
+  .catalog-console .search-field:has(.ui-button--icon) { grid-template-columns: minmax(0, 1fr); }
+  .catalog-console .search-field:has(.ui-button--icon) .search-field-icon { display: none; }
+  .catalog-console .search-field:has(.ui-button--icon) > .ui-input { padding-right: 44px; }
+  .catalog-console .search-field > .ui-button--icon { position: absolute; right: 0; min-width: 44px; width: 44px; background: var(--night); }
+  .catalog-console .filter-disclosure-button,
+  .catalog-console .filter-reset { padding: 8px 4px; gap: 3px; font-size: 12px; }
+  .filter-action-icon { width: 13px; height: 13px; }
+  .filter-toggle-chevron { width: 10px; }
+  .filter-category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .catalog-console .filter-category-grid > .filter-segment { border-right: var(--pf-hair) solid var(--mineral); }
+  .catalog-console .filter-category-grid > :nth-child(3n) { border-right: 0; }
+  .catalog-console .filter-category-grid > :nth-child(n + 4) { border-top: var(--pf-hair) solid var(--mineral); }
+
+  .catalog-grid[data-layout] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-card--catalog .project-card-copy {
+    padding-inline: 1.25rem;
+  }
+}
+
+@media (max-width: 374px) {
+  .catalog-toolbar { grid-template-columns: minmax(0, 1fr) 80px 64px; }
+  .catalog-console .filter-disclosure-button,
+  .catalog-console .filter-reset { padding-inline: 3px; }
+  .catalog-console .search-field { grid-template-columns: minmax(0, 1fr); }
+  .catalog-console .search-field-icon { display: none; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .project-card--catalog .project-card-meta,
+  .project-card-indicator {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalog-grid > .project-card--catalog::after { transition: none; }
+
+  .project-card--catalog:is(:hover:not([data-pointer-hover="false"]), :focus-visible, [data-pointer-hover="true"]) .project-card-image img,
+  .project-card--catalog .project-card-meta,
+  .project-card--catalog .project-card-copy,
+  .project-card-indicator {
+    transform: none;
+  }
+
+  .catalog-console .filter-segment,
+  .catalog-console .filter-disclosure-button,
+  .catalog-console .filter-reset,
+  .filter-toggle-chevron,
+  .project-card--catalog .project-card-image img,
+  .project-card--catalog .project-card-copy,
+  .project-card--catalog .project-card-meta,
+  .project-card-indicator {
+    transition: none;
+  }
+
+  .catalog-filter-disclosure { transition: none; }
+  .filter-panel-content { animation: none; }
+}

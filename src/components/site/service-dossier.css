@@ -1,0 +1,690 @@
+/* Service dossier row
+   ----------------------------------------------------------------------------
+   One full-bleed record per service. The composition is authored against the
+   1440px reference drawing and expressed in `--su` units, where 1 `--su` equals
+   one pixel of that drawing.
+
+   Width contract: the readable composition is aligned to the canonical `.shell`
+   container, so the dossier shares its gutters and max width with the navigation
+   bar, the statistics bar and the footer. Everything outside the shell is filled
+   by the adjacent panel's own colour - night on the identity and register
+   sides - so the row still reads as one full-bleed band.
+
+   The top rail uses the footer's shared technical rail geometry and sizes
+   (see technical-rail.css), with dossier-specific marks and colours. */
+
+.service-dossier {
+  position: relative;
+  /* the bleed layers reach past the row; clip rather than scroll */
+  overflow-x: clip;
+  container-type: inline-size;
+  --su: min(1px, 0.0694444cqi);
+  --dossier-rail-height: calc(var(--f-bar) + var(--f-mark) + 0.22rem + 4px);
+
+  /* Shell geometry, restated here so the rail can place its marks on the same
+     column boundaries the grid beneath it uses. `100%` resolves against the row,
+     which is full-bleed, exactly like the rail. */
+  --dossier-content: min(100% - var(--ds-layout-gutter) * 2, var(--ds-layout-shell));
+  --dossier-inset: calc((100% - var(--dossier-content)) / 2);
+  /* 1.23fr / 1fr / 2.03fr, taken off the reference drawing */
+  --dossier-x-panel: calc(var(--dossier-inset) + var(--dossier-content) * 0.2887);
+  --dossier-x-split: calc(var(--dossier-inset) + var(--dossier-content) * 0.5235);
+  /* The capability divider splits the padded register, not the bare grid cell. */
+  --dossier-x-register: calc(
+    var(--dossier-inset) + var(--dossier-content) * 0.7617370892 + var(--dossier-pad-x) * 0.5
+  );
+
+  --dossier-pad-x: calc(33 * var(--su));
+  --dossier-pad-y: calc(40 * var(--su));
+  --dossier-heading-pad-top: 38px;
+  --dossier-title-rule-gap: 18px;
+  --dossier-hairline: 1px;
+  --dossier-rule-blue: color-mix(in srgb, var(--paper) 42%, transparent);
+  --dossier-rule-register: color-mix(in srgb, var(--paper) 40%, transparent);
+  --dossier-grid-line: color-mix(in srgb, var(--paper) 10%, transparent);
+  --dossier-blue-surface: var(--blue);
+
+  /* arrangement: the marks sit on the composition's column boundaries */
+  --f-contact-start: var(--dossier-x-panel);
+  --f-work-start: var(--dossier-x-register);
+  --f-chip-start: var(--dossier-x-split);
+  --f-tick-a-start: calc(var(--dossier-x-panel) - 6%);
+  --f-tick-b-start: calc(var(--dossier-x-register) - 6%);
+  /* Dossier colours are independent of the footer's shared rail geometry. */
+  --rail-ink: var(--blue);
+  --rail-tick-a: var(--red);
+  --rail-tick-b: var(--red);
+  --rail-notch-a: var(--blue);
+  --rail-notch-b: var(--blue);
+  --rail-chip: var(--paper);
+  --rail-punch: var(--night);
+
+  display: block;
+  color: var(--paper);
+}
+
+/* ----------------------------------------------------------------- top rail */
+
+.dossier-rail.tech-rail {
+  /* Keep the shared mark sizes, but place the beam flush with each row's top. */
+  --f-rail: var(--dossier-rail-height);
+  --f-gap: calc(var(--f-rail) - var(--f-bar));
+  background: var(--night);
+}
+
+/* Omit the chip's upper stroke in service rows; the footer keeps it. */
+.dossier-rail .trm-chip::before {
+  content: none;
+}
+
+/* The rail's paper hairline clears each mark against the night field. */
+.dossier-rail::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(var(--f-gap) - 0.22rem - 2px);
+  height: 2px;
+  --dossier-gap-a-start: calc(var(--dossier-x-panel) - 6.6%);
+  --dossier-gap-a-end: calc(var(--dossier-x-panel) + var(--f-notch) * 0.95 + var(--f-line-clearance));
+  --dossier-gap-b-start: calc(var(--dossier-x-register) - 6.6%);
+  --dossier-gap-b-end: calc(var(--dossier-x-register) + var(--f-notch) * 0.95 + var(--f-line-clearance));
+  background: linear-gradient(
+    90deg,
+    var(--paper) 0 var(--dossier-gap-a-start),
+    transparent var(--dossier-gap-a-start) var(--dossier-gap-a-end),
+    var(--paper) var(--dossier-gap-a-end) calc(var(--dossier-x-split) - var(--f-line-clearance)),
+    transparent calc(var(--dossier-x-split) - var(--f-line-clearance))
+      calc(var(--dossier-x-split) + var(--f-mark) + var(--f-line-clearance)),
+    var(--paper) calc(var(--dossier-x-split) + var(--f-mark) + var(--f-line-clearance))
+      var(--dossier-gap-b-start),
+    transparent var(--dossier-gap-b-start) var(--dossier-gap-b-end),
+    var(--paper) var(--dossier-gap-b-end) 100%
+  );
+}
+
+/* ---------------------------------------------------------------- the frame */
+
+/* `.shell` supplies the width contract; this rule only lays out the panels. */
+.dossier-frame {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.23fr 1fr 2.03fr;
+  /* Tall enough for a two-line title until the desktop row cap applies. */
+  min-height: calc(368 * var(--su));
+}
+
+/* Each panel paints its own bleed into the gutter beside it, so the colours run
+   edge to edge while the type stays on the shell. */
+.dossier-identity::before,
+.dossier-identity::after,
+.dossier-statement::before,
+.dossier-statement::after,
+.dossier-capabilities::before,
+.dossier-capabilities::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 100vw;
+  pointer-events: none;
+}
+
+.dossier-identity::before { right: 100%; background: var(--night); }
+.dossier-capabilities::after { left: 100%; background: var(--night); }
+/* the remaining bleeds only matter once the panels stack and a panel gains a
+   new outer edge; each breakpoint below turns on exactly the ones it needs */
+.dossier-identity::after,
+.dossier-statement::before,
+.dossier-statement::after,
+.dossier-capabilities::before { display: none; }
+
+.dossier-statement::before,
+.dossier-statement::after {
+  transition: background-color var(--ds-motion-fast, 160ms ease);
+}
+
+/* ----------------------------------------------------------- identity panel */
+
+.dossier-identity {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: var(--dossier-pad-y) var(--dossier-pad-x) calc(30 * var(--su)) 0;
+  padding-top: var(--dossier-heading-pad-top);
+  background: var(--night);
+}
+
+.dossier-title {
+  position: relative;
+  margin: 0;
+  font: 600 calc(40 * var(--su)) / 1.16 var(--ds-font-mono);
+  letter-spacing: calc(-0.5 * var(--su));
+  color: var(--paper);
+  overflow-wrap: break-word;
+}
+
+.dossier-title-link {
+  display: inline-block;
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dossier-title-link:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 4px;
+}
+
+/* The title keeps its existing short divider, not the footer link's underline. */
+.dossier-title-link.footer-scan-link::after {
+  content: none;
+}
+
+.dossier-title-label {
+  display: block;
+}
+
+.dossier-title-scan {
+  position: absolute;
+  inset: 0;
+}
+
+/* the short red underscore under the opening characters of the title */
+.dossier-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(100% + var(--dossier-title-rule-gap));
+  width: calc(98 * var(--su));
+  height: calc(6 * var(--su));
+  background: var(--red);
+}
+
+.dossier-subtitle {
+  margin: calc(2 * var(--dossier-title-rule-gap) + 6 * var(--su)) 0 calc(24 * var(--su));
+  max-width: 24ch;
+  font: 400 calc(17 * var(--su)) / 1.38 var(--ds-font-mono);
+  color: var(--paper);
+}
+
+.dossier-cta {
+  position: relative;
+  align-self: flex-start;
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(14 * var(--su));
+  min-height: 44px;
+  padding-block: calc(10 * var(--su));
+  padding-right: 0;
+  color: var(--paper);
+  font: 400 calc(17 * var(--su)) / 1 var(--ds-font-mono);
+}
+
+.dossier-cta-arrow {
+  flex: none;
+  width: calc(18 * var(--su));
+  height: calc(18 * var(--su));
+  color: var(--paper);
+  transition: transform var(--ds-motion-fast, 160ms ease);
+}
+
+.dossier-statement:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: -4px;
+}
+
+/* ---------------------------------------------------------- statement panel */
+
+.dossier-statement {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0;
+  color: var(--paper);
+  text-decoration: none;
+  cursor: pointer;
+  border: var(--dossier-hairline) solid var(--night);
+  background-color: var(--dossier-blue-surface);
+}
+
+.dossier-statement-viewport {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Match the Services number tiles: two complete faces push vertically together. */
+.dossier-statement-face {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: var(--dossier-pad-y) var(--dossier-statement-pad-right, var(--dossier-pad-x)) var(--dossier-statement-pad-bottom, calc(38 * var(--su))) var(--dossier-pad-x);
+  padding-top: var(--dossier-heading-pad-top);
+  background-image:
+    linear-gradient(90deg, var(--dossier-grid-line) var(--dossier-hairline), transparent var(--dossier-hairline)),
+    linear-gradient(180deg, var(--dossier-grid-line) var(--dossier-hairline), transparent var(--dossier-hairline));
+  background-position: 0 0;
+  background-size: calc(34 * var(--su)) calc(34 * var(--su));
+  background-color: var(--dossier-blue-surface);
+  transform: translateY(0);
+  transition: transform var(--ds-motion-base) var(--ds-motion-ease);
+}
+
+.dossier-statement-face--active {
+  position: absolute;
+  inset: 0;
+  background-color: var(--red);
+  transform: translateY(-100%);
+}
+
+.dossier-statement:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"]) .dossier-statement-face--rest {
+  transform: translateY(100%);
+}
+
+.dossier-statement:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"]) .dossier-statement-face--active {
+  transform: translateY(0);
+}
+
+.dossier-statement-media {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--dossier-image-tint, var(--blue));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ds-motion-fast, 160ms ease), background-color var(--ds-motion-fast, 160ms ease);
+}
+
+.dossier-statement-media img {
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15);
+  mix-blend-mode: luminosity;
+}
+
+/* Darken the revealed photo uniformly so the white numeral and link stay legible. */
+.dossier-statement-media::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: color-mix(in srgb, var(--night) 60%, transparent);
+  pointer-events: none;
+}
+
+.service-dossier:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"]) .dossier-statement-media {
+  opacity: 1;
+}
+
+.dossier-statement-face--active .dossier-statement-media {
+  --dossier-image-tint: var(--red);
+  opacity: 1;
+}
+
+.dossier-numeral {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-top: 0;
+  font: 400 calc(150 * var(--su)) / 0.8 var(--ds-font-mono);
+  letter-spacing: calc(4 * var(--su));
+  color: transparent;
+  -webkit-text-stroke: calc(1.6 * var(--su)) var(--paper);
+  transform-origin: center top;
+  transition: transform var(--ds-motion-fast, 160ms ease);
+}
+
+.dossier-statement:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"]) .dossier-numeral {
+  transform: scale(1.05);
+}
+
+.dossier-statement:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"]) .dossier-cta-arrow {
+  transform: translate(2px, -2px) scale(1.18);
+}
+
+.dossier-cta {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep the full-bleed field the same colour as the hovered statement on stacked layouts. */
+.dossier-statement:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"])::before,
+.dossier-statement:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"])::after {
+  background-color: var(--red);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dossier-statement,
+  .dossier-statement-face,
+  .dossier-statement-media,
+  .dossier-statement::before,
+  .dossier-statement::after,
+  .dossier-numeral,
+  .dossier-cta-arrow {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------ capability register */
+
+.dossier-capabilities {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: calc(26 * var(--su)) 0 calc(26 * var(--su)) var(--dossier-pad-x);
+  list-style: none;
+  background: var(--night);
+  color: var(--paper);
+}
+
+.dossier-capability {
+  --cap-gap-l: calc(26 * var(--su));
+  --cap-gap-r: calc(26 * var(--su));
+  position: relative;
+  min-height: calc(88 * var(--su));
+  box-sizing: border-box;
+}
+
+.dossier-capability-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: calc(18 * var(--su));
+  width: 100%;
+  min-height: inherit;
+  box-sizing: border-box;
+  padding: calc(10 * var(--su)) var(--cap-gap-r) calc(10 * var(--su)) var(--cap-gap-l);
+  color: inherit;
+  text-decoration: none;
+}
+
+.dossier-capability-link:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: -2px;
+}
+
+/* The title's scan, without an extra underline over the register's own rules. */
+.dossier-capability-link.footer-scan-link::after {
+  content: none;
+}
+
+.dossier-capability-link:active .footer-scan-base {
+  opacity: .18;
+}
+
+.dossier-capability-link:active .footer-scan-band {
+  clip-path: inset(var(--band-top) 0 var(--band-bottom) 0);
+  transform: none;
+}
+
+/* one continuous interior rule between the two register columns */
+.dossier-capability:nth-child(odd) {
+  --cap-gap-l: 0px;
+  border-right: var(--dossier-hairline) solid var(--dossier-rule-register);
+}
+
+.dossier-capability:nth-child(even) {
+  --cap-gap-r: 0px;
+}
+
+/* row rule with a red square terminal, under every row but the last */
+.dossier-capability::before {
+  content: "";
+  position: absolute;
+  left: var(--cap-gap-l);
+  right: var(--cap-gap-r);
+  bottom: 0;
+  height: var(--dossier-hairline);
+  background: var(--dossier-rule-register);
+}
+
+.dossier-capability::after {
+  content: "";
+  position: absolute;
+  right: var(--cap-gap-r);
+  bottom: calc(-2.5 * var(--su));
+  width: calc(6 * var(--su));
+  height: calc(6 * var(--su));
+  background: var(--red);
+}
+
+.dossier-capability:nth-child(n + 5)::before,
+.dossier-capability:nth-child(n + 5)::after {
+  content: none;
+}
+
+.dossier-capability-icon {
+  flex: none;
+  width: calc(50 * var(--su));
+  height: calc(50 * var(--su));
+  color: color-mix(in srgb, var(--blue) 45%, var(--paper));
+  transition: color var(--ds-motion-fast);
+}
+
+.dossier-capability-link:is(:hover, :focus-visible, :active) .dossier-capability-icon {
+  color: var(--red);
+}
+
+.dossier-capability-copy {
+  position: relative;
+  min-width: 0;
+  font: 400 calc(17 * var(--su)) / 1.3 var(--ds-font-mono);
+}
+
+.dossier-capability-label {
+  display: block;
+  min-width: 0;
+  color: var(--paper);
+}
+
+.dossier-capability-scan {
+  position: absolute;
+  inset: 0;
+}
+
+/* Keep titles, numbers, and the rail solid. The blue field rests at 35% over
+   night; supporting copy waits at half opacity for whole-row hover. */
+@media (hover: hover) and (pointer: fine) {
+  .service-dossier {
+    --dossier-detail-opacity: 0.5;
+    --dossier-blue-surface: color-mix(in srgb, var(--blue) 35%, var(--night));
+  }
+
+  .service-dossier:is(:hover:not([data-pointer-hover="false"]), :focus-within, [data-pointer-hover="true"]) {
+    --dossier-detail-opacity: 1;
+    --dossier-blue-surface: var(--blue);
+  }
+
+  .service-dossier :is(.dossier-subtitle, .dossier-cta, .dossier-capability),
+  .service-dossier .dossier-title::after {
+    opacity: var(--dossier-detail-opacity);
+    transition: opacity var(--ds-motion-fast, 160ms ease);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-dossier :is(.dossier-subtitle, .dossier-cta, .dossier-capability),
+  .service-dossier .dossier-title::after {
+    transition: none;
+  }
+}
+
+/* Keep the desktop row within 300px without clipping its labels or register. */
+@media (min-width: 1024px) {
+  .service-dossier {
+    --dossier-pad-y: calc(24 * var(--su));
+    max-height: 300px;
+  }
+
+  .dossier-frame {
+    height: calc(300px - var(--dossier-rail-height));
+    min-height: 0;
+  }
+
+  .dossier-identity {
+    padding-bottom: calc(16 * var(--su));
+  }
+
+  .dossier-subtitle {
+    margin-bottom: calc(12 * var(--su));
+  }
+
+  .dossier-statement {
+    --dossier-statement-pad-bottom: calc(24 * var(--su));
+  }
+
+  .dossier-capabilities {
+    padding-block: calc(20 * var(--su));
+  }
+
+  .dossier-capability {
+    min-height: calc(70 * var(--su));
+  }
+}
+
+/* --------------------------------------------------------------- responsive */
+
+/* Tablet and below: the register moves under the editorial panels. The night
+   rail keeps one blue notch over the remaining column boundary. */
+@media (max-width: 1023px) {
+  .service-dossier {
+    --su: min(1px, 0.1cqi);
+    --dossier-x-split: 100%;
+    /* 1.23fr of 2.23fr - the editorial divider, now the only column boundary */
+    --dossier-x-panel: calc(var(--dossier-inset) + var(--dossier-content) * 0.5516);
+  }
+
+  .trm-chip,
+  .trm-tick-b,
+  .trm-notch-b {
+    display: none;
+  }
+
+  .dossier-rail::after {
+    background: linear-gradient(
+      90deg,
+      var(--paper) 0 var(--dossier-gap-a-start),
+      transparent var(--dossier-gap-a-start) var(--dossier-gap-a-end),
+      var(--paper) var(--dossier-gap-a-end) 100%
+    );
+  }
+
+  .dossier-frame {
+    grid-template-columns: 1.23fr 1fr;
+    min-height: 0;
+  }
+
+  .dossier-identity,
+  .dossier-statement {
+    min-height: calc(290 * var(--su));
+  }
+
+  .dossier-statement {
+    --dossier-statement-pad-right: 0px;
+  }
+
+  .dossier-statement::after {
+    display: block;
+    left: 100%;
+    background: var(--dossier-blue-surface);
+  }
+
+  .dossier-capabilities {
+    grid-column: 1 / -1;
+    padding-block: calc(24 * var(--su));
+    border-top: var(--dossier-hairline) solid var(--dossier-rule-register);
+  }
+
+  .dossier-capabilities::before {
+    display: block;
+    right: 100%;
+    background: var(--night);
+  }
+}
+
+/* Phone: one column throughout. */
+@media (max-width: 767px) {
+  .service-dossier {
+    --su: min(1px, 0.2cqi);
+    --dossier-x-panel: calc(var(--dossier-inset) + var(--dossier-content) * 0.5);
+  }
+
+  .dossier-frame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dossier-identity {
+    padding-right: 0;
+  }
+
+  /* stacked full-width panels, so every editorial panel owns both gutters */
+  .dossier-identity::after {
+    display: block;
+    left: 100%;
+    background: var(--night);
+  }
+
+  .dossier-statement::before {
+    display: block;
+    right: 100%;
+    background: var(--dossier-blue-surface);
+  }
+
+  .dossier-identity,
+  .dossier-statement {
+    min-height: 0;
+  }
+
+  .dossier-statement {
+    --dossier-statement-pad-bottom: calc(34 * var(--su));
+  }
+
+  .dossier-numeral {
+    font-size: calc(112 * var(--su));
+  }
+
+  .dossier-cta {
+    margin-top: calc(32 * var(--su));
+  }
+
+  .dossier-capabilities {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: var(--dossier-pad-x);
+  }
+
+  .dossier-capability {
+    --cap-gap-l: 0px;
+    --cap-gap-r: 0px;
+    min-height: 56px;
+  }
+
+  .dossier-capability:nth-child(odd) {
+    border-right: 0;
+  }
+
+  /* every row but the final one keeps its rule */
+  .dossier-capability:nth-child(n + 5)::before,
+  .dossier-capability:nth-child(n + 5)::after {
+    content: "";
+  }
+
+  .dossier-capability:last-child::before,
+  .dossier-capability:last-child::after {
+    content: none;
+  }
+}

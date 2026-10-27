@@ -1,0 +1,272 @@
+[
+  {
+    "file": "public/brand/project-end-mark.svg",
+    "bytes": 552,
+    "sha256": "22a98e1327e6895d0c73b993d8139481ac2aa17756df25ef699c0315157d55c6"
+  },
+  {
+    "file": "public/brand/vurla-lockup.svg",
+    "bytes": 533,
+    "sha256": "681c4bc161b311a541e79d9423c71a9b2baeac061d13c4410a08bfd0ed45221b"
+  },
+  {
+    "file": "public/brand/vurla-mark-inverse.svg",
+    "bytes": 326,
+    "sha256": "89a13cd9da907ae2949dd30d42974ea911be0eba1f17ca492420640ef4ecbe86"
+  },
+  {
+    "file": "public/brand/vurla-mark-mono.svg",
+    "bytes": 341,
+    "sha256": "52f6218830bd6d3e8e42ac5af5bf1fc00ac654ac18ed350497c40426c8a9f85a"
+  },
+  {
+    "file": "public/brand/vurla-mark.svg",
+    "bytes": 326,
+    "sha256": "d2316b37968d469898e70bcebce78452e6ec0e94cbc540465c8cc7de759e3b19"
+  },
+  {
+    "file": "public/icons/statistics/awards-generated-r2.svg",
+    "bytes": 33973,
+    "sha256": "3351ae3a7a89ee062684535e79805ae7f80c0ffedc846daecb1e6c340828adcc"
+  },
+  {
+    "file": "public/icons/statistics/experience-generated-r2.svg",
+    "bytes": 13493,
+    "sha256": "1f989ad7a3b2a9e447565a9d0006b8505fcdc82211b6b4649d5eaf969a204c8f"
+  },
+  {
+    "file": "public/icons/statistics/projects-generated-r2.svg",
+    "bytes": 41529,
+    "sha256": "d57ee2c17ef05ae66c53fa2d3a713ea62e191a627cbc8d57c639a17328198482"
+  },
+  {
+    "file": "public/icons/statistics/satisfaction-generated-r2.svg",
+    "bytes": 32597,
+    "sha256": "b2fb196fae839b12db1e214d6b53845b8300a51a7e129230921793fdfd1dbefe"
+  },
+  {
+    "file": "public/media/services/architecture.webp",
+    "bytes": 246712,
+    "sha256": "f30153bfb81f0f2efbfaa82caf1a1c981e0fcd3e10164df6654d24278e91b01f"
+  },
+  {
+    "file": "public/media/services/capabilities/architecture-building-permits-v2.webp",
+    "bytes": 226990,
+    "sha256": "14d1b148a2cc5e60778f8522f0e4031c50dc04baf4223f8e73f906ab19b3cddb"
+  },
+  {
+    "file": "public/media/services/capabilities/architecture-conceptual-design-v4.webp",
+    "bytes": 233058,
+    "sha256": "935f722eceaba7955d24b2726368dfbb31944fba92a679d7bbabc6e2f20f224d"
+  },
+  {
+    "file": "public/media/services/capabilities/architecture-construction-documents-v1.webp",
+    "bytes": 280312,
+    "sha256": "1af60a25c93e96b6e5b32a88d0c1b964b7b3c7e67ff6ddd7f7b40725f33f25f3"
+  },
+  {
+    "file": "public/media/services/capabilities/architecture-design-development-v1.webp",
+    "bytes": 252658,
+    "sha256": "fb288c23cc31e70b22c9c791bc3cb856e55d4a01e477f4f1103827d4bf9b2d4b"
+  },
+  {
+    "file": "public/media/services/capabilities/architecture-schematic-design-v1.webp",
+    "bytes": 213348,
+    "sha256": "5eced511085c2ce994a913cd4a5dd275ab5a36f6c76e51a238b0a71cfd1a0b2d"
+  },
+  {
+    "file": "public/media/services/capabilities/architecture-space-programming-v3.webp",
+    "bytes": 228484,
+    "sha256": "6c16ca014971ca67419f08debd3aff3d0c2318c842c9b6fdec79b4c522c7cf27"
+  },
+  {
+    "file": "public/media/services/capabilities/construction-construction-documentation-v2.webp",
+    "bytes": 241318,
+    "sha256": "344ecd8233f133bca60a027cee4d5c6b58b4ff11b4a5a2696f944a9f9871d7be"
+  },
+  {
+    "file": "public/media/services/capabilities/construction-contract-administration-v2.webp",
+    "bytes": 225042,
+    "sha256": "d06ba73cda80dabb9664f1b484afb1d9dd626ad400420b87e8a1b04699c0859f"
+  },
+  {
+    "file": "public/media/services/capabilities/construction-cost-estimation-v2.webp",
+    "bytes": 155016,
+    "sha256": "5b490f23f6c90f7e881806922635a267176a6b101b302a82b74721b4744c0031"
+  },
+  {
+    "file": "public/media/services/capabilities/construction-project-management-v2.webp",
+    "bytes": 302700,
+    "sha256": "308b0e556e84fa11f148df88ea7a27698bb43666cbf279ad13747e2914612660"
+  },
+  {
+    "file": "public/media/services/capabilities/construction-quality-control-v3.webp",
+    "bytes": 411638,
+    "sha256": "f1e25806c374dad77df9a1f680011341c0ff04bbdb0d35bed0c1f0af5a1dcb06"
+  },
+  {
+    "file": "public/media/services/capabilities/construction-site-supervision-v1.webp",
+    "bytes": 551740,
+    "sha256": "fdeb71a10848e8a847db1cc987e5c4615f7e9796bbcaa4f5e9f91290210db183"
+  },
+  {
+    "file": "public/media/services/capabilities/digital-3d-visualization-v3.webp",
+    "bytes": 198582,
+    "sha256": "aef96cdd4d2ec5de22204c56a9b0e2cf4dc634ba416b68e90d3638abcfb80b94"
+  },
+  {
+    "file": "public/media/services/capabilities/digital-ai-integration-v2.webp",
+    "bytes": 157184,
+    "sha256": "4f4b2e778eb1d70a3e4f4ee24d0bd70ecbc798cee87b40ad0b967e07419c9f86"
+  },
+  {
+    "file": "public/media/services/capabilities/digital-bim-services-v1.webp",
+    "bytes": 410456,
+    "sha256": "61c5f7c14f567ed1ef0624bada2e954e0c42483db8ef4564ea15b1c128579096"
+  },
+  {
+    "file": "public/media/services/capabilities/digital-custom-scripting-v2.webp",
+    "bytes": 257032,
+    "sha256": "1e62898927c7f86785ff672ab5baf9c245271c4e6d68a616ab4433a046a4992f"
+  },
+  {
+    "file": "public/media/services/capabilities/digital-digital-fabrication-v3.webp",
+    "bytes": 227934,
+    "sha256": "d180a2a7a07dfed27cbbb09a0d08abaa3e762c899eca3bac181363b1654fe913"
+  },
+  {
+    "file": "public/media/services/capabilities/digital-vr-walkthroughs-v1.webp",
+    "bytes": 253618,
+    "sha256": "1934a052c33195c18f263aae9285bc04c7c1395631ab73185ced9d7f335f22d3"
+  },
+  {
+    "file": "public/media/services/capabilities/fabrication-custom-furniture-v1.webp",
+    "bytes": 131576,
+    "sha256": "5133b341e48871ac243f2eb1408d9ef5981584ec871abf378921c9a85acfb6bb"
+  },
+  {
+    "file": "public/media/services/capabilities/fabrication-finishing-installation-v1.webp",
+    "bytes": 170522,
+    "sha256": "bd6c74a56fa62677d737095a1e3bf2df0cfa5d1c149e760a1ae8fdf4f9948fa8"
+  },
+  {
+    "file": "public/media/services/capabilities/fabrication-joinery-v4.webp",
+    "bytes": 281414,
+    "sha256": "123ecc26ab91102c533557141a7ecb815728eddc5ca68e7b4329dff8616b663b"
+  },
+  {
+    "file": "public/media/services/capabilities/fabrication-metalwork-v1.webp",
+    "bytes": 165346,
+    "sha256": "b1ad055e18ced1170c79785e3dda4bcca5fdb1f3e1deff7fc7d1d775ae4f5786"
+  },
+  {
+    "file": "public/media/services/capabilities/fabrication-millwork-v1.webp",
+    "bytes": 229422,
+    "sha256": "0f90044ed92c44969d8408ddb2d25acdbe4369b26d95e96aeef3430b22ec5d4a"
+  },
+  {
+    "file": "public/media/services/capabilities/fabrication-prototyping-v1.webp",
+    "bytes": 228672,
+    "sha256": "e84ec1d3ab1a8369227cd0e76c0a39de6ac2fd149e8e6aa8d0ebed76aba0baa5"
+  },
+  {
+    "file": "public/media/services/capabilities/interior-color-consultation-v2.webp",
+    "bytes": 104342,
+    "sha256": "752cf19f22feb020b8ca3088645b7d23c7dc19168271bb10741f452fa43a0885"
+  },
+  {
+    "file": "public/media/services/capabilities/interior-ffe-specification-v2.webp",
+    "bytes": 170788,
+    "sha256": "a6d7ecb7a0adcb16a3a2f1af0ab0f9c376d21a58d06e1f086f3ec40bd42e2bef"
+  },
+  {
+    "file": "public/media/services/capabilities/interior-interior-styling-v1.webp",
+    "bytes": 227498,
+    "sha256": "0831884f02314f1293eecc8bf078b5f3b75953efa34f27a784c85280fec87e81"
+  },
+  {
+    "file": "public/media/services/capabilities/interior-lighting-design-v2.webp",
+    "bytes": 114900,
+    "sha256": "ccd68e1e813ed00d310c31325f197f488c1589fa4f06c965f67b4c2b15c4c2a9"
+  },
+  {
+    "file": "public/media/services/capabilities/interior-material-selection-v4.webp",
+    "bytes": 162704,
+    "sha256": "616af3e19f8b17b8009684dd37bd251abda09e171736e3c920e164967ea42385"
+  },
+  {
+    "file": "public/media/services/capabilities/interior-space-planning-v1.webp",
+    "bytes": 174948,
+    "sha256": "bcc1156d5ae93139256add853abc2eb3a222c7507fa67899272cba7a1157f2bb"
+  },
+  {
+    "file": "public/media/services/capabilities/landscape-hardscape-design-v1.webp",
+    "bytes": 519674,
+    "sha256": "5e7e97de1df1b5a20e739660213a0009f7437f0bc3fdba6bde154a05070202fa"
+  },
+  {
+    "file": "public/media/services/capabilities/landscape-irrigation-systems-v2.webp",
+    "bytes": 442308,
+    "sha256": "4ebf31ac0f535f9b1df13fe49e897be610a7a0016e188a1ea813f5db21ea91dc"
+  },
+  {
+    "file": "public/media/services/capabilities/landscape-planting-design-v3.webp",
+    "bytes": 437344,
+    "sha256": "1f8cae74ec5a352d5bdcaa764ab44f11fa7244af459136db9c1e3c4f4f2c97e7"
+  },
+  {
+    "file": "public/media/services/capabilities/landscape-playground-design-v2.webp",
+    "bytes": 508808,
+    "sha256": "4cacef1229ecc848a57ea3c4db3ecf567a518ee331b1384c1058e3c0435f2f85"
+  },
+  {
+    "file": "public/media/services/capabilities/landscape-site-planning-v2.webp",
+    "bytes": 247016,
+    "sha256": "66e36046d3d8cf699f407530a17d8fe588739a3d06575d6f282ca91f0ed720cb"
+  },
+  {
+    "file": "public/media/services/capabilities/landscape-sustainable-landscapes-v2.webp",
+    "bytes": 503074,
+    "sha256": "7a10940210b05d17a9e997c7e3fff72f9aee3d9c3040135d7d18575b03e4c94e"
+  },
+  {
+    "file": "public/media/services/construction-default-v2.webp",
+    "bytes": 224948,
+    "sha256": "9e631f6f5a19c7cbb2c44177c300559423a8188d5d9c494b04ec2a3da6e95386"
+  },
+  {
+    "file": "public/media/services/construction.webp",
+    "bytes": 317828,
+    "sha256": "15fe229af40da91dcccefc869b7be7e48e8745ea51abc4a01338a065ddeadbfd"
+  },
+  {
+    "file": "public/media/services/digital-solutions.webp",
+    "bytes": 205294,
+    "sha256": "9205e18224a249d0c3898f8536a70e1cee6c6864c0efbb458d70d7c656441121"
+  },
+  {
+    "file": "public/media/services/fabrication.webp",
+    "bytes": 227740,
+    "sha256": "059892c7eca0dbf3b73352335838ea64820d5fda0727b219f335f820c6c44728"
+  },
+  {
+    "file": "public/media/services/interior.webp",
+    "bytes": 126892,
+    "sha256": "05c557e56094c3db3b0afb4f15fec115387396fc317942820f53c26fdd214ddb"
+  },
+  {
+    "file": "public/media/services/landscape.webp",
+    "bytes": 474056,
+    "sha256": "98bee1a6a74d05aa1397dfc22261360bcce088707bdc3762a411154b94b71980"
+  },
+  {
+    "file": "public/textures/closing-concrete-v1.webp",
+    "bytes": 565266,
+    "sha256": "95626f0cf55d07671a2eb7b5e1f8a4b9a314c15f37afbf2d631fc633a344addd"
+  },
+  {
+    "file": "public/textures/toner-grain.svg",
+    "bytes": 1513,
+    "sha256": "b0b8d7678df1af4291a6647961cef8791022fce0103dca9929ebbf87f99061e6"
+  }
+]

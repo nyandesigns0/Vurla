@@ -1,0 +1,3 @@
+import type { ProjectCategory } from "@/content/contracts";
+const paths: Record<ProjectCategory,string>={residential:"M3 11 12 4l9 7v9H3V11Zm6 9v-6h6v6",commercial:"M4 21V5h11v16M8 9h3m-3 4h3m-3 4h3m4-7h5v11",public:"M3 21h18M5 18h14M7 18V9m5 9V9m5 9V9M4 9h16L12 3 4 9Z",interior:"M4 20V4h16v16M8 16h8M8 12h8M12 4v16",fabrication:"m4 20 6-6m4-4 6-6M7 17l-3-3 6-6 3 3-6 6Zm7-7 3 3 3-3-3-3-3 3Z",digital:"M3 5h18v12H3V5Zm6 16h6m-3-4v4M7 9h3m4 0h3m-10 4h10"};
+export function CategoryIcon({category}:{category:ProjectCategory}){return <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d={paths[category]}/></svg>}

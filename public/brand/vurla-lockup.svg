@@ -1,0 +1,8 @@
+<svg width="960" height="240" viewBox="0 0 960 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0 -82) scale(.32)">
+    <path d="M0 604H180L159 666L334 971L478 563H392L293 847L112 666H0V604Z" fill="#080808"/>
+    <path d="M593 0H675L517 451H432L593 0Z" fill="#858585"/>
+    <path d="M421 470H1000V530H404L421 470Z" fill="#858585"/>
+  </g>
+  <text x="218" y="151" fill="#080808" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="700" letter-spacing="18">VURLA</text>
+</svg>

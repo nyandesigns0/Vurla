@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -15,6 +15,8 @@
 
 # next.js
 /.next/
+/.next-dev/
+/.claude-code-local/
 /out/
 
 # production
@@ -39,3 +41,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local design review archives and generated verification evidence
+/output/
+/docs/plans/complete/website-design-refinement/
+/docs/plans/complete/website-design-refinement-r1-rejected/
+/docs/plans/complete/website-oakame-redesign-evidence/

@@ -1,0 +1,370 @@
+/* Statistics bar
+   ----------------------------------------------------------------------------
+   Full-bleed paper band whose content is aligned to the canonical `.shell`
+   container, so it shares its gutters and max width with the navigation bar.
+
+   Geometry is authored against a 1280px content width (the shell max width) and
+   expressed in `--su` units, where 1 `--su` equals one pixel of that reference
+   drawing. Below 1280px the whole composition scales down proportionally. */
+
+.statistics-bar {
+  position: relative;
+  background: var(--paper);
+  color: var(--night);
+}
+
+.statistics-bar-inner {
+  container-type: inline-size;
+  --su: min(1px, 0.078125cqi);
+  --hatch-unit: var(--su);
+  --statistics-top-pad: max(34px, calc(34 * var(--su)));
+  --stat-accent: var(--blue);
+  --stat-rule: color-mix(in srgb, var(--graphite) 78%, transparent);
+  --stat-guide: color-mix(in srgb, var(--graphite) 20%, transparent);
+  position: relative;
+  padding-block: var(--statistics-top-pad) 0;
+}
+
+.statistics-scroll-cue {
+  position: absolute;
+  z-index: 4;
+  inset: 0 0 auto;
+  height: var(--statistics-top-pad);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--night);
+  font: 600 16px/1 var(--ds-font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.statistics-scroll-cue .scroll-cue-copy { flex: none; }
+
+.statistics-scroll-hatch {
+  --hatch-unit: 1px;
+  --stat-accent: var(--blue);
+  display: block;
+  flex: 0 0 47px;
+  height: 10px;
+}
+
+.statistics-scroll-hatch--red { --stat-accent: var(--red); }
+
+/* ---------------------------------------------------------------- top border */
+
+.statistics-rail {
+  position: relative;
+  z-index: 3;
+  height: calc(24 * var(--su));
+}
+
+/* the heavy beam */
+.statistics-rail-beam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  height: calc(12 * var(--su));
+  transform: translateX(-50%);
+  background: var(--night);
+}
+
+/* downward chevrons where the beam meets each column divider */
+.statistics-rail-notch {
+  position: absolute;
+  top: calc(11 * var(--su));
+  width: calc(16 * var(--su));
+  height: calc(13 * var(--su));
+  transform: translateX(-50%);
+  background: var(--night);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.statistics-rail-notch--q1 { left: 25%; }
+.statistics-rail-notch--q2 { left: 50%; }
+.statistics-rail-notch--q3 { left: 75%; }
+
+/* --------------------------------------------------------------------- grid */
+
+/* The grid owns the full width of the shell container, so the fourth column ends
+   exactly on the container's right edge and the four columns are equal. */
+.statistics-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* One overlay, stretched edge to edge over the grid, owns every column boundary:
+   the two outer edges and the three interior rules. */
+.statistics-column-dividers {
+  position: absolute;
+  z-index: 2;
+  inset: calc(var(--statistics-top-pad) + 12 * var(--su)) 0 0;
+  pointer-events: none;
+}
+
+/* All five boundaries are the same element, the same token and the same
+   rasterization: one `--divider-line-width` line centred on its boundary. Because
+   the outer two are centred exactly like the interior three, both container edges
+   land on the same fractional offset and resolve to the same coverage - no edge
+   reads thinner, thicker or blurred. There is deliberately no parent border or
+   pseudo-element underneath them to double up on. */
+.statistics-column-divider.divider-line {
+  --divider-line-color: var(--ds-color-outline-variant);
+  position: absolute;
+  box-sizing: border-box;
+  width: var(--divider-line-width);
+  /* Start beneath the notch so the line's cap is masked by the rail artwork. */
+  inset-block: calc(8 * var(--su)) 0;
+  height: auto;
+  transform: translateX(-50%);
+}
+
+.statistics-column-divider--0 { left: 0; }
+.statistics-column-divider--1 { left: 25%; }
+.statistics-column-divider--2 { left: 50%; }
+.statistics-column-divider--3 { left: 75%; }
+.statistics-column-divider--4 { left: 100%; }
+
+/* The interior rules can start below the beam because the notch artwork covers
+   their cap. The outer edges have no notch, so they run up into the beam instead
+   and emerge flush with its underside - no gap, and no exposed endpoint. The
+   overlap is a quarter of the beam's 12su thickness: enough to be hidden by the
+   beam (the rail paints above this overlay) at every breakpoint, without reaching
+   its top edge. A deeper overlap overshoots below 900px, where the beam sits
+   slightly lower: `--su` is declared on `.statistics-bar-inner`, so the padding that
+   positions the rail resolves `cqi` against the ancestor container while every
+   descendant resolves it against `.statistics-bar-inner` itself.
+   The selector carries `.divider-line` so it outweighs the shared `inset-block`. */
+.statistics-column-divider--0.divider-line,
+.statistics-column-divider--4.divider-line {
+  inset-block-start: calc(-3 * var(--su));
+}
+
+.statistic {
+  position: relative;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: calc(25 * var(--su)) calc(30 * var(--su)) calc(32 * var(--su)) calc(33 * var(--su));
+}
+
+.statistic-row-divider.divider-line {
+  --divider-line-color: var(--ds-color-outline-variant);
+  position: absolute;
+  z-index: 1;
+  display: none;
+  inset-inline: 0;
+  inset-block-start: 0;
+  width: 200%;
+}
+
+.statistic:nth-child(2n) {
+  --stat-accent: var(--red);
+}
+
+.statistic-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 0;
+}
+
+/* The reference drawing uses a condensed grotesque. Chakra Petch Bold carries
+   the right cap height but runs ~25% wide, so the glyphs are compressed back
+   to the reference proportions. The transform is layout-neutral, hence the
+   `flex-shrink` on the paragraph box: the icon stays pinned to the right even
+   when the untransformed text would be wider than the column. */
+.statistic-value {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  font: 700 calc(58 * var(--su)) / 1 var(--ds-font-sans);
+  white-space: nowrap;
+}
+
+.statistic-value > span {
+  display: inline-block;
+  letter-spacing: calc(3 * var(--su));
+  transform: scaleX(var(--stat-value-squeeze, 0.86));
+  transform-origin: left center;
+}
+
+/* four-glyph readings ("100%") need a tighter squeeze to clear the icon,
+   which is also how the reference drawing sets that column */
+.statistic-value[data-len="4"] {
+  --stat-value-squeeze: 0.66;
+}
+
+/* ---------------------------------------------------------- icon + blueprint */
+
+.statistic-icon-frame {
+  position: relative;
+  flex: 0 0 calc(50 * var(--su));
+  width: calc(50 * var(--su));
+  height: calc(50 * var(--su));
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+.statistic-icon-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform var(--ds-motion-fast);
+}
+
+/* ------------------------------------------------------------ label + rule */
+
+.statistic-label {
+  margin: 20px 0 12px;
+  font: 400 calc(19 * var(--su)) / 1.15 var(--ds-font-mono);
+  letter-spacing: calc(-0.3 * var(--su));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statistic-rule {
+  position: relative;
+  display: block;
+  margin-top: calc(2 * var(--su));
+  height: calc(8 * var(--su));
+  color: var(--stat-rule);
+}
+
+/* the hairline itself */
+.statistic-rule::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: calc(2 * var(--su));
+  transform: translateY(-50%);
+  background: currentColor;
+}
+
+/* solid square terminal at the left end */
+.statistic-rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: calc(6 * var(--su));
+  height: calc(6 * var(--su));
+  transform: translateY(-50%);
+  background: var(--night);
+}
+
+/* One hatch drawing is reused by the four card rules and both scroll-cue accents. */
+.statistic-hatch {
+  position: relative;
+  display: block;
+  width: calc(47 * var(--hatch-unit));
+  height: 100%;
+  padding-inline: calc(5 * var(--hatch-unit));
+  box-sizing: border-box;
+  background: var(--paper);
+}
+
+.statistic-hatch::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(5 * var(--hatch-unit));
+  background: repeating-linear-gradient(
+    114deg,
+    var(--stat-accent) 0 calc(5 * var(--hatch-unit)),
+    var(--paper) calc(5 * var(--hatch-unit)) calc(8 * var(--hatch-unit))
+  );
+}
+
+/* Punch the shared hatch out of each card's hairline near its right end. */
+.statistic-rule .statistic-hatch {
+  position: absolute;
+  top: 0;
+  right: calc(30 * var(--su));
+}
+
+/* -------------------------------------------------------------- interaction */
+
+.statistic:hover .statistic-icon-frame img {
+  transform: translateY(calc(-3 * var(--su)));
+}
+
+.statistics-bar:focus-visible {
+  outline: 2px solid var(--ds-color-focus);
+  outline-offset: -4px;
+}
+
+/* ------------------------------------------------------------------- motion */
+
+.statistics-bar[data-boot="armed"] .statistic-value > span {
+  visibility: hidden;
+}
+
+.statistics-bar[data-boot="armed"] .statistic-icon-frame img,
+.statistics-bar[data-boot="armed"] .statistic-label,
+.statistics-bar[data-boot="armed"] .statistic-rule {
+  opacity: 0;
+  transform: translateY(calc(5 * var(--su)));
+}
+
+.statistics-bar.is-booted .statistic-icon-frame img {
+  animation: statistics-content-boot 280ms var(--ds-motion-ease) var(--ds-motion-statistics-boot) backwards;
+}
+
+.statistics-bar.is-booted .statistic-label {
+  animation: statistics-content-boot 280ms var(--ds-motion-ease) calc(var(--ds-motion-statistics-boot) + 180ms) backwards;
+}
+
+.statistics-bar.is-booted .statistic-rule {
+  animation: statistics-content-boot 280ms var(--ds-motion-ease) calc(var(--ds-motion-statistics-boot) + 360ms) backwards;
+}
+
+@keyframes statistics-content-boot {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statistic-icon-frame img,
+  .statistic-label,
+  .statistic-rule {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* --------------------------------------------------------------- responsive */
+
+@media (max-width: 899px) {
+  .statistics-bar-inner {
+    --su: min(1px, 0.145cqi);
+  }
+
+  .statistics-rail-notch--q1,
+  .statistics-rail-notch--q3 {
+    display: none;
+  }
+
+  .statistics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .statistics-column-divider--1,
+  .statistics-column-divider--3 {
+    display: none;
+  }
+
+  .statistic-row-divider.divider-line {
+    display: block;
+  }
+
+}

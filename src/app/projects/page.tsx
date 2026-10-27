@@ -1,6 +1,2 @@
-import { projects } from "@/lib/data/projects";
-import { ProjectsPageClient } from "./projects-page-client";
-
-export default function ProjectsPage() {
-  return <ProjectsPageClient projects={projects} />;
-}
+import ProjectsPage from "@/features/projects/page";
+export default ProjectsPage;
